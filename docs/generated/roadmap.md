@@ -8,6 +8,7 @@
 Decision Framework (Roadmap)
 - [roadmap] Execution Sequencing Decision
   Context: Roadmap order and critical path
+  Evidence: E1, E2, E3
   Option 1: Feature-first then hardening | Pros: Fast demo velocity; Early user-visible progress | Cons: Reliability debt accumulates quickly; Higher rework risk under growth pressure
   Option 2: Value path then targeted hardening | Pros: Balanced speed and resilience; Lower risk of late-stage architecture churn | Cons: Requires disciplined scope control; Needs clear go/no-go gates
   Comparison: Value-path-first with planned hardening is the most robust sequence for startup execution.

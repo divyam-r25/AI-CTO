@@ -82,6 +82,22 @@ Response:
 }
 ```
 
+History endpoint:
+
+```text
+GET /api/analyze/history?projectId=<optional>&status=<optional>&limit=<optional>&offset=<optional>
+```
+
+Returns analysis summaries for dashboard timelines and audit views.
+
+Comparison endpoint:
+
+```text
+GET /api/analyze/compare?baseAnalysisId=<id>&headAnalysisId=<id>
+```
+
+Returns verdict/confidence/risk/decision deltas between two completed analyses.
+
 ## Repository Map
 
 - agent.yaml: Agent registration metadata
@@ -125,6 +141,13 @@ Run from CLI:
 ```bash
 npm run agent:run -- --prd examples/sample-prd.md --mode scalable-startup --honesty brutal
 ```
+
+## Durable Runtime Storage
+
+Analysis records persist to disk so history survives server restarts.
+
+- Default path: `.data/analysis-store.json`
+- Override path: set `AI_CTO_STORE_PATH`
 
 ## GitHub PR Integration
 

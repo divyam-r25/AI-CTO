@@ -1,4 +1,4 @@
-import type { DecisionCard, PlanSnapshot } from "@/lib/types";
+import type { AssumptionItem, DecisionCard, PlanSnapshot } from "@/lib/types";
 import type {
   CostOutput,
   RiskOutput,
@@ -41,6 +41,7 @@ export function runSelfCritiqueSkill(
   context: SkillRuntimeContext,
   riskOutput: RiskOutput,
   costOutput: CostOutput,
+  assumptionTracker: AssumptionItem[],
 ): SelfCritiqueOutput {
   const critiquePoints: string[] = [];
   const improvementsApplied: string[] = [];
@@ -79,12 +80,38 @@ export function runSelfCritiqueSkill(
     );
   }
 
+  const weakAssumptions = assumptionTracker.filter((item) => item.confidence < 0.6);
+  if (weakAssumptions.length >= 2 && costOutput.recommendation.confidence > 75) {
+    critiquePoints.push(
+      "Overconfidence guard triggered: confidence is high despite multiple weak assumptions.",
+    );
+    improvementsApplied.push(
+      "Applied confidence haircut and added blocking issue for unresolved weak assumptions.",
+    );
+  }
+
+  const topRisks = [...riskOutput.risks].sort((a, b) => b.rpn - a.rpn).slice(0, 3);
+  const missingMitigationOwner = topRisks.find(
+    (risk) => risk.mitigation.length === 0 || risk.mitigationOwner.trim().length === 0,
+  );
+  if (missingMitigationOwner) {
+    critiquePoints.push(
+      `Missing mitigation guard triggered: top risk "${missingMitigationOwner.title}" lacks clear mitigation ownership.`,
+    );
+    improvementsApplied.push(
+      "Forced recommendation downgrade until top-risk mitigation ownership is explicit.",
+    );
+  }
+
   if (critiquePoints.length === 0) {
     critiquePoints.push("Plan quality is solid, but confidence should still be tempered by market uncertainty.");
     improvementsApplied.push("Applied a modest confidence haircut to maintain realistic execution posture.");
   }
 
-  const confidencePenalty = Math.min(12, 4 + critiquePoints.length * 2);
+  let confidencePenalty = Math.min(12, 4 + critiquePoints.length * 2);
+  if (weakAssumptions.length >= 2) {
+    confidencePenalty = Math.min(16, confidencePenalty + 3);
+  }
 
   let revisedVerdict = costOutput.recommendation.verdict;
   if (costOutput.ideaScore.uniqueness < 55 && revisedVerdict === "build-now") {
@@ -93,6 +120,10 @@ export function runSelfCritiqueSkill(
 
   if (rpnAverage >= 52 && revisedVerdict !== "research-first") {
     revisedVerdict = "research-first";
+  }
+
+  if (missingMitigationOwner && revisedVerdict === "build-now") {
+    revisedVerdict = "build-with-pivot";
   }
 
   const revisedFailureReason =

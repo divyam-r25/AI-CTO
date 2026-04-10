@@ -1,67 +1,97 @@
-import { analyzePrd } from "@/lib/analysis-engine";
-import { writeGeneratedReports } from "@/lib/report-writer";
-import type { AnalyzeRequest, HonestyMode, PlanningMode } from "@/lib/types";
+import { ApiError } from "@/lib/runtime/errors";
+import {
+  assertPayloadSizeOrThrow,
+  fetchAnalysis,
+  submitAnalysisRequest,
+} from "@/lib/runtime/analysis-service";
+import type { AnalyzeRequest } from "@/lib/types";
 import { NextResponse } from "next/server";
 
-const ALLOWED_MODES: PlanningMode[] = ["beginner-startup", "scalable-startup", "enterprise"];
-const ALLOWED_HONESTY: HonestyMode[] = ["standard", "brutal"];
+export const runtime = "nodejs";
 
-function validateRequest(body: unknown): AnalyzeRequest {
-  if (!body || typeof body !== "object") {
-    throw new Error("Request body must be a JSON object.");
+function getClientIp(request: Request): string {
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  if (forwardedFor) {
+    return forwardedFor.split(",")[0]?.trim() || "unknown";
   }
-
-  const payload = body as Partial<AnalyzeRequest>;
-
-  if (!payload.prd || typeof payload.prd !== "string" || payload.prd.trim().length < 30) {
-    throw new Error("PRD must be a string with at least 30 characters.");
-  }
-
-  if (!payload.mode || !ALLOWED_MODES.includes(payload.mode)) {
-    throw new Error("Mode must be one of: beginner-startup, scalable-startup, enterprise.");
-  }
-
-  if (!payload.honestyMode || !ALLOWED_HONESTY.includes(payload.honestyMode)) {
-    throw new Error("Honesty mode must be one of: standard, brutal.");
-  }
-
-  return {
-    prd: payload.prd.trim(),
-    mode: payload.mode,
-    honestyMode: payload.honestyMode,
-    writeFiles: payload.writeFiles ?? true,
-  };
+  return request.headers.get("x-real-ip") ?? "unknown";
 }
 
 export async function POST(request: Request) {
   try {
-    const json = (await request.json()) as unknown;
-    const payload = validateRequest(json);
-    const result = analyzePrd(payload);
-    let generatedFiles: string[] = [];
-    let generationWarning: string | null = null;
+    const rawBody = await request.text();
+    assertPayloadSizeOrThrow(rawBody);
 
-    if (payload.writeFiles) {
-      try {
-        generatedFiles = await writeGeneratedReports(result);
-      } catch {
-        generationWarning =
-          "Analysis succeeded, but writing markdown artifacts was skipped in this environment.";
-      }
+    let input: AnalyzeRequest;
+    try {
+      input = JSON.parse(rawBody) as AnalyzeRequest;
+    } catch {
+      throw new ApiError(400, "Request body must be valid JSON.");
     }
 
+    const response = await submitAnalysisRequest({
+      input,
+      clientIp: getClientIp(request),
+    });
+
+    const status = response.success ? 200 : 400;
+    return NextResponse.json(response, { status });
+  } catch (error) {
+    if (error instanceof ApiError) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: error.message,
+          generatedAt: new Date().toISOString(),
+        },
+        { status: error.status },
+      );
+    }
+
+    const message = error instanceof Error ? error.message : "Unexpected server error.";
     return NextResponse.json(
       {
-        success: true,
+        success: false,
+        error: message,
         generatedAt: new Date().toISOString(),
-        result,
-        generatedFiles,
-        generationWarning,
       },
-      { status: 200 },
+      { status: 500 },
     );
+  }
+}
+
+export async function GET(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const analysisId = searchParams.get("analysisId")?.trim();
+
+    if (!analysisId) {
+      throw new ApiError(400, "Query param analysisId is required.");
+    }
+
+    const response = fetchAnalysis(analysisId);
+    const status = response.success ? 200 : 400;
+    return NextResponse.json(response, { status });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Unable to process PRD.";
-    return NextResponse.json({ success: false, error: message }, { status: 400 });
+    if (error instanceof ApiError) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: error.message,
+          generatedAt: new Date().toISOString(),
+        },
+        { status: error.status },
+      );
+    }
+
+    const message = error instanceof Error ? error.message : "Unexpected server error.";
+    return NextResponse.json(
+      {
+        success: false,
+        error: message,
+        generatedAt: new Date().toISOString(),
+      },
+      { status: 500 },
+    );
   }
 }

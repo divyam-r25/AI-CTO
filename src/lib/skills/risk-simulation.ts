@@ -13,6 +13,7 @@ function buildRisks(context: SkillRuntimeContext): RiskItem[] {
     {
       category: "product",
       title: "Weak differentiation against incumbents",
+      mitigationOwner: "Product Lead",
       likelihood: clamp(4 + profile.riskDelta, 1, 5),
       impact: 5,
       detectability: 3,
@@ -29,6 +30,7 @@ function buildRisks(context: SkillRuntimeContext): RiskItem[] {
     {
       category: "scaling",
       title: "Latency and reliability degrade with growth spikes",
+      mitigationOwner: "Engineering Lead",
       likelihood: clamp(3 + profile.riskDelta, 1, 5),
       impact: 4,
       detectability: 3,
@@ -42,6 +44,7 @@ function buildRisks(context: SkillRuntimeContext): RiskItem[] {
     {
       category: "financial",
       title: "Unit economics worsen as usage grows",
+      mitigationOwner: "Founder/PM",
       likelihood: 4,
       impact: 5,
       detectability: 2,
@@ -61,6 +64,7 @@ function buildRisks(context: SkillRuntimeContext): RiskItem[] {
     risks.push({
       category: "technical",
       title: "Model dependency and quality drift",
+      mitigationOwner: "ML Platform Lead",
       likelihood: clamp(4 + profile.riskDelta, 1, 5),
       impact: 4,
       detectability: 3,
@@ -77,6 +81,7 @@ function buildRisks(context: SkillRuntimeContext): RiskItem[] {
     risks.push({
       category: "technical",
       title: "Realtime channel instability",
+      mitigationOwner: "Backend Lead",
       likelihood: clamp(3 + profile.riskDelta, 1, 5),
       impact: 4,
       detectability: 3,
@@ -93,6 +98,7 @@ function buildRisks(context: SkillRuntimeContext): RiskItem[] {
     risks.push({
       category: "compliance",
       title: "Data-governance and compliance exposure",
+      mitigationOwner: "Security Lead",
       likelihood: clamp(3 + profile.riskDelta, 1, 5),
       impact: 5,
       detectability: 4,
@@ -120,6 +126,7 @@ function riskDecisions(context: SkillRuntimeContext): DecisionCard[] {
       stage: "risk-mitigation",
       title: "Primary Risk Mitigation Decision",
       context: "Preventing predictable launch failure",
+      evidenceIds: ["E2", "E3", "E4"],
       chosen: context.flags.hasDifferentiationSignals
         ? "Set reliability and margin gates before acquisition scale"
         : "Fix differentiation before adding feature breadth",
@@ -154,6 +161,7 @@ function riskDecisions(context: SkillRuntimeContext): DecisionCard[] {
       stage: "risk-mitigation",
       title: "Release Gate Decision",
       context: "Deciding what blocks launch",
+      evidenceIds: ["E1", "E5", "E6"],
       chosen:
         context.flags.hasCompliance || context.mode === "enterprise"
           ? "Compliance and audit controls are mandatory launch gates"

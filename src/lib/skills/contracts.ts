@@ -1,8 +1,10 @@
 import type {
   AlternativeApproach,
+  AssumptionItem,
   CostOptimizerItem,
   CostTier,
   DecisionCard,
+  EvidenceItem,
   ExecutionPlan,
   HonestyMode,
   IdeaScore,
@@ -40,6 +42,8 @@ export interface PrdAnalysisOutput {
   nonFunctionalRequirements: string[];
   openQuestions: string[];
   assumptions: string[];
+  evidence: EvidenceItem[];
+  assumptionTracker: AssumptionItem[];
   analysisDecisions: DecisionCard[];
 }
 

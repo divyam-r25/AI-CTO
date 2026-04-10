@@ -1,11 +1,82 @@
-import type { DecisionCard } from "@/lib/types";
+import type { AssumptionItem, DecisionCard, EvidenceItem } from "@/lib/types";
 import type { PrdAnalysisOutput, SkillRuntimeContext } from "@/lib/skills/contracts";
 
-function buildAnalysisDecision(context: SkillRuntimeContext): DecisionCard {
+function extractEvidence(context: SkillRuntimeContext, assumptions: string[]): EvidenceItem[] {
+  const evidence: EvidenceItem[] = [];
+  const lines = context.prd
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
+
+  let index = 1;
+
+  for (const line of lines) {
+    if (line.startsWith("-") || line.toLowerCase().startsWith("requirements")) {
+      evidence.push({
+        id: `E${index}`,
+        category: "requirement",
+        text: line.replace(/^-+\s*/, ""),
+        confidence: 0.84,
+      });
+      index += 1;
+    }
+  }
+
+  if (context.flags.hasCompliance) {
+    evidence.push({
+      id: `E${index}`,
+      category: "constraint",
+      text: "Compliance-sensitive language detected in PRD.",
+      confidence: 0.8,
+    });
+    index += 1;
+  }
+
+  evidence.push({
+    id: `E${index}`,
+    category: "risk",
+    text: "Differentiation risk inferred from broad problem framing.",
+    confidence: context.flags.hasDifferentiationSignals ? 0.62 : 0.86,
+  });
+  index += 1;
+
+  assumptions.forEach((assumption) => {
+    evidence.push({
+      id: `E${index}`,
+      category: "assumption",
+      text: assumption,
+      confidence: 0.66,
+    });
+    index += 1;
+  });
+
+  return evidence;
+}
+
+function buildAssumptionTracker(assumptions: string[]): AssumptionItem[] {
+  const owners = ["Product Lead", "Engineering Lead", "Founder/PM"];
+  const today = new Date();
+
+  return assumptions.map((statement, idx) => {
+    const dueDate = new Date(today.getTime() + (idx + 7) * 24 * 60 * 60 * 1000);
+    return {
+      id: `A${idx + 1}`,
+      statement,
+      confidence: 0.63 - idx * 0.05,
+      owner: owners[idx % owners.length],
+      validationTask: `Validate assumption ${idx + 1} with an experiment or stakeholder interview`,
+      dueDate: dueDate.toISOString().slice(0, 10),
+      status: "pending",
+    };
+  });
+}
+
+function buildAnalysisDecision(context: SkillRuntimeContext, evidenceIds: string[]): DecisionCard {
   return {
     stage: "analysis",
     title: "Market Wedge Decision",
     context: "Positioning and launch focus",
+    evidenceIds,
     chosen: context.flags.hasDifferentiationSignals
       ? "Double down on the existing niche wedge"
       : "Narrow to one vertical workflow before broad launch",
@@ -64,6 +135,15 @@ export function runPrdAnalysisSkill(context: SkillRuntimeContext): PrdAnalysisOu
     nonFunctionalRequirements.push("Data classification, retention, and auditability");
   }
 
+  const assumptions = [
+    "A cross-functional team can deliver first release scope.",
+    "Managed services are acceptable for initial launch speed.",
+    "Operational metrics will be reviewed weekly from day one.",
+  ];
+
+  const evidence = extractEvidence(context, assumptions);
+  const assumptionTracker = buildAssumptionTracker(assumptions);
+
   return {
     problemStatement:
       "Convert PRD intent into a decision-ready plan that is defensible on differentiation, reliability, and unit economics.",
@@ -75,11 +155,9 @@ export function runPrdAnalysisSkill(context: SkillRuntimeContext): PrdAnalysisOu
       "What monthly spend threshold must not be exceeded pre-PMF?",
       "Which reliability SLO is non-negotiable before launch?",
     ],
-    assumptions: [
-      "A cross-functional team can deliver first release scope.",
-      "Managed services are acceptable for initial launch speed.",
-      "Operational metrics will be reviewed weekly from day one.",
-    ],
-    analysisDecisions: [buildAnalysisDecision(context)],
+    assumptions,
+    evidence,
+    assumptionTracker,
+    analysisDecisions: [buildAnalysisDecision(context, evidence.slice(0, 3).map((item) => item.id))],
   };
 }

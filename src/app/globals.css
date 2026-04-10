@@ -131,6 +131,7 @@ h3 {
 }
 
 textarea,
+input,
 select {
   width: 100%;
   border: 1px solid var(--line);
@@ -183,6 +184,74 @@ textarea {
 .cta-btn:disabled {
   cursor: wait;
   opacity: 0.78;
+}
+
+.secondary-btn {
+  border: 1px solid #7f9a90;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.92);
+  color: #305349;
+  padding: 0.5rem 0.85rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+.secondary-btn:hover:not(:disabled) {
+  background: #eef4f1;
+  transform: translateY(-1px);
+}
+
+.secondary-btn:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.history-item {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.7rem;
+  align-items: center;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.8rem;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.history-title {
+  margin: 0;
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+.history-meta {
+  margin: 0.12rem 0 0;
+  font-size: 0.82rem;
+}
+
+.active-badge {
+  border-radius: 999px;
+  background: #d7efe5;
+  color: #245d46;
+  padding: 0.22rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.compare-box {
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.85rem;
 }
 
 .error-text {
@@ -336,5 +405,9 @@ td {
 
   .hero h1 {
     font-size: 2rem;
+  }
+
+  .history-item {
+    grid-template-columns: 1fr;
   }
 }

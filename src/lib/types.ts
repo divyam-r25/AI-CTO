@@ -2,6 +2,12 @@ export type PlanningMode = "beginner-startup" | "scalable-startup" | "enterprise
 
 export type HonestyMode = "standard" | "brutal";
 
+export type ExecutionMode = "sync" | "async";
+
+export type EngineType = "hybrid" | "deterministic";
+
+export type AnalysisStatus = "queued" | "running" | "completed" | "failed";
+
 export interface RoadmapPhase {
   phase: string;
   timeline: string;
@@ -12,6 +18,7 @@ export interface RoadmapPhase {
 export interface RiskItem {
   category: "technical" | "product" | "scaling" | "financial" | "compliance";
   title: string;
+  mitigationOwner: string;
   likelihood: number;
   impact: number;
   detectability: number;
@@ -46,6 +53,7 @@ export interface DecisionCard {
   stage: DecisionStage;
   title: string;
   context: string;
+  evidenceIds: string[];
   chosen: string;
   why: string[];
   alternatives: [DecisionAlternative, DecisionAlternative];
@@ -63,6 +71,35 @@ export interface IdeaScore {
   scalability: number;
   uniqueness: number;
   summary: string;
+}
+
+export interface EvidenceItem {
+  id: string;
+  category: "requirement" | "constraint" | "assumption" | "risk" | "persona";
+  text: string;
+  confidence: number;
+}
+
+export interface AssumptionItem {
+  id: string;
+  statement: string;
+  confidence: number;
+  owner: string;
+  validationTask: string;
+  dueDate: string;
+  status: "pending" | "validated" | "invalidated";
+}
+
+export interface ReadinessGate {
+  name: string;
+  passed: boolean;
+  reason: string;
+}
+
+export interface ReadinessScore {
+  score: number;
+  verdict: "go" | "no-go";
+  gates: ReadinessGate[];
 }
 
 export interface PlanSnapshot {
@@ -118,6 +155,13 @@ export interface StructuredSections {
   improvements: string;
 }
 
+export interface AnalysisTimings {
+  totalMs: number;
+  deterministicMs: number;
+  enrichmentMs: number;
+  critiqueMs: number;
+}
+
 export interface AnalysisResult {
   productName: string;
   mode: PlanningMode;
@@ -138,6 +182,8 @@ export interface AnalysisResult {
     dataInfra: string[];
     observability: string[];
   };
+  evidence: EvidenceItem[];
+  assumptionTracker: AssumptionItem[];
   folderStructure: string[];
   roadmap: RoadmapPhase[];
   risks: RiskItem[];
@@ -158,6 +204,10 @@ export interface AnalysisResult {
   executionPlan: ExecutionPlan;
   investmentPerspective: InvestmentPerspective;
   selfCritique: SelfCritique;
+  readinessScore: ReadinessScore;
+  uncertaintyFlags: string[];
+  blockingIssues: string[];
+  fallbackUsed: boolean;
   challengeSummary: string[];
   recommendation: {
     verdict: "build-now" | "build-with-pivot" | "research-first";
@@ -172,5 +222,71 @@ export interface AnalyzeRequest {
   prd: string;
   mode: PlanningMode;
   honestyMode: HonestyMode;
+  projectId?: string;
+  requestId?: string;
+  executionMode?: ExecutionMode;
+  engine?: EngineType;
+  enableLlmEnrichment?: boolean;
+  maxLatencyMs?: number;
   writeFiles?: boolean;
+}
+
+export interface AnalyzeResponse {
+  success: boolean;
+  analysisId: string;
+  projectId: string;
+  status: AnalysisStatus;
+  executionMode: ExecutionMode;
+  cached: boolean;
+  fallbackUsed: boolean;
+  timings: AnalysisTimings;
+  uncertaintyFlags: string[];
+  blockingIssues: string[];
+  generatedAt: string;
+  result?: AnalysisResult;
+  generatedFiles?: string[];
+  generationWarning?: string | null;
+  error?: string;
+}
+
+export interface AnalysisRecordSummary {
+  analysisId: string;
+  projectId: string;
+  status: AnalysisStatus;
+  createdAt: string;
+  updatedAt: string;
+  verdict?: AnalysisResult["recommendation"]["verdict"];
+  confidence?: number;
+  fallbackUsed: boolean;
+  cached: boolean;
+  blockingIssues: string[];
+}
+
+export interface AnalysisComparison {
+  baseAnalysisId: string;
+  headAnalysisId: string;
+  verdictChanged: boolean;
+  confidenceDelta: number;
+  topRiskChanges: string[];
+  decisionChanges: string[];
+  blockingIssueChanges: string[];
+}
+
+export interface AnalyzeHistoryResponse {
+  success: boolean;
+  count: number;
+  total: number;
+  limit: number;
+  offset: number;
+  hasMore: boolean;
+  history: AnalysisRecordSummary[];
+  generatedAt: string;
+  error?: string;
+}
+
+export interface AnalyzeCompareResponse {
+  success: boolean;
+  comparison?: AnalysisComparison;
+  generatedAt: string;
+  error?: string;
 }

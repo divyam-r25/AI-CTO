@@ -90,6 +90,7 @@ function roadmapDecision(context: SkillRuntimeContext): DecisionCard {
     stage: "roadmap",
     title: "Execution Sequencing Decision",
     context: "Roadmap order and critical path",
+    evidenceIds: ["E1", "E2", "E3"],
     chosen:
       context.mode === "enterprise"
         ? "Security/compliance gate before broad beta"

@@ -122,6 +122,7 @@ function costDecision(context: SkillRuntimeContext): DecisionCard {
     stage: "cost",
     title: "Cost Control Strategy Decision",
     context: "Protecting margins as usage scales",
+    evidenceIds: ["E3", "E4", "E7"],
     chosen: context.flags.hasAI
       ? "Dynamic model routing by request value"
       : "Queue heavy workloads and cache read-heavy paths",

@@ -9,11 +9,15 @@ import type {
   SystemDesignOutput,
 } from "@/lib/skills/contracts";
 
-function architectureDecisions(context: SkillRuntimeContext): DecisionCard[] {
+function architectureDecisions(
+  context: SkillRuntimeContext,
+  evidenceIds: string[],
+): DecisionCard[] {
   const frontendDecision: DecisionCard = {
     stage: "architecture",
     title: "Frontend Platform Decision",
     context: "Delivery channel and user experience",
+    evidenceIds: evidenceIds.slice(0, 2),
     chosen: context.flags.isMobileHeavy && context.mode === "beginner-startup" ? "Flutter" : "Next.js",
     why:
       context.flags.isMobileHeavy && context.mode === "beginner-startup"
@@ -45,6 +49,7 @@ function architectureDecisions(context: SkillRuntimeContext): DecisionCard[] {
     stage: "architecture",
     title: "Data Platform Decision",
     context: "Speed vs control for backend data layer",
+    evidenceIds: evidenceIds.slice(1, 4),
     chosen: context.mode === "beginner-startup" ? "Firebase" : "Supabase",
     why:
       context.mode === "beginner-startup"
@@ -79,6 +84,7 @@ function architectureDecisions(context: SkillRuntimeContext): DecisionCard[] {
       stage: "architecture",
       title: "AI Provider Strategy Decision",
       context: "Model reliability and vendor risk posture",
+      evidenceIds: evidenceIds.slice(0, 3),
       chosen: "Hybrid provider strategy",
       why: [
         "Protects against single-vendor outages and abrupt pricing shifts",
@@ -227,7 +233,7 @@ export function runSystemDesignSkill(
       "docs/risks.md",
       "docs/generated/report.md",
     ],
-    architectureDecisions: architectureDecisions(context),
+    architectureDecisions: architectureDecisions(context, analysis.evidence.map((item) => item.id)),
     alternatives: alternatives(context),
     techComparator: techComparator(context),
   };

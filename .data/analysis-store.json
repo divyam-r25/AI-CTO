@@ -1,0 +1,2634 @@
+{
+  "version": 1,
+  "records": [
+    {
+      "analysisId": "analysis_a118edeff9ff",
+      "projectId": "default-project",
+      "requestId": "req_5e08d661de79",
+      "requestHash": "c1a547aff3ca8ad3bd88ee76f8fd1e9a4d4c0bae14120ecb7d205611c1319cb7",
+      "status": "completed",
+      "createdAt": "2026-04-10T10:47:29.691Z",
+      "updatedAt": "2026-04-10T10:47:29.853Z",
+      "cached": false,
+      "fallbackUsed": false,
+      "uncertaintyFlags": [],
+      "blockingIssues": [
+        "Top risk \"Weak differentiation against incumbents\" has RPN 60, which is above launch threshold.",
+        "2 assumptions are low-confidence and require validation."
+      ],
+      "timings": {
+        "totalMs": 156,
+        "deterministicMs": 24,
+        "enrichmentMs": 131,
+        "critiqueMs": 120
+      },
+      "generatedFiles": [],
+      "generationWarning": null,
+      "request": {
+        "prd": "Build a B2B translator for support teams with low latency and clear pricing differentiation.",
+        "mode": "scalable-startup",
+        "honestyMode": "standard",
+        "projectId": "default-project",
+        "requestId": "req_5e08d661de79",
+        "executionMode": "sync",
+        "engine": "hybrid",
+        "enableLlmEnrichment": true,
+        "maxLatencyMs": 2500,
+        "writeFiles": false,
+        "requestHash": "c1a547aff3ca8ad3bd88ee76f8fd1e9a4d4c0bae14120ecb7d205611c1319cb7"
+      },
+      "startedAt": "2026-04-10T10:47:29.695Z",
+      "completedAt": "2026-04-10T10:47:29.853Z",
+      "result": {
+        "productName": "Build a B2B translator for support teams with low latency and clear...",
+        "mode": "scalable-startup",
+        "honestyMode": "standard",
+        "modeGuide": {
+          "modeLabel": "Scalable Startup",
+          "priorities": [
+            "Balance velocity with architecture discipline",
+            "Design for near-term growth and controllable complexity",
+            "Build observability and cost controls alongside features"
+          ],
+          "guardrails": [
+            "Avoid one-way vendor lock-in for critical paths",
+            "Define upgrade paths before scale pressure",
+            "Use weekly risk and unit-economics reviews"
+          ]
+        },
+        "skillChain": [
+          "PRD",
+          "Analysis",
+          "Architecture",
+          "Roadmap",
+          "Risks",
+          "Cost"
+        ],
+        "executiveSummary": "This PRD can ship, but success depends on enforced decision discipline, failure simulation, and mode-aware execution.",
+        "architecture": {
+          "overview": "The system uses a modular product surface, policy-driven APIs, and observable execution paths designed to force explicit tradeoff decisions before scale. Analysis assumptions tracked: 3.",
+          "frontend": "Next.js web-first app with responsive UX and product APIs in a unified deployable surface",
+          "backend": "Typed Node APIs with async job orchestration for heavy workflows",
+          "data": "PostgreSQL with Redis acceleration and governance-ready retention/audit controls",
+          "integrations": [
+            "Primary inference provider with fallback routing",
+            "Quality and cost telemetry pipeline",
+            "Notification and monitoring services"
+          ]
+        },
+        "techStack": {
+          "frontend": [
+            "Next.js 16 + TypeScript",
+            "Tailwind CSS v4",
+            "Accessible component patterns"
+          ],
+          "backend": [
+            "Typed route handlers",
+            "Service-layer architecture",
+            "Queue-backed background processing"
+          ],
+          "dataInfra": [
+            "PostgreSQL/Supabase",
+            "Redis",
+            "Object storage",
+            "Managed queue"
+          ],
+          "observability": [
+            "Structured logs",
+            "P95 latency dashboard",
+            "Cost anomaly alerts"
+          ]
+        },
+        "evidence": [
+          {
+            "id": "E1",
+            "category": "risk",
+            "text": "Differentiation risk inferred from broad problem framing.",
+            "confidence": 0.62
+          },
+          {
+            "id": "E2",
+            "category": "assumption",
+            "text": "A cross-functional team can deliver first release scope.",
+            "confidence": 0.66
+          },
+          {
+            "id": "E3",
+            "category": "assumption",
+            "text": "Managed services are acceptable for initial launch speed.",
+            "confidence": 0.66
+          },
+          {
+            "id": "E4",
+            "category": "assumption",
+            "text": "Operational metrics will be reviewed weekly from day one.",
+            "confidence": 0.66
+          }
+        ],
+        "assumptionTracker": [
+          {
+            "id": "A1",
+            "statement": "A cross-functional team can deliver first release scope.",
+            "confidence": 0.63,
+            "owner": "Product Lead",
+            "validationTask": "Validate assumption 1 with an experiment or stakeholder interview",
+            "dueDate": "2026-04-17",
+            "status": "pending"
+          },
+          {
+            "id": "A2",
+            "statement": "Managed services are acceptable for initial launch speed.",
+            "confidence": 0.58,
+            "owner": "Engineering Lead",
+            "validationTask": "Validate assumption 2 with an experiment or stakeholder interview",
+            "dueDate": "2026-04-18",
+            "status": "pending"
+          },
+          {
+            "id": "A3",
+            "statement": "Operational metrics will be reviewed weekly from day one.",
+            "confidence": 0.53,
+            "owner": "Founder/PM",
+            "validationTask": "Validate assumption 3 with an experiment or stakeholder interview",
+            "dueDate": "2026-04-19",
+            "status": "pending"
+          }
+        ],
+        "folderStructure": [
+          "src/app/(marketing)",
+          "src/app/(product)",
+          "src/app/api/analyze",
+          "src/components",
+          "src/lib/analysis",
+          "src/lib/domain",
+          "src/lib/infra",
+          "src/lib/validation",
+          "docs/architecture.md",
+          "docs/roadmap.md",
+          "docs/risks.md",
+          "docs/generated/report.md"
+        ],
+        "roadmap": [
+          {
+            "phase": "Phase 1 - PRD Decomposition and Wedge",
+            "timeline": "Day 1",
+            "objective": "Extract requirements, assumptions, and defensible market wedge",
+            "deliverables": [
+              "Feature map with must-have vs optional scope",
+              "Decision card for product wedge",
+              "Mode bias: Balance launch speed with scale-readiness."
+            ]
+          },
+          {
+            "phase": "Phase 2 - Architecture and Contracts",
+            "timeline": "Day 2",
+            "objective": "Define architecture, APIs, and operational contracts",
+            "deliverables": [
+              "Architecture posture: Use pragmatic modular architecture with clear upgrade paths.",
+              "API and data contracts with ownership boundaries",
+              "Telemetry baseline and quality gates"
+            ]
+          },
+          {
+            "phase": "Phase 3 - Core Build",
+            "timeline": "Day 3-4",
+            "objective": "Implement core value flow end-to-end",
+            "deliverables": [
+              "Primary user journey implementation",
+              "Backend orchestration and persistence",
+              "Frontend path: Next.js web-first app with responsive UX and product APIs in a unified deployable surface",
+              "Prompt quality evaluations and fallback behavior"
+            ]
+          },
+          {
+            "phase": "Phase 4 - Risk Hardening",
+            "timeline": "Day 5-6",
+            "objective": "Reduce top failure risks before launch pressure",
+            "deliverables": [
+              "Failure simulation pass with mitigation owners",
+              "Performance and reliability hardening",
+              "Cost guardrails and anomaly alerts",
+              "Token budget thresholds and routing strategy"
+            ]
+          },
+          {
+            "phase": "Phase 5 - Launch Decision",
+            "timeline": "Day 7",
+            "objective": "Execute go/no-go with explicit release checks",
+            "deliverables": [
+              "Go/no-go checklist with exit criteria",
+              "Rollback and incident response playbook",
+              "Post-launch metric review plan"
+            ]
+          }
+        ],
+        "risks": [
+          {
+            "category": "product",
+            "title": "Weak differentiation against incumbents",
+            "mitigationOwner": "Product Lead",
+            "likelihood": 4,
+            "impact": 5,
+            "detectability": 3,
+            "rpn": 60,
+            "warningSignals": [
+              "Prospects compare the product to free alternatives",
+              "Activation and retention flatten after initial onboarding"
+            ],
+            "mitigation": [
+              "Narrow to one high-pain workflow and own it deeply",
+              "Gate launch on measurable value proof in target segment"
+            ]
+          },
+          {
+            "category": "scaling",
+            "title": "Latency and reliability degrade with growth spikes",
+            "mitigationOwner": "Engineering Lead",
+            "likelihood": 3,
+            "impact": 4,
+            "detectability": 3,
+            "rpn": 36,
+            "warningSignals": [
+              "P95 latency breaches SLO",
+              "Queue depth grows faster than drain rate"
+            ],
+            "mitigation": [
+              "Split synchronous and asynchronous execution paths",
+              "Cache repeat-heavy flows and add backpressure controls"
+            ]
+          },
+          {
+            "category": "financial",
+            "title": "Unit economics worsen as usage grows",
+            "mitigationOwner": "Founder/PM",
+            "likelihood": 4,
+            "impact": 5,
+            "detectability": 2,
+            "rpn": 40,
+            "warningSignals": [
+              "Cost per active user rises for two consecutive weeks",
+              "Variable cost scales faster than revenue or conversion"
+            ],
+            "mitigation": [
+              "Introduce pricing tiers and usage-aware feature limits",
+              "Route low-value traffic to lower-cost execution paths"
+            ]
+          },
+          {
+            "category": "technical",
+            "title": "Model dependency and quality drift",
+            "mitigationOwner": "ML Platform Lead",
+            "likelihood": 4,
+            "impact": 4,
+            "detectability": 3,
+            "rpn": 48,
+            "warningSignals": [
+              "Quality score regressions",
+              "Provider throttling or outage spikes"
+            ],
+            "mitigation": [
+              "Maintain fallback model routes with health checks",
+              "Track quality-cost-latency metrics per request class"
+            ]
+          }
+        ],
+        "failureSimulation": {
+          "narrative": "Failure simulation: growth pressure exposes weak assumptions on differentiation, reliability, and cost. Scaling before proving wedge quality and controlling reliability/cost will produce churn and margin erosion in parallel. Planned phases in scope: 5. Self-critique pass tightened this plan before final output.",
+          "primaryFailureReason": "Margins and reliability collapse during growth because controls were added too late. Self-critique added: Overconfidence guard triggered: confidence is high despite multiple weak assumptions.",
+          "likelyFailurePoints": [
+            "Acquisition spend scales faster than retention quality",
+            "Cost per active user rises above monetization capacity",
+            "Incident rate increases as complexity grows without gates"
+          ],
+          "weakestAssumptions": [
+            "Users will switch without a clear, measurable ROI wedge",
+            "Infrastructure and model costs will scale linearly",
+            "Reliability can be fixed post-launch without trust damage"
+          ],
+          "pivots": [
+            "Focus on one vertical workflow and prove ROI before broad rollout",
+            "Shift from generic feature breadth to automation around one recurring pain",
+            "Monetize premium outcomes rather than raw usage volume"
+          ],
+          "preBuildChanges": [
+            "Define one non-negotiable differentiator and release metric",
+            "Set explicit cost-per-active-user and reliability thresholds",
+            "Add fallback, caching, and gate checks before scaling traffic"
+          ]
+        },
+        "costs": [
+          {
+            "tier": "prototype",
+            "usersPerMonth": "1,000-5,000",
+            "monthlyRangeUsd": "$140-$850",
+            "topCostDriver": "Inference/API usage",
+            "notes": [
+              "Optimize cost per active user while protecting reliability.",
+              "Define spend alerts before opening public access"
+            ]
+          },
+          {
+            "tier": "early-traction",
+            "usersPerMonth": "10,000-50,000",
+            "monthlyRangeUsd": "$1,500-$7,600",
+            "topCostDriver": "Model traffic + egress",
+            "notes": [
+              "Introduce request-level caching and quota policy",
+              "Review cost per active user weekly"
+            ]
+          },
+          {
+            "tier": "growth",
+            "usersPerMonth": "100,000+",
+            "monthlyRangeUsd": "$12,000-$58,000",
+            "topCostDriver": "Inference throughput",
+            "notes": [
+              "Re-evaluate provider mix and reserved capacity strategy",
+              "Offload non-critical flows to asynchronous pipelines"
+            ]
+          }
+        ],
+        "alternatives": [
+          {
+            "name": "Fast Validation Stack",
+            "bestFor": "Teams optimizing for earliest market signal",
+            "tradeoffs": [
+              "Shortest path to launch",
+              "Higher managed-service lock-in risk",
+              "Migration complexity if growth arrives quickly"
+            ]
+          },
+          {
+            "name": "Balanced Scale Stack",
+            "bestFor": "Teams expecting growth in 1-2 quarters",
+            "tradeoffs": [
+              "Slightly slower setup",
+              "Better portability and observability",
+              "Improved long-term cost control"
+            ]
+          }
+        ],
+        "decisions": [
+          {
+            "stage": "analysis",
+            "title": "Market Wedge Decision",
+            "context": "Positioning and launch focus",
+            "evidenceIds": [
+              "E1",
+              "E2",
+              "E3"
+            ],
+            "chosen": "Double down on the existing niche wedge",
+            "why": [
+              "Signals suggest a defensible angle already exists in the PRD",
+              "Concentrated execution increases conversion and retention odds"
+            ],
+            "alternatives": [
+              {
+                "option": "Horizontal launch for multiple segments",
+                "pros": [
+                  "Bigger top-of-funnel opportunity",
+                  "More potential use cases quickly"
+                ],
+                "cons": [
+                  "Weak differentiation",
+                  "Higher roadmap complexity and messaging dilution"
+                ]
+              },
+              {
+                "option": "Vertical wedge-first launch",
+                "pros": [
+                  "Clear value proposition",
+                  "Faster feedback loops on one segment"
+                ],
+                "cons": [
+                  "Smaller initial TAM",
+                  "Requires strong segment-specific insight"
+                ]
+              }
+            ],
+            "comparisonSummary": "Wedge-first has lower market breadth but much higher odds of early product-market fit."
+          },
+          {
+            "stage": "architecture",
+            "title": "Frontend Platform Decision",
+            "context": "Delivery channel and user experience",
+            "evidenceIds": [
+              "E1",
+              "E2"
+            ],
+            "chosen": "Next.js",
+            "why": [
+              "Web-first rollout improves discovery and launch speed",
+              "Unified full-stack model reduces operational overhead"
+            ],
+            "alternatives": [
+              {
+                "option": "Next.js",
+                "pros": [
+                  "Fast web deployment and SEO",
+                  "Unified frontend/backend workflow"
+                ],
+                "cons": [
+                  "Less native mobile depth",
+                  "Advanced device interactions need extra work"
+                ]
+              },
+              {
+                "option": "Flutter",
+                "pros": [
+                  "Strong cross-platform mobile UX",
+                  "Better control for device features"
+                ],
+                "cons": [
+                  "Web SEO is weaker",
+                  "Backend and web integration overhead"
+                ]
+              }
+            ],
+            "comparisonSummary": "Choose Flutter only when native mobile UX is the primary differentiator; otherwise Next.js is faster to market."
+          },
+          {
+            "stage": "architecture",
+            "title": "Data Platform Decision",
+            "context": "Speed vs control for backend data layer",
+            "evidenceIds": [
+              "E2",
+              "E3",
+              "E4"
+            ],
+            "chosen": "Supabase",
+            "why": [
+              "Postgres compatibility improves long-term query flexibility",
+              "Better migration path and tooling for scale"
+            ],
+            "alternatives": [
+              {
+                "option": "Firebase",
+                "pros": [
+                  "Fast setup",
+                  "Managed auth and realtime primitives"
+                ],
+                "cons": [
+                  "Relational query constraints",
+                  "Potential lock-in at growth stage"
+                ]
+              },
+              {
+                "option": "Supabase",
+                "pros": [
+                  "Postgres-native model",
+                  "Stronger portability and SQL ecosystem"
+                ],
+                "cons": [
+                  "Needs schema discipline",
+                  "Realtime tuning required at high scale"
+                ]
+              }
+            ],
+            "comparisonSummary": "Firebase wins for immediate velocity; Supabase wins for scale portability and data control."
+          },
+          {
+            "stage": "architecture",
+            "title": "AI Provider Strategy Decision",
+            "context": "Model reliability and vendor risk posture",
+            "evidenceIds": [
+              "E1",
+              "E2",
+              "E3"
+            ],
+            "chosen": "Hybrid provider strategy",
+            "why": [
+              "Protects against single-vendor outages and abrupt pricing shifts",
+              "Enables quality-latency-cost routing policies by request class"
+            ],
+            "alternatives": [
+              {
+                "option": "Single API provider",
+                "pros": [
+                  "Fastest initial integration",
+                  "Lowest ops complexity"
+                ],
+                "cons": [
+                  "High lock-in and outage exposure",
+                  "Lower pricing leverage"
+                ]
+              },
+              {
+                "option": "Self-hosted open model stack",
+                "pros": [
+                  "Potential long-run savings",
+                  "More data control"
+                ],
+                "cons": [
+                  "High ops burden",
+                  "Model maintenance complexity"
+                ]
+              }
+            ],
+            "comparisonSummary": "Hybrid routing balances speed, resilience, and economics better than single-path strategies."
+          },
+          {
+            "stage": "roadmap",
+            "title": "Execution Sequencing Decision",
+            "context": "Roadmap order and critical path",
+            "evidenceIds": [
+              "E1",
+              "E2",
+              "E3"
+            ],
+            "chosen": "Core value path first, infrastructure depth second",
+            "why": [
+              "Early traction depends on proving end-user value quickly",
+              "Infrastructure should harden after signal, not before it"
+            ],
+            "alternatives": [
+              {
+                "option": "Feature-first then hardening",
+                "pros": [
+                  "Fast demo velocity",
+                  "Early user-visible progress"
+                ],
+                "cons": [
+                  "Reliability debt accumulates quickly",
+                  "Higher rework risk under growth pressure"
+                ]
+              },
+              {
+                "option": "Value path then targeted hardening",
+                "pros": [
+                  "Balanced speed and resilience",
+                  "Lower risk of late-stage architecture churn"
+                ],
+                "cons": [
+                  "Requires disciplined scope control",
+                  "Needs clear go/no-go gates"
+                ]
+              }
+            ],
+            "comparisonSummary": "Value-path-first with planned hardening is the most robust sequence for startup execution."
+          },
+          {
+            "stage": "risk-mitigation",
+            "title": "Primary Risk Mitigation Decision",
+            "context": "Preventing predictable launch failure",
+            "evidenceIds": [
+              "E2",
+              "E3",
+              "E4"
+            ],
+            "chosen": "Set reliability and margin gates before acquisition scale",
+            "why": [
+              "Wedge exists, so execution risk shifts to reliability and economics",
+              "Growth spend should follow operational confidence, not precede it"
+            ],
+            "alternatives": [
+              {
+                "option": "Scale acquisition now and fix later",
+                "pros": [
+                  "Faster top-line growth in the short term",
+                  "More user data sooner"
+                ],
+                "cons": [
+                  "Magnifies churn and cost leaks",
+                  "Can create unsustainable burn"
+                ]
+              },
+              {
+                "option": "De-risk before growth push",
+                "pros": [
+                  "Protects unit economics",
+                  "Improves retention and trust quality"
+                ],
+                "cons": [
+                  "Slower visible growth early",
+                  "Requires hard prioritization discipline"
+                ]
+              }
+            ],
+            "comparisonSummary": "De-risking before growth lowers probability of expensive failure loops."
+          },
+          {
+            "stage": "cost",
+            "title": "Cost Control Strategy Decision",
+            "context": "Protecting margins as usage scales",
+            "evidenceIds": [
+              "E3",
+              "E4",
+              "E7"
+            ],
+            "chosen": "Dynamic model routing by request value",
+            "why": [
+              "Premium quality remains available where it matters most",
+              "Low-value requests stop draining gross margin"
+            ],
+            "alternatives": [
+              {
+                "option": "Single premium model for all traffic",
+                "pros": [
+                  "Simpler operations",
+                  "Lower initial engineering effort"
+                ],
+                "cons": [
+                  "Costs grow linearly with usage",
+                  "Margin and reliability risk under spikes"
+                ]
+              },
+              {
+                "option": "Tiered routing across model providers",
+                "pros": [
+                  "Better marginal cost control",
+                  "Improved resilience under load"
+                ],
+                "cons": [
+                  "More policy and observability complexity",
+                  "Requires ongoing tuning"
+                ]
+              }
+            ],
+            "comparisonSummary": "Routing and queue strategies add complexity, but materially improve survivability at growth scale."
+          }
+        ],
+        "ideaScore": {
+          "feasibility": 65,
+          "scalability": 79,
+          "uniqueness": 74,
+          "summary": "The idea is execution-sensitive but has a credible wedge if focus is maintained."
+        },
+        "techComparator": [
+          {
+            "dimension": "Frontend Platform",
+            "optionA": "Next.js",
+            "optionB": "Flutter",
+            "verdict": "Next.js",
+            "rationale": "Web-first launch speed, SEO, and unified full-stack delivery favor Next.js."
+          },
+          {
+            "dimension": "Backend Platform",
+            "optionA": "Firebase",
+            "optionB": "Supabase",
+            "verdict": "Supabase",
+            "rationale": "For scale-readiness and SQL portability, Supabase offers better flexibility."
+          }
+        ],
+        "costOptimizer": [
+          {
+            "area": "Database and cache",
+            "currentRisk": "Read-heavy paths drive DB and compute costs upward under traffic spikes.",
+            "alternativeA": "Scale primary database and add replicas",
+            "alternativeB": "Add Redis with explicit cache invalidation policy",
+            "comparison": "Replica scaling is simpler short term, but Redis usually reduces both latency and marginal read cost.",
+            "recommended": "Add Redis with explicit cache invalidation policy",
+            "why": "Delivers faster latency gains and better unit economics before major database scaling spend."
+          },
+          {
+            "area": "Background processing",
+            "currentRisk": "Synchronous heavy tasks inflate response time and server cost.",
+            "alternativeA": "Keep synchronous path and autoscale app instances",
+            "alternativeB": "Queue heavy tasks to dedicated workers",
+            "comparison": "Autoscaling alone is easy but expensive; worker queues reduce user-facing latency at lower cost.",
+            "recommended": "Queue heavy tasks to dedicated workers",
+            "why": "Improves UX and allows finer-grained scaling for compute-intensive workloads."
+          },
+          {
+            "area": "Inference spend",
+            "currentRisk": "Provider usage spikes can erase margins during growth.",
+            "alternativeA": "Single premium model for all requests",
+            "alternativeB": "Dynamic routing across premium and low-cost models",
+            "comparison": "Single-model usage is operationally simple but expensive; routing adds complexity but protects margins.",
+            "recommended": "Dynamic routing across premium and low-cost models",
+            "why": "Keeps quality on high-value paths while containing spend for low-value traffic."
+          }
+        ],
+        "executionPlan": {
+          "mvp": [
+            "Deliver one wedge workflow end-to-end with usage tracking",
+            "Ship essential reliability safeguards and fallback behavior",
+            "Launch with explicit cost and latency thresholds"
+          ],
+          "scale": [
+            "Introduce queue workers and route-level cost policies",
+            "Harden compliance, incident response, and observability depth",
+            "Expand horizontally only after wedge metrics are stable"
+          ]
+        },
+        "investmentPerspective": {
+          "budgetUsd": 10000,
+          "verdict": "invest-now",
+          "rationale": [
+            "Plan is investable if reliability and cost thresholds are enforced as release gates.",
+            "Wedge viability and unit economics should be monitored weekly."
+          ]
+        },
+        "selfCritique": {
+          "initial": {
+            "verdict": "build-now",
+            "confidence": 85,
+            "primaryFailureReason": "Margins and reliability collapse during growth because controls were added too late.",
+            "topRisks": [
+              "Weak differentiation against incumbents",
+              "Model dependency and quality drift",
+              "Unit economics worsen as usage grows"
+            ],
+            "topDecisions": [
+              "Market Wedge Decision",
+              "Frontend Platform Decision",
+              "Data Platform Decision"
+            ]
+          },
+          "critiquePoints": [
+            "Overconfidence guard triggered: confidence is high despite multiple weak assumptions."
+          ],
+          "improvementsApplied": [
+            "Applied confidence haircut and added blocking issue for unresolved weak assumptions."
+          ],
+          "revised": {
+            "verdict": "build-now",
+            "confidence": 76,
+            "primaryFailureReason": "Margins and reliability collapse during growth because controls were added too late. Self-critique added: Overconfidence guard triggered: confidence is high despite multiple weak assumptions.",
+            "topRisks": [
+              "Weak differentiation against incumbents",
+              "Model dependency and quality drift",
+              "Unit economics worsen as usage grows"
+            ],
+            "topDecisions": [
+              "Market Wedge Decision",
+              "Frontend Platform Decision",
+              "Data Platform Decision"
+            ]
+          }
+        },
+        "readinessScore": {
+          "score": 50,
+          "verdict": "no-go",
+          "gates": [
+            {
+              "name": "Differentiation gate",
+              "passed": true,
+              "reason": "Uniqueness score is strong enough for launch confidence."
+            },
+            {
+              "name": "Risk concentration gate",
+              "passed": false,
+              "reason": "Top risk \"Weak differentiation against incumbents\" has RPN 60, which is above launch threshold."
+            },
+            {
+              "name": "Mitigation ownership gate",
+              "passed": true,
+              "reason": "High-priority risks include mitigation ownership."
+            },
+            {
+              "name": "Assumption confidence gate",
+              "passed": false,
+              "reason": "2 assumptions are low-confidence and require validation."
+            }
+          ]
+        },
+        "uncertaintyFlags": [],
+        "blockingIssues": [
+          "Top risk \"Weak differentiation against incumbents\" has RPN 60, which is above launch threshold.",
+          "2 assumptions are low-confidence and require validation."
+        ],
+        "fallbackUsed": false,
+        "challengeSummary": [
+          "Differentiate one core workflow before broad feature expansion.",
+          "Use launch gates for reliability and unit economics, not only velocity.",
+          "Review weakest assumptions weekly during the first month after launch.",
+          "Self-critique: Overconfidence guard triggered: confidence is high despite multiple weak assumptions.",
+          "Enrichment: No major enrichment deltas detected; deterministic baseline remains primary signal."
+        ],
+        "recommendation": {
+          "verdict": "build-with-pivot",
+          "confidence": 76,
+          "rationale": [
+            "Use decision framework outputs in each stage to avoid one-path bias.",
+            "Treat failure simulation findings as build blockers, not optional notes.",
+            "Execute with Scalable Startup priorities and guardrails to control downside.",
+            "Self-critique pass forced additional realism before final recommendation.",
+            "Recommendation downgraded due to blocking launch issues."
+          ]
+        },
+        "assumptions": [
+          "A cross-functional team can deliver first release scope.",
+          "Managed services are acceptable for initial launch speed.",
+          "Operational metrics will be reviewed weekly from day one."
+        ],
+        "outputSections": {
+          "architecture": "# 🏗️ Architecture\nThe system uses a modular product surface, policy-driven APIs, and observable execution paths designed to force explicit tradeoff decisions before scale. Analysis assumptions tracked: 3.\n- Mode: Scalable Startup\n- Mode Priorities: Balance velocity with architecture discipline; Design for near-term growth and controllable complexity; Build observability and cost controls alongside features\n- Mode Guardrails: Avoid one-way vendor lock-in for critical paths; Define upgrade paths before scale pressure; Use weekly risk and unit-economics reviews\n- Frontend: Next.js web-first app with responsive UX and product APIs in a unified deployable surface\n- Backend: Typed Node APIs with async job orchestration for heavy workflows\n- Data: PostgreSQL with Redis acceleration and governance-ready retention/audit controls\n- Integrations: Primary inference provider with fallback routing; Quality and cost telemetry pipeline; Notification and monitoring services\n\nEvidence Layer\n- E1 [risk] Differentiation risk inferred from broad problem framing. (confidence 0.62)\n- E2 [assumption] A cross-functional team can deliver first release scope. (confidence 0.66)\n- E3 [assumption] Managed services are acceptable for initial launch speed. (confidence 0.66)\n- E4 [assumption] Operational metrics will be reviewed weekly from day one. (confidence 0.66)\n\nDecision Framework (Analysis -> Architecture)\n- [analysis] Market Wedge Decision\n  Context: Positioning and launch focus\n  Evidence: E1, E2, E3\n  Option 1: Horizontal launch for multiple segments | Pros: Bigger top-of-funnel opportunity; More potential use cases quickly | Cons: Weak differentiation; Higher roadmap complexity and messaging dilution\n  Option 2: Vertical wedge-first launch | Pros: Clear value proposition; Faster feedback loops on one segment | Cons: Smaller initial TAM; Requires strong segment-specific insight\n  Comparison: Wedge-first has lower market breadth but much higher odds of early product-market fit.\n  Chosen: Double down on the existing niche wedge\n  Why: Signals suggest a defensible angle already exists in the PRD; Concentrated execution increases conversion and retention odds\n- [architecture] Frontend Platform Decision\n  Context: Delivery channel and user experience\n  Evidence: E1, E2\n  Option 1: Next.js | Pros: Fast web deployment and SEO; Unified frontend/backend workflow | Cons: Less native mobile depth; Advanced device interactions need extra work\n  Option 2: Flutter | Pros: Strong cross-platform mobile UX; Better control for device features | Cons: Web SEO is weaker; Backend and web integration overhead\n  Comparison: Choose Flutter only when native mobile UX is the primary differentiator; otherwise Next.js is faster to market.\n  Chosen: Next.js\n  Why: Web-first rollout improves discovery and launch speed; Unified full-stack model reduces operational overhead\n- [architecture] Data Platform Decision\n  Context: Speed vs control for backend data layer\n  Evidence: E2, E3, E4\n  Option 1: Firebase | Pros: Fast setup; Managed auth and realtime primitives | Cons: Relational query constraints; Potential lock-in at growth stage\n  Option 2: Supabase | Pros: Postgres-native model; Stronger portability and SQL ecosystem | Cons: Needs schema discipline; Realtime tuning required at high scale\n  Comparison: Firebase wins for immediate velocity; Supabase wins for scale portability and data control.\n  Chosen: Supabase\n  Why: Postgres compatibility improves long-term query flexibility; Better migration path and tooling for scale\n- [architecture] AI Provider Strategy Decision\n  Context: Model reliability and vendor risk posture\n  Evidence: E1, E2, E3\n  Option 1: Single API provider | Pros: Fastest initial integration; Lowest ops complexity | Cons: High lock-in and outage exposure; Lower pricing leverage\n  Option 2: Self-hosted open model stack | Pros: Potential long-run savings; More data control | Cons: High ops burden; Model maintenance complexity\n  Comparison: Hybrid routing balances speed, resilience, and economics better than single-path strategies.\n  Chosen: Hybrid provider strategy\n  Why: Protects against single-vendor outages and abrupt pricing shifts; Enables quality-latency-cost routing policies by request class\n\nSkill Chain: PRD -> Analysis -> Architecture -> Roadmap -> Risks -> Cost",
+          "folderStructure": "# 📁 Folder Structure\n- src/app/(marketing)\n- src/app/(product)\n- src/app/api/analyze\n- src/components\n- src/lib/analysis\n- src/lib/domain\n- src/lib/infra\n- src/lib/validation\n- docs/architecture.md\n- docs/roadmap.md\n- docs/risks.md\n- docs/generated/report.md",
+          "roadmap": "# 🗺️ Roadmap\n- Day 1 | Phase 1 - PRD Decomposition and Wedge: Extract requirements, assumptions, and defensible market wedge (Feature map with must-have vs optional scope; Decision card for product wedge; Mode bias: Balance launch speed with scale-readiness.)\n- Day 2 | Phase 2 - Architecture and Contracts: Define architecture, APIs, and operational contracts (Architecture posture: Use pragmatic modular architecture with clear upgrade paths.; API and data contracts with ownership boundaries; Telemetry baseline and quality gates)\n- Day 3-4 | Phase 3 - Core Build: Implement core value flow end-to-end (Primary user journey implementation; Backend orchestration and persistence; Frontend path: Next.js web-first app with responsive UX and product APIs in a unified deployable surface; Prompt quality evaluations and fallback behavior)\n- Day 5-6 | Phase 4 - Risk Hardening: Reduce top failure risks before launch pressure (Failure simulation pass with mitigation owners; Performance and reliability hardening; Cost guardrails and anomaly alerts; Token budget thresholds and routing strategy)\n- Day 7 | Phase 5 - Launch Decision: Execute go/no-go with explicit release checks (Go/no-go checklist with exit criteria; Rollback and incident response playbook; Post-launch metric review plan)\n\nDecision Framework (Roadmap)\n- [roadmap] Execution Sequencing Decision\n  Context: Roadmap order and critical path\n  Evidence: E1, E2, E3\n  Option 1: Feature-first then hardening | Pros: Fast demo velocity; Early user-visible progress | Cons: Reliability debt accumulates quickly; Higher rework risk under growth pressure\n  Option 2: Value path then targeted hardening | Pros: Balanced speed and resilience; Lower risk of late-stage architecture churn | Cons: Requires disciplined scope control; Needs clear go/no-go gates\n  Comparison: Value-path-first with planned hardening is the most robust sequence for startup execution.\n  Chosen: Core value path first, infrastructure depth second\n  Why: Early traction depends on proving end-user value quickly; Infrastructure should harden after signal, not before it",
+          "risks": "# ⚠️ Risks\n- Weak differentiation against incumbents [product] RPN 60. Owner: Product Lead. Signals: Prospects compare the product to free alternatives; Activation and retention flatten after initial onboarding. Mitigation: Narrow to one high-pain workflow and own it deeply; Gate launch on measurable value proof in target segment\n- Latency and reliability degrade with growth spikes [scaling] RPN 36. Owner: Engineering Lead. Signals: P95 latency breaches SLO; Queue depth grows faster than drain rate. Mitigation: Split synchronous and asynchronous execution paths; Cache repeat-heavy flows and add backpressure controls\n- Unit economics worsen as usage grows [financial] RPN 40. Owner: Founder/PM. Signals: Cost per active user rises for two consecutive weeks; Variable cost scales faster than revenue or conversion. Mitigation: Introduce pricing tiers and usage-aware feature limits; Route low-value traffic to lower-cost execution paths\n- Model dependency and quality drift [technical] RPN 48. Owner: ML Platform Lead. Signals: Quality score regressions; Provider throttling or outage spikes. Mitigation: Maintain fallback model routes with health checks; Track quality-cost-latency metrics per request class\n\nDecision Framework (Risk Mitigation)\n- [risk-mitigation] Primary Risk Mitigation Decision\n  Context: Preventing predictable launch failure\n  Evidence: E2, E3, E4\n  Option 1: Scale acquisition now and fix later | Pros: Faster top-line growth in the short term; More user data sooner | Cons: Magnifies churn and cost leaks; Can create unsustainable burn\n  Option 2: De-risk before growth push | Pros: Protects unit economics; Improves retention and trust quality | Cons: Slower visible growth early; Requires hard prioritization discipline\n  Comparison: De-risking before growth lowers probability of expensive failure loops.\n  Chosen: Set reliability and margin gates before acquisition scale\n  Why: Wedge exists, so execution risk shifts to reliability and economics; Growth spend should follow operational confidence, not precede it",
+          "failurePrediction": "# 💀 Failure Prediction\nPrimary failure reason: Margins and reliability collapse during growth because controls were added too late. Self-critique added: Overconfidence guard triggered: confidence is high despite multiple weak assumptions.\nFailure simulation: growth pressure exposes weak assumptions on differentiation, reliability, and cost. Scaling before proving wedge quality and controlling reliability/cost will produce churn and margin erosion in parallel. Planned phases in scope: 5. Self-critique pass tightened this plan before final output.\nLikely failure points:\n- Acquisition spend scales faster than retention quality\n- Cost per active user rises above monetization capacity\n- Incident rate increases as complexity grows without gates\nWeakest assumptions:\n- Users will switch without a clear, measurable ROI wedge\n- Infrastructure and model costs will scale linearly\n- Reliability can be fixed post-launch without trust damage\nPivot options:\n- Focus on one vertical workflow and prove ROI before broad rollout\n- Shift from generic feature breadth to automation around one recurring pain\n- Monetize premium outcomes rather than raw usage volume\nUncertainty flags:\n- none",
+          "improvements": "# 💡 Improvements\n- Final Verdict: build-with-pivot\n- Confidence: 76%\n- Readiness Score: 50/100 (no-go)\n- Fallback used: no\n- Use decision framework outputs in each stage to avoid one-path bias.\n- Treat failure simulation findings as build blockers, not optional notes.\n- Execute with Scalable Startup priorities and guardrails to control downside.\n- Self-critique pass forced additional realism before final recommendation.\n- Recommendation downgraded due to blocking launch issues.\n\nDecision Framework (Cost)\n- [cost] Cost Control Strategy Decision\n  Context: Protecting margins as usage scales\n  Evidence: E3, E4, E7\n  Option 1: Single premium model for all traffic | Pros: Simpler operations; Lower initial engineering effort | Cons: Costs grow linearly with usage; Margin and reliability risk under spikes\n  Option 2: Tiered routing across model providers | Pros: Better marginal cost control; Improved resilience under load | Cons: More policy and observability complexity; Requires ongoing tuning\n  Comparison: Routing and queue strategies add complexity, but materially improve survivability at growth scale.\n  Chosen: Dynamic model routing by request value\n  Why: Premium quality remains available where it matters most; Low-value requests stop draining gross margin\n\nCost Optimizer\n- Database and cache: A) Scale primary database and add replicas B) Add Redis with explicit cache invalidation policy. Comparison: Replica scaling is simpler short term, but Redis usually reduces both latency and marginal read cost.. Chosen: Add Redis with explicit cache invalidation policy. Why: Delivers faster latency gains and better unit economics before major database scaling spend.\n- Background processing: A) Keep synchronous path and autoscale app instances B) Queue heavy tasks to dedicated workers. Comparison: Autoscaling alone is easy but expensive; worker queues reduce user-facing latency at lower cost.. Chosen: Queue heavy tasks to dedicated workers. Why: Improves UX and allows finer-grained scaling for compute-intensive workloads.\n- Inference spend: A) Single premium model for all requests B) Dynamic routing across premium and low-cost models. Comparison: Single-model usage is operationally simple but expensive; routing adds complexity but protects margins.. Chosen: Dynamic routing across premium and low-cost models. Why: Keeps quality on high-value paths while containing spend for low-value traffic.\n\nTech Stack Comparator\n- Frontend Platform: Next.js vs Flutter. Verdict: Next.js. Why: Web-first launch speed, SEO, and unified full-stack delivery favor Next.js.\n- Backend Platform: Firebase vs Supabase. Verdict: Supabase. Why: For scale-readiness and SQL portability, Supabase offers better flexibility.\n\nIdea Score: Feasibility 65/100 | Scalability 79/100 | Uniqueness 74/100\nIdea Score Summary: The idea is execution-sensitive but has a credible wedge if focus is maintained.\n\nAssumption Tracker\n- A1: A cross-functional team can deliver first release scope. | confidence 0.63 | owner Product Lead | task Validate assumption 1 with an experiment or stakeholder interview | due 2026-04-17 | status pending\n- A2: Managed services are acceptable for initial launch speed. | confidence 0.58 | owner Engineering Lead | task Validate assumption 2 with an experiment or stakeholder interview | due 2026-04-18 | status pending\n- A3: Operational metrics will be reviewed weekly from day one. | confidence 0.53 | owner Founder/PM | task Validate assumption 3 with an experiment or stakeholder interview | due 2026-04-19 | status pending\n\nSelf-Critique Loop (Initial -> Critique -> Revised)\n- Initial: verdict build-now, confidence 85%\n- Critique: Overconfidence guard triggered: confidence is high despite multiple weak assumptions.\n- Improvement Applied: Applied confidence haircut and added blocking issue for unresolved weak assumptions.\n- Revised: verdict build-now, confidence 76%\n\nInvestment Perspective ($10k)\n- Verdict: invest-now\n- Plan is investable if reliability and cost thresholds are enforced as release gates.\n- Wedge viability and unit economics should be monitored weekly.\n\nMVP vs Scale Plan\n- MVP: Deliver one wedge workflow end-to-end with usage tracking\n- MVP: Ship essential reliability safeguards and fallback behavior\n- MVP: Launch with explicit cost and latency thresholds\n- Scale: Introduce queue workers and route-level cost policies\n- Scale: Harden compliance, incident response, and observability depth\n- Scale: Expand horizontally only after wedge metrics are stable\n\nBlocking issues before build\n- Top risk \"Weak differentiation against incumbents\" has RPN 60, which is above launch threshold.\n- 2 assumptions are low-confidence and require validation.\n\n- Differentiate one core workflow before broad feature expansion.\n- Use launch gates for reliability and unit economics, not only velocity.\n- Review weakest assumptions weekly during the first month after launch.\n- Self-critique: Overconfidence guard triggered: confidence is high despite multiple weak assumptions.\n- Enrichment: No major enrichment deltas detected; deterministic baseline remains primary signal.\n\nMode Reminder: Scalable Startup priorities should drive execution discipline."
+        }
+      }
+    },
+    {
+      "analysisId": "analysis_78685937a60e",
+      "projectId": "demo-compare",
+      "requestId": "req_756b1400f044",
+      "requestHash": "e3a6146d4150f2763284edf537006e51b4118a9ed92a31cbf947c0b00fe73102",
+      "status": "completed",
+      "createdAt": "2026-04-10T10:54:37.165Z",
+      "updatedAt": "2026-04-10T10:54:37.308Z",
+      "cached": false,
+      "fallbackUsed": false,
+      "uncertaintyFlags": [
+        "Pricing strategy is not explicit in PRD and may impact confidence."
+      ],
+      "blockingIssues": [
+        "Uniqueness score is weak; define a tighter wedge before scaling.",
+        "Top risk \"Data-governance and compliance exposure\" has RPN 80, which is above launch threshold.",
+        "2 assumptions are low-confidence and require validation."
+      ],
+      "timings": {
+        "totalMs": 138,
+        "deterministicMs": 17,
+        "enrichmentMs": 121,
+        "critiqueMs": 240
+      },
+      "generatedFiles": [],
+      "generationWarning": null,
+      "request": {
+        "prd": "Build an AI translator for enterprise support with strict compliance and low latency",
+        "mode": "beginner-startup",
+        "honestyMode": "standard",
+        "projectId": "demo-compare",
+        "requestId": "req_756b1400f044",
+        "executionMode": "sync",
+        "engine": "hybrid",
+        "enableLlmEnrichment": true,
+        "maxLatencyMs": 2500,
+        "writeFiles": false,
+        "requestHash": "e3a6146d4150f2763284edf537006e51b4118a9ed92a31cbf947c0b00fe73102"
+      },
+      "startedAt": "2026-04-10T10:54:37.169Z",
+      "completedAt": "2026-04-10T10:54:37.308Z",
+      "result": {
+        "productName": "Build an AI translator for enterprise support with strict complianc...",
+        "mode": "beginner-startup",
+        "honestyMode": "standard",
+        "modeGuide": {
+          "modeLabel": "Beginner Startup",
+          "priorities": [
+            "Ship fast to validate a narrow value proposition",
+            "Use defaults and managed services to reduce setup time",
+            "Avoid architecture complexity before product pull is proven"
+          ],
+          "guardrails": [
+            "Set hard monthly spend caps",
+            "Delay custom infrastructure until repeat usage is proven",
+            "Treat differentiation as a release gate"
+          ]
+        },
+        "skillChain": [
+          "PRD",
+          "Analysis",
+          "Architecture",
+          "Roadmap",
+          "Risks",
+          "Cost"
+        ],
+        "executiveSummary": "This PRD can ship, but success depends on enforced decision discipline, failure simulation, and mode-aware execution.",
+        "architecture": {
+          "overview": "The system uses a modular product surface, policy-driven APIs, and observable execution paths designed to force explicit tradeoff decisions before scale. Analysis assumptions tracked: 3.",
+          "frontend": "Next.js web-first app with responsive UX and product APIs in a unified deployable surface",
+          "backend": "Typed Node APIs with async job orchestration for heavy workflows",
+          "data": "Firebase-managed data primitives for MVP speed, with migration checkpoints defined early",
+          "integrations": [
+            "Primary inference provider with fallback routing",
+            "Quality and cost telemetry pipeline",
+            "Notification and monitoring services"
+          ]
+        },
+        "techStack": {
+          "frontend": [
+            "Next.js 16 + TypeScript",
+            "Tailwind CSS v4",
+            "Accessible component patterns"
+          ],
+          "backend": [
+            "Typed route handlers",
+            "Service-layer architecture",
+            "Queue-backed background processing"
+          ],
+          "dataInfra": [
+            "Firebase data services",
+            "Optional Redis for hot-path caching",
+            "Object storage"
+          ],
+          "observability": [
+            "Structured logs",
+            "P95 latency dashboard",
+            "Cost anomaly alerts"
+          ]
+        },
+        "evidence": [
+          {
+            "id": "E1",
+            "category": "constraint",
+            "text": "Compliance-sensitive language detected in PRD.",
+            "confidence": 0.8
+          },
+          {
+            "id": "E2",
+            "category": "risk",
+            "text": "Differentiation risk inferred from broad problem framing.",
+            "confidence": 0.86
+          },
+          {
+            "id": "E3",
+            "category": "assumption",
+            "text": "A cross-functional team can deliver first release scope.",
+            "confidence": 0.66
+          },
+          {
+            "id": "E4",
+            "category": "assumption",
+            "text": "Managed services are acceptable for initial launch speed.",
+            "confidence": 0.66
+          },
+          {
+            "id": "E5",
+            "category": "assumption",
+            "text": "Operational metrics will be reviewed weekly from day one.",
+            "confidence": 0.66
+          }
+        ],
+        "assumptionTracker": [
+          {
+            "id": "A1",
+            "statement": "A cross-functional team can deliver first release scope.",
+            "confidence": 0.63,
+            "owner": "Product Lead",
+            "validationTask": "Validate assumption 1 with an experiment or stakeholder interview",
+            "dueDate": "2026-04-17",
+            "status": "pending"
+          },
+          {
+            "id": "A2",
+            "statement": "Managed services are acceptable for initial launch speed.",
+            "confidence": 0.58,
+            "owner": "Engineering Lead",
+            "validationTask": "Validate assumption 2 with an experiment or stakeholder interview",
+            "dueDate": "2026-04-18",
+            "status": "pending"
+          },
+          {
+            "id": "A3",
+            "statement": "Operational metrics will be reviewed weekly from day one.",
+            "confidence": 0.53,
+            "owner": "Founder/PM",
+            "validationTask": "Validate assumption 3 with an experiment or stakeholder interview",
+            "dueDate": "2026-04-19",
+            "status": "pending"
+          }
+        ],
+        "folderStructure": [
+          "src/app/(marketing)",
+          "src/app/(product)",
+          "src/app/api/analyze",
+          "src/components",
+          "src/lib/analysis",
+          "src/lib/domain",
+          "src/lib/infra",
+          "src/lib/validation",
+          "docs/architecture.md",
+          "docs/roadmap.md",
+          "docs/risks.md",
+          "docs/generated/report.md"
+        ],
+        "roadmap": [
+          {
+            "phase": "Phase 1 - PRD Decomposition and Wedge",
+            "timeline": "Day 1",
+            "objective": "Extract requirements, assumptions, and defensible market wedge",
+            "deliverables": [
+              "Feature map with must-have vs optional scope",
+              "Decision card for product wedge",
+              "Mode bias: Compress delivery into short validation loops."
+            ]
+          },
+          {
+            "phase": "Phase 2 - Architecture and Contracts",
+            "timeline": "Day 2",
+            "objective": "Define architecture, APIs, and operational contracts",
+            "deliverables": [
+              "Architecture posture: Prefer managed services over custom infrastructure.",
+              "API and data contracts with ownership boundaries",
+              "Telemetry baseline and quality gates"
+            ]
+          },
+          {
+            "phase": "Phase 3 - Core Build",
+            "timeline": "Day 3",
+            "objective": "Implement core value flow end-to-end",
+            "deliverables": [
+              "Primary user journey implementation",
+              "Backend orchestration and persistence",
+              "Frontend path: Next.js web-first app with responsive UX and product APIs in a unified deployable surface",
+              "Prompt quality evaluations and fallback behavior"
+            ]
+          },
+          {
+            "phase": "Phase 4 - Risk Hardening",
+            "timeline": "Day 4",
+            "objective": "Reduce top failure risks before launch pressure",
+            "deliverables": [
+              "Failure simulation pass with mitigation owners",
+              "Performance and reliability hardening",
+              "Cost guardrails and anomaly alerts",
+              "Token budget thresholds and routing strategy"
+            ]
+          },
+          {
+            "phase": "Phase 5 - Launch Decision",
+            "timeline": "Day 5",
+            "objective": "Execute go/no-go with explicit release checks",
+            "deliverables": [
+              "Go/no-go checklist with exit criteria",
+              "Rollback and incident response playbook",
+              "Post-launch metric review plan"
+            ]
+          }
+        ],
+        "risks": [
+          {
+            "category": "product",
+            "title": "Weak differentiation against incumbents",
+            "mitigationOwner": "Product Lead",
+            "likelihood": 5,
+            "impact": 5,
+            "detectability": 3,
+            "rpn": 75,
+            "warningSignals": [
+              "Prospects compare the product to free alternatives",
+              "Activation and retention flatten after initial onboarding"
+            ],
+            "mitigation": [
+              "Narrow to one high-pain workflow and own it deeply",
+              "Gate launch on measurable value proof in target segment"
+            ]
+          },
+          {
+            "category": "scaling",
+            "title": "Latency and reliability degrade with growth spikes",
+            "mitigationOwner": "Engineering Lead",
+            "likelihood": 4,
+            "impact": 4,
+            "detectability": 3,
+            "rpn": 48,
+            "warningSignals": [
+              "P95 latency breaches SLO",
+              "Queue depth grows faster than drain rate"
+            ],
+            "mitigation": [
+              "Split synchronous and asynchronous execution paths",
+              "Cache repeat-heavy flows and add backpressure controls"
+            ]
+          },
+          {
+            "category": "financial",
+            "title": "Unit economics worsen as usage grows",
+            "mitigationOwner": "Founder/PM",
+            "likelihood": 4,
+            "impact": 5,
+            "detectability": 2,
+            "rpn": 40,
+            "warningSignals": [
+              "Cost per active user rises for two consecutive weeks",
+              "Variable cost scales faster than revenue or conversion"
+            ],
+            "mitigation": [
+              "Introduce pricing tiers and usage-aware feature limits",
+              "Route low-value traffic to lower-cost execution paths"
+            ]
+          },
+          {
+            "category": "technical",
+            "title": "Model dependency and quality drift",
+            "mitigationOwner": "ML Platform Lead",
+            "likelihood": 5,
+            "impact": 4,
+            "detectability": 3,
+            "rpn": 60,
+            "warningSignals": [
+              "Quality score regressions",
+              "Provider throttling or outage spikes"
+            ],
+            "mitigation": [
+              "Maintain fallback model routes with health checks",
+              "Track quality-cost-latency metrics per request class"
+            ]
+          },
+          {
+            "category": "compliance",
+            "title": "Data-governance and compliance exposure",
+            "mitigationOwner": "Security Lead",
+            "likelihood": 4,
+            "impact": 5,
+            "detectability": 4,
+            "rpn": 80,
+            "warningSignals": [
+              "No retention or deletion controls for sensitive data",
+              "Missing data classification and access audit trails"
+            ],
+            "mitigation": [
+              "Implement classification, retention, and deletion policy",
+              "Add audit logging and privacy/compliance review gates"
+            ]
+          }
+        ],
+        "failureSimulation": {
+          "narrative": "Failure simulation: growth pressure exposes weak assumptions on differentiation, reliability, and cost. Scaling before proving wedge quality and controlling reliability/cost will produce churn and margin erosion in parallel. Planned phases in scope: 5. Self-critique pass tightened this plan before final output.",
+          "primaryFailureReason": "No defensible wedge leads to commodity competition before retention is established. Self-critique added: Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.",
+          "likelyFailurePoints": [
+            "Acquisition spend scales faster than retention quality",
+            "Cost per active user rises above monetization capacity",
+            "Incident rate increases as complexity grows without gates"
+          ],
+          "weakestAssumptions": [
+            "Users will switch without a clear, measurable ROI wedge",
+            "Infrastructure and model costs will scale linearly",
+            "Reliability can be fixed post-launch without trust damage"
+          ],
+          "pivots": [
+            "Focus on one vertical workflow and prove ROI before broad rollout",
+            "Shift from generic feature breadth to automation around one recurring pain",
+            "Monetize premium outcomes rather than raw usage volume"
+          ],
+          "preBuildChanges": [
+            "Define one non-negotiable differentiator and release metric",
+            "Set explicit cost-per-active-user and reliability thresholds",
+            "Add fallback, caching, and gate checks before scaling traffic"
+          ]
+        },
+        "costs": [
+          {
+            "tier": "prototype",
+            "usersPerMonth": "1,000-5,000",
+            "monthlyRangeUsd": "$119-$723",
+            "topCostDriver": "Inference/API usage",
+            "notes": [
+              "Minimize upfront spend and keep burn predictable.",
+              "Define spend alerts before opening public access"
+            ]
+          },
+          {
+            "tier": "early-traction",
+            "usersPerMonth": "10,000-50,000",
+            "monthlyRangeUsd": "$1,275-$6,460",
+            "topCostDriver": "Model traffic + egress",
+            "notes": [
+              "Introduce request-level caching and quota policy",
+              "Review cost per active user weekly"
+            ]
+          },
+          {
+            "tier": "growth",
+            "usersPerMonth": "100,000+",
+            "monthlyRangeUsd": "$10,200-$49,300",
+            "topCostDriver": "Inference throughput",
+            "notes": [
+              "Re-evaluate provider mix and reserved capacity strategy",
+              "Offload non-critical flows to asynchronous pipelines"
+            ]
+          }
+        ],
+        "alternatives": [
+          {
+            "name": "Fast Validation Stack",
+            "bestFor": "Teams optimizing for earliest market signal",
+            "tradeoffs": [
+              "Shortest path to launch",
+              "Higher managed-service lock-in risk",
+              "Migration complexity if growth arrives quickly"
+            ]
+          },
+          {
+            "name": "Balanced Scale Stack",
+            "bestFor": "Teams expecting growth in 1-2 quarters",
+            "tradeoffs": [
+              "Slightly slower setup",
+              "Better portability and observability",
+              "Improved long-term cost control"
+            ]
+          }
+        ],
+        "decisions": [
+          {
+            "stage": "analysis",
+            "title": "Market Wedge Decision",
+            "context": "Positioning and launch focus",
+            "evidenceIds": [
+              "E1",
+              "E2",
+              "E3"
+            ],
+            "chosen": "Narrow to one vertical workflow before broad launch",
+            "why": [
+              "A broad launch without wedge is likely to become commodity quickly",
+              "Vertical focus creates clearer ROI narrative and stronger adoption"
+            ],
+            "alternatives": [
+              {
+                "option": "Horizontal launch for multiple segments",
+                "pros": [
+                  "Bigger top-of-funnel opportunity",
+                  "More potential use cases quickly"
+                ],
+                "cons": [
+                  "Weak differentiation",
+                  "Higher roadmap complexity and messaging dilution"
+                ]
+              },
+              {
+                "option": "Vertical wedge-first launch",
+                "pros": [
+                  "Clear value proposition",
+                  "Faster feedback loops on one segment"
+                ],
+                "cons": [
+                  "Smaller initial TAM",
+                  "Requires strong segment-specific insight"
+                ]
+              }
+            ],
+            "comparisonSummary": "Wedge-first has lower market breadth but much higher odds of early product-market fit."
+          },
+          {
+            "stage": "architecture",
+            "title": "Frontend Platform Decision",
+            "context": "Delivery channel and user experience",
+            "evidenceIds": [
+              "E1",
+              "E2"
+            ],
+            "chosen": "Next.js",
+            "why": [
+              "Web-first rollout improves discovery and launch speed",
+              "Unified full-stack model reduces operational overhead"
+            ],
+            "alternatives": [
+              {
+                "option": "Next.js",
+                "pros": [
+                  "Fast web deployment and SEO",
+                  "Unified frontend/backend workflow"
+                ],
+                "cons": [
+                  "Less native mobile depth",
+                  "Advanced device interactions need extra work"
+                ]
+              },
+              {
+                "option": "Flutter",
+                "pros": [
+                  "Strong cross-platform mobile UX",
+                  "Better control for device features"
+                ],
+                "cons": [
+                  "Web SEO is weaker",
+                  "Backend and web integration overhead"
+                ]
+              }
+            ],
+            "comparisonSummary": "Choose Flutter only when native mobile UX is the primary differentiator; otherwise Next.js is faster to market."
+          },
+          {
+            "stage": "architecture",
+            "title": "Data Platform Decision",
+            "context": "Speed vs control for backend data layer",
+            "evidenceIds": [
+              "E2",
+              "E3",
+              "E4"
+            ],
+            "chosen": "Firebase",
+            "why": [
+              "Fastest path for MVP primitives and auth",
+              "Minimal ops burden for very small teams"
+            ],
+            "alternatives": [
+              {
+                "option": "Firebase",
+                "pros": [
+                  "Fast setup",
+                  "Managed auth and realtime primitives"
+                ],
+                "cons": [
+                  "Relational query constraints",
+                  "Potential lock-in at growth stage"
+                ]
+              },
+              {
+                "option": "Supabase",
+                "pros": [
+                  "Postgres-native model",
+                  "Stronger portability and SQL ecosystem"
+                ],
+                "cons": [
+                  "Needs schema discipline",
+                  "Realtime tuning required at high scale"
+                ]
+              }
+            ],
+            "comparisonSummary": "Firebase wins for immediate velocity; Supabase wins for scale portability and data control."
+          },
+          {
+            "stage": "architecture",
+            "title": "AI Provider Strategy Decision",
+            "context": "Model reliability and vendor risk posture",
+            "evidenceIds": [
+              "E1",
+              "E2",
+              "E3"
+            ],
+            "chosen": "Hybrid provider strategy",
+            "why": [
+              "Protects against single-vendor outages and abrupt pricing shifts",
+              "Enables quality-latency-cost routing policies by request class"
+            ],
+            "alternatives": [
+              {
+                "option": "Single API provider",
+                "pros": [
+                  "Fastest initial integration",
+                  "Lowest ops complexity"
+                ],
+                "cons": [
+                  "High lock-in and outage exposure",
+                  "Lower pricing leverage"
+                ]
+              },
+              {
+                "option": "Self-hosted open model stack",
+                "pros": [
+                  "Potential long-run savings",
+                  "More data control"
+                ],
+                "cons": [
+                  "High ops burden",
+                  "Model maintenance complexity"
+                ]
+              }
+            ],
+            "comparisonSummary": "Hybrid routing balances speed, resilience, and economics better than single-path strategies."
+          },
+          {
+            "stage": "roadmap",
+            "title": "Execution Sequencing Decision",
+            "context": "Roadmap order and critical path",
+            "evidenceIds": [
+              "E1",
+              "E2",
+              "E3"
+            ],
+            "chosen": "Core value path first, infrastructure depth second",
+            "why": [
+              "Early traction depends on proving end-user value quickly",
+              "Infrastructure should harden after signal, not before it"
+            ],
+            "alternatives": [
+              {
+                "option": "Feature-first then hardening",
+                "pros": [
+                  "Fast demo velocity",
+                  "Early user-visible progress"
+                ],
+                "cons": [
+                  "Reliability debt accumulates quickly",
+                  "Higher rework risk under growth pressure"
+                ]
+              },
+              {
+                "option": "Value path then targeted hardening",
+                "pros": [
+                  "Balanced speed and resilience",
+                  "Lower risk of late-stage architecture churn"
+                ],
+                "cons": [
+                  "Requires disciplined scope control",
+                  "Needs clear go/no-go gates"
+                ]
+              }
+            ],
+            "comparisonSummary": "Value-path-first with planned hardening is the most robust sequence for startup execution."
+          },
+          {
+            "stage": "risk-mitigation",
+            "title": "Primary Risk Mitigation Decision",
+            "context": "Preventing predictable launch failure",
+            "evidenceIds": [
+              "E2",
+              "E3",
+              "E4"
+            ],
+            "chosen": "Fix differentiation before adding feature breadth",
+            "why": [
+              "Without wedge, feature velocity increases cost but not defensibility",
+              "Focused positioning raises retention and pricing power"
+            ],
+            "alternatives": [
+              {
+                "option": "Scale acquisition now and fix later",
+                "pros": [
+                  "Faster top-line growth in the short term",
+                  "More user data sooner"
+                ],
+                "cons": [
+                  "Magnifies churn and cost leaks",
+                  "Can create unsustainable burn"
+                ]
+              },
+              {
+                "option": "De-risk before growth push",
+                "pros": [
+                  "Protects unit economics",
+                  "Improves retention and trust quality"
+                ],
+                "cons": [
+                  "Slower visible growth early",
+                  "Requires hard prioritization discipline"
+                ]
+              }
+            ],
+            "comparisonSummary": "De-risking before growth lowers probability of expensive failure loops."
+          },
+          {
+            "stage": "risk-mitigation",
+            "title": "Release Gate Decision",
+            "context": "Deciding what blocks launch",
+            "evidenceIds": [
+              "E1",
+              "E5",
+              "E6"
+            ],
+            "chosen": "Compliance and audit controls are mandatory launch gates",
+            "why": [
+              "Governance failures can kill enterprise adoption immediately",
+              "Retroactive compliance fixes are expensive and risky"
+            ],
+            "alternatives": [
+              {
+                "option": "Launch first, remediate after incidents",
+                "pros": [
+                  "Faster initial release",
+                  "Less pre-launch overhead"
+                ],
+                "cons": [
+                  "Higher reputational risk",
+                  "Greater rollback and fire-fighting risk"
+                ]
+              },
+              {
+                "option": "Block launch until defined gates pass",
+                "pros": [
+                  "Lower operational and reputational risk",
+                  "Creates accountability and quality discipline"
+                ],
+                "cons": [
+                  "Longer pre-launch cycle",
+                  "Requires stronger cross-team alignment"
+                ]
+              }
+            ],
+            "comparisonSummary": "Gate-based launches reduce existential downside and should be default for high-risk systems."
+          },
+          {
+            "stage": "cost",
+            "title": "Cost Control Strategy Decision",
+            "context": "Protecting margins as usage scales",
+            "evidenceIds": [
+              "E3",
+              "E4",
+              "E7"
+            ],
+            "chosen": "Dynamic model routing by request value",
+            "why": [
+              "Premium quality remains available where it matters most",
+              "Low-value requests stop draining gross margin"
+            ],
+            "alternatives": [
+              {
+                "option": "Single premium model for all traffic",
+                "pros": [
+                  "Simpler operations",
+                  "Lower initial engineering effort"
+                ],
+                "cons": [
+                  "Costs grow linearly with usage",
+                  "Margin and reliability risk under spikes"
+                ]
+              },
+              {
+                "option": "Tiered routing across model providers",
+                "pros": [
+                  "Better marginal cost control",
+                  "Improved resilience under load"
+                ],
+                "cons": [
+                  "More policy and observability complexity",
+                  "Requires ongoing tuning"
+                ]
+              }
+            ],
+            "comparisonSummary": "Routing and queue strategies add complexity, but materially improve survivability at growth scale."
+          }
+        ],
+        "ideaScore": {
+          "feasibility": 62,
+          "scalability": 71,
+          "uniqueness": 46,
+          "summary": "Execution can be strong, but uniqueness is fragile until a sharper wedge is chosen."
+        },
+        "techComparator": [
+          {
+            "dimension": "Frontend Platform",
+            "optionA": "Next.js",
+            "optionB": "Flutter",
+            "verdict": "Next.js",
+            "rationale": "Web-first launch speed, SEO, and unified full-stack delivery favor Next.js."
+          },
+          {
+            "dimension": "Backend Platform",
+            "optionA": "Firebase",
+            "optionB": "Supabase",
+            "verdict": "Firebase",
+            "rationale": "For early MVP speed with minimal ops, Firebase is faster."
+          }
+        ],
+        "costOptimizer": [
+          {
+            "area": "Database and cache",
+            "currentRisk": "Read-heavy paths drive DB and compute costs upward under traffic spikes.",
+            "alternativeA": "Scale primary database and add replicas",
+            "alternativeB": "Add Redis with explicit cache invalidation policy",
+            "comparison": "Replica scaling is simpler short term, but Redis usually reduces both latency and marginal read cost.",
+            "recommended": "Add Redis with explicit cache invalidation policy",
+            "why": "Delivers faster latency gains and better unit economics before major database scaling spend."
+          },
+          {
+            "area": "Background processing",
+            "currentRisk": "Synchronous heavy tasks inflate response time and server cost.",
+            "alternativeA": "Keep synchronous path and autoscale app instances",
+            "alternativeB": "Queue heavy tasks to dedicated workers",
+            "comparison": "Autoscaling alone is easy but expensive; worker queues reduce user-facing latency at lower cost.",
+            "recommended": "Queue heavy tasks to dedicated workers",
+            "why": "Improves UX and allows finer-grained scaling for compute-intensive workloads."
+          },
+          {
+            "area": "Inference spend",
+            "currentRisk": "Provider usage spikes can erase margins during growth.",
+            "alternativeA": "Single premium model for all requests",
+            "alternativeB": "Dynamic routing across premium and low-cost models",
+            "comparison": "Single-model usage is operationally simple but expensive; routing adds complexity but protects margins.",
+            "recommended": "Dynamic routing across premium and low-cost models",
+            "why": "Keeps quality on high-value paths while containing spend for low-value traffic."
+          }
+        ],
+        "executionPlan": {
+          "mvp": [
+            "Deliver one wedge workflow end-to-end with usage tracking",
+            "Ship essential reliability safeguards and fallback behavior",
+            "Launch with explicit cost and latency thresholds"
+          ],
+          "scale": [
+            "Introduce queue workers and route-level cost policies",
+            "Harden compliance, incident response, and observability depth",
+            "Expand horizontally only after wedge metrics are stable"
+          ]
+        },
+        "investmentPerspective": {
+          "budgetUsd": 10000,
+          "verdict": "do-not-invest-yet",
+          "rationale": [
+            "Differentiation and economics are too uncertain for immediate capital deployment.",
+            "Risk profile suggests validating assumptions before increasing spend.",
+            "Self-critique indicates unresolved risk concentration before investment."
+          ]
+        },
+        "selfCritique": {
+          "initial": {
+            "verdict": "research-first",
+            "confidence": 58,
+            "primaryFailureReason": "No defensible wedge leads to commodity competition before retention is established.",
+            "topRisks": [
+              "Data-governance and compliance exposure",
+              "Weak differentiation against incumbents",
+              "Model dependency and quality drift"
+            ],
+            "topDecisions": [
+              "Market Wedge Decision",
+              "Frontend Platform Decision",
+              "Data Platform Decision"
+            ]
+          },
+          "critiquePoints": [
+            "Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.",
+            "Risk concentration is high; release should be blocked until highest RPN risks have explicit owners and gates."
+          ],
+          "improvementsApplied": [
+            "Moved recommendation toward pivot-first execution and tightened wedge requirement.",
+            "Lowered confidence and reinforced gate-based launch policy for top risks."
+          ],
+          "revised": {
+            "verdict": "research-first",
+            "confidence": 47,
+            "primaryFailureReason": "No defensible wedge leads to commodity competition before retention is established. Self-critique added: Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.",
+            "topRisks": [
+              "Data-governance and compliance exposure",
+              "Weak differentiation against incumbents",
+              "Model dependency and quality drift"
+            ],
+            "topDecisions": [
+              "Market Wedge Decision",
+              "Frontend Platform Decision",
+              "Data Platform Decision"
+            ]
+          }
+        },
+        "readinessScore": {
+          "score": 25,
+          "verdict": "no-go",
+          "gates": [
+            {
+              "name": "Differentiation gate",
+              "passed": false,
+              "reason": "Uniqueness score is weak; define a tighter wedge before scaling."
+            },
+            {
+              "name": "Risk concentration gate",
+              "passed": false,
+              "reason": "Top risk \"Data-governance and compliance exposure\" has RPN 80, which is above launch threshold."
+            },
+            {
+              "name": "Mitigation ownership gate",
+              "passed": true,
+              "reason": "High-priority risks include mitigation ownership."
+            },
+            {
+              "name": "Assumption confidence gate",
+              "passed": false,
+              "reason": "2 assumptions are low-confidence and require validation."
+            }
+          ]
+        },
+        "uncertaintyFlags": [
+          "Pricing strategy is not explicit in PRD and may impact confidence."
+        ],
+        "blockingIssues": [
+          "Uniqueness score is weak; define a tighter wedge before scaling.",
+          "Top risk \"Data-governance and compliance exposure\" has RPN 80, which is above launch threshold.",
+          "2 assumptions are low-confidence and require validation."
+        ],
+        "fallbackUsed": false,
+        "challengeSummary": [
+          "Differentiate one core workflow before broad feature expansion.",
+          "Use launch gates for reliability and unit economics, not only velocity.",
+          "Review weakest assumptions weekly during the first month after launch.",
+          "Self-critique: Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.",
+          "Self-critique: Risk concentration is high; release should be blocked until highest RPN risks have explicit owners and gates.",
+          "Enrichment: Define pricing hypothesis early to protect unit economics assumptions."
+        ],
+        "recommendation": {
+          "verdict": "research-first",
+          "confidence": 47,
+          "rationale": [
+            "Use decision framework outputs in each stage to avoid one-path bias.",
+            "Treat failure simulation findings as build blockers, not optional notes.",
+            "Execute with Beginner Startup priorities and guardrails to control downside.",
+            "Self-critique pass forced additional realism before final recommendation."
+          ]
+        },
+        "assumptions": [
+          "A cross-functional team can deliver first release scope.",
+          "Managed services are acceptable for initial launch speed.",
+          "Operational metrics will be reviewed weekly from day one."
+        ],
+        "outputSections": {
+          "architecture": "# 🏗️ Architecture\nThe system uses a modular product surface, policy-driven APIs, and observable execution paths designed to force explicit tradeoff decisions before scale. Analysis assumptions tracked: 3.\n- Mode: Beginner Startup\n- Mode Priorities: Ship fast to validate a narrow value proposition; Use defaults and managed services to reduce setup time; Avoid architecture complexity before product pull is proven\n- Mode Guardrails: Set hard monthly spend caps; Delay custom infrastructure until repeat usage is proven; Treat differentiation as a release gate\n- Frontend: Next.js web-first app with responsive UX and product APIs in a unified deployable surface\n- Backend: Typed Node APIs with async job orchestration for heavy workflows\n- Data: Firebase-managed data primitives for MVP speed, with migration checkpoints defined early\n- Integrations: Primary inference provider with fallback routing; Quality and cost telemetry pipeline; Notification and monitoring services\n\nEvidence Layer\n- E1 [constraint] Compliance-sensitive language detected in PRD. (confidence 0.8)\n- E2 [risk] Differentiation risk inferred from broad problem framing. (confidence 0.86)\n- E3 [assumption] A cross-functional team can deliver first release scope. (confidence 0.66)\n- E4 [assumption] Managed services are acceptable for initial launch speed. (confidence 0.66)\n- E5 [assumption] Operational metrics will be reviewed weekly from day one. (confidence 0.66)\n\nDecision Framework (Analysis -> Architecture)\n- [analysis] Market Wedge Decision\n  Context: Positioning and launch focus\n  Evidence: E1, E2, E3\n  Option 1: Horizontal launch for multiple segments | Pros: Bigger top-of-funnel opportunity; More potential use cases quickly | Cons: Weak differentiation; Higher roadmap complexity and messaging dilution\n  Option 2: Vertical wedge-first launch | Pros: Clear value proposition; Faster feedback loops on one segment | Cons: Smaller initial TAM; Requires strong segment-specific insight\n  Comparison: Wedge-first has lower market breadth but much higher odds of early product-market fit.\n  Chosen: Narrow to one vertical workflow before broad launch\n  Why: A broad launch without wedge is likely to become commodity quickly; Vertical focus creates clearer ROI narrative and stronger adoption\n- [architecture] Frontend Platform Decision\n  Context: Delivery channel and user experience\n  Evidence: E1, E2\n  Option 1: Next.js | Pros: Fast web deployment and SEO; Unified frontend/backend workflow | Cons: Less native mobile depth; Advanced device interactions need extra work\n  Option 2: Flutter | Pros: Strong cross-platform mobile UX; Better control for device features | Cons: Web SEO is weaker; Backend and web integration overhead\n  Comparison: Choose Flutter only when native mobile UX is the primary differentiator; otherwise Next.js is faster to market.\n  Chosen: Next.js\n  Why: Web-first rollout improves discovery and launch speed; Unified full-stack model reduces operational overhead\n- [architecture] Data Platform Decision\n  Context: Speed vs control for backend data layer\n  Evidence: E2, E3, E4\n  Option 1: Firebase | Pros: Fast setup; Managed auth and realtime primitives | Cons: Relational query constraints; Potential lock-in at growth stage\n  Option 2: Supabase | Pros: Postgres-native model; Stronger portability and SQL ecosystem | Cons: Needs schema discipline; Realtime tuning required at high scale\n  Comparison: Firebase wins for immediate velocity; Supabase wins for scale portability and data control.\n  Chosen: Firebase\n  Why: Fastest path for MVP primitives and auth; Minimal ops burden for very small teams\n- [architecture] AI Provider Strategy Decision\n  Context: Model reliability and vendor risk posture\n  Evidence: E1, E2, E3\n  Option 1: Single API provider | Pros: Fastest initial integration; Lowest ops complexity | Cons: High lock-in and outage exposure; Lower pricing leverage\n  Option 2: Self-hosted open model stack | Pros: Potential long-run savings; More data control | Cons: High ops burden; Model maintenance complexity\n  Comparison: Hybrid routing balances speed, resilience, and economics better than single-path strategies.\n  Chosen: Hybrid provider strategy\n  Why: Protects against single-vendor outages and abrupt pricing shifts; Enables quality-latency-cost routing policies by request class\n\nSkill Chain: PRD -> Analysis -> Architecture -> Roadmap -> Risks -> Cost",
+          "folderStructure": "# 📁 Folder Structure\n- src/app/(marketing)\n- src/app/(product)\n- src/app/api/analyze\n- src/components\n- src/lib/analysis\n- src/lib/domain\n- src/lib/infra\n- src/lib/validation\n- docs/architecture.md\n- docs/roadmap.md\n- docs/risks.md\n- docs/generated/report.md",
+          "roadmap": "# 🗺️ Roadmap\n- Day 1 | Phase 1 - PRD Decomposition and Wedge: Extract requirements, assumptions, and defensible market wedge (Feature map with must-have vs optional scope; Decision card for product wedge; Mode bias: Compress delivery into short validation loops.)\n- Day 2 | Phase 2 - Architecture and Contracts: Define architecture, APIs, and operational contracts (Architecture posture: Prefer managed services over custom infrastructure.; API and data contracts with ownership boundaries; Telemetry baseline and quality gates)\n- Day 3 | Phase 3 - Core Build: Implement core value flow end-to-end (Primary user journey implementation; Backend orchestration and persistence; Frontend path: Next.js web-first app with responsive UX and product APIs in a unified deployable surface; Prompt quality evaluations and fallback behavior)\n- Day 4 | Phase 4 - Risk Hardening: Reduce top failure risks before launch pressure (Failure simulation pass with mitigation owners; Performance and reliability hardening; Cost guardrails and anomaly alerts; Token budget thresholds and routing strategy)\n- Day 5 | Phase 5 - Launch Decision: Execute go/no-go with explicit release checks (Go/no-go checklist with exit criteria; Rollback and incident response playbook; Post-launch metric review plan)\n\nDecision Framework (Roadmap)\n- [roadmap] Execution Sequencing Decision\n  Context: Roadmap order and critical path\n  Evidence: E1, E2, E3\n  Option 1: Feature-first then hardening | Pros: Fast demo velocity; Early user-visible progress | Cons: Reliability debt accumulates quickly; Higher rework risk under growth pressure\n  Option 2: Value path then targeted hardening | Pros: Balanced speed and resilience; Lower risk of late-stage architecture churn | Cons: Requires disciplined scope control; Needs clear go/no-go gates\n  Comparison: Value-path-first with planned hardening is the most robust sequence for startup execution.\n  Chosen: Core value path first, infrastructure depth second\n  Why: Early traction depends on proving end-user value quickly; Infrastructure should harden after signal, not before it",
+          "risks": "# ⚠️ Risks\n- Weak differentiation against incumbents [product] RPN 75. Owner: Product Lead. Signals: Prospects compare the product to free alternatives; Activation and retention flatten after initial onboarding. Mitigation: Narrow to one high-pain workflow and own it deeply; Gate launch on measurable value proof in target segment\n- Latency and reliability degrade with growth spikes [scaling] RPN 48. Owner: Engineering Lead. Signals: P95 latency breaches SLO; Queue depth grows faster than drain rate. Mitigation: Split synchronous and asynchronous execution paths; Cache repeat-heavy flows and add backpressure controls\n- Unit economics worsen as usage grows [financial] RPN 40. Owner: Founder/PM. Signals: Cost per active user rises for two consecutive weeks; Variable cost scales faster than revenue or conversion. Mitigation: Introduce pricing tiers and usage-aware feature limits; Route low-value traffic to lower-cost execution paths\n- Model dependency and quality drift [technical] RPN 60. Owner: ML Platform Lead. Signals: Quality score regressions; Provider throttling or outage spikes. Mitigation: Maintain fallback model routes with health checks; Track quality-cost-latency metrics per request class\n- Data-governance and compliance exposure [compliance] RPN 80. Owner: Security Lead. Signals: No retention or deletion controls for sensitive data; Missing data classification and access audit trails. Mitigation: Implement classification, retention, and deletion policy; Add audit logging and privacy/compliance review gates\n\nDecision Framework (Risk Mitigation)\n- [risk-mitigation] Primary Risk Mitigation Decision\n  Context: Preventing predictable launch failure\n  Evidence: E2, E3, E4\n  Option 1: Scale acquisition now and fix later | Pros: Faster top-line growth in the short term; More user data sooner | Cons: Magnifies churn and cost leaks; Can create unsustainable burn\n  Option 2: De-risk before growth push | Pros: Protects unit economics; Improves retention and trust quality | Cons: Slower visible growth early; Requires hard prioritization discipline\n  Comparison: De-risking before growth lowers probability of expensive failure loops.\n  Chosen: Fix differentiation before adding feature breadth\n  Why: Without wedge, feature velocity increases cost but not defensibility; Focused positioning raises retention and pricing power\n- [risk-mitigation] Release Gate Decision\n  Context: Deciding what blocks launch\n  Evidence: E1, E5, E6\n  Option 1: Launch first, remediate after incidents | Pros: Faster initial release; Less pre-launch overhead | Cons: Higher reputational risk; Greater rollback and fire-fighting risk\n  Option 2: Block launch until defined gates pass | Pros: Lower operational and reputational risk; Creates accountability and quality discipline | Cons: Longer pre-launch cycle; Requires stronger cross-team alignment\n  Comparison: Gate-based launches reduce existential downside and should be default for high-risk systems.\n  Chosen: Compliance and audit controls are mandatory launch gates\n  Why: Governance failures can kill enterprise adoption immediately; Retroactive compliance fixes are expensive and risky",
+          "failurePrediction": "# 💀 Failure Prediction\nPrimary failure reason: No defensible wedge leads to commodity competition before retention is established. Self-critique added: Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.\nFailure simulation: growth pressure exposes weak assumptions on differentiation, reliability, and cost. Scaling before proving wedge quality and controlling reliability/cost will produce churn and margin erosion in parallel. Planned phases in scope: 5. Self-critique pass tightened this plan before final output.\nLikely failure points:\n- Acquisition spend scales faster than retention quality\n- Cost per active user rises above monetization capacity\n- Incident rate increases as complexity grows without gates\nWeakest assumptions:\n- Users will switch without a clear, measurable ROI wedge\n- Infrastructure and model costs will scale linearly\n- Reliability can be fixed post-launch without trust damage\nPivot options:\n- Focus on one vertical workflow and prove ROI before broad rollout\n- Shift from generic feature breadth to automation around one recurring pain\n- Monetize premium outcomes rather than raw usage volume\nUncertainty flags:\n- Pricing strategy is not explicit in PRD and may impact confidence.",
+          "improvements": "# 💡 Improvements\n- Final Verdict: research-first\n- Confidence: 47%\n- Readiness Score: 25/100 (no-go)\n- Fallback used: no\n- Use decision framework outputs in each stage to avoid one-path bias.\n- Treat failure simulation findings as build blockers, not optional notes.\n- Execute with Beginner Startup priorities and guardrails to control downside.\n- Self-critique pass forced additional realism before final recommendation.\n\nDecision Framework (Cost)\n- [cost] Cost Control Strategy Decision\n  Context: Protecting margins as usage scales\n  Evidence: E3, E4, E7\n  Option 1: Single premium model for all traffic | Pros: Simpler operations; Lower initial engineering effort | Cons: Costs grow linearly with usage; Margin and reliability risk under spikes\n  Option 2: Tiered routing across model providers | Pros: Better marginal cost control; Improved resilience under load | Cons: More policy and observability complexity; Requires ongoing tuning\n  Comparison: Routing and queue strategies add complexity, but materially improve survivability at growth scale.\n  Chosen: Dynamic model routing by request value\n  Why: Premium quality remains available where it matters most; Low-value requests stop draining gross margin\n\nCost Optimizer\n- Database and cache: A) Scale primary database and add replicas B) Add Redis with explicit cache invalidation policy. Comparison: Replica scaling is simpler short term, but Redis usually reduces both latency and marginal read cost.. Chosen: Add Redis with explicit cache invalidation policy. Why: Delivers faster latency gains and better unit economics before major database scaling spend.\n- Background processing: A) Keep synchronous path and autoscale app instances B) Queue heavy tasks to dedicated workers. Comparison: Autoscaling alone is easy but expensive; worker queues reduce user-facing latency at lower cost.. Chosen: Queue heavy tasks to dedicated workers. Why: Improves UX and allows finer-grained scaling for compute-intensive workloads.\n- Inference spend: A) Single premium model for all requests B) Dynamic routing across premium and low-cost models. Comparison: Single-model usage is operationally simple but expensive; routing adds complexity but protects margins.. Chosen: Dynamic routing across premium and low-cost models. Why: Keeps quality on high-value paths while containing spend for low-value traffic.\n\nTech Stack Comparator\n- Frontend Platform: Next.js vs Flutter. Verdict: Next.js. Why: Web-first launch speed, SEO, and unified full-stack delivery favor Next.js.\n- Backend Platform: Firebase vs Supabase. Verdict: Firebase. Why: For early MVP speed with minimal ops, Firebase is faster.\n\nIdea Score: Feasibility 62/100 | Scalability 71/100 | Uniqueness 46/100\nIdea Score Summary: Execution can be strong, but uniqueness is fragile until a sharper wedge is chosen.\n\nAssumption Tracker\n- A1: A cross-functional team can deliver first release scope. | confidence 0.63 | owner Product Lead | task Validate assumption 1 with an experiment or stakeholder interview | due 2026-04-17 | status pending\n- A2: Managed services are acceptable for initial launch speed. | confidence 0.58 | owner Engineering Lead | task Validate assumption 2 with an experiment or stakeholder interview | due 2026-04-18 | status pending\n- A3: Operational metrics will be reviewed weekly from day one. | confidence 0.53 | owner Founder/PM | task Validate assumption 3 with an experiment or stakeholder interview | due 2026-04-19 | status pending\n\nSelf-Critique Loop (Initial -> Critique -> Revised)\n- Initial: verdict research-first, confidence 58%\n- Critique: Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.\n- Critique: Risk concentration is high; release should be blocked until highest RPN risks have explicit owners and gates.\n- Improvement Applied: Moved recommendation toward pivot-first execution and tightened wedge requirement.\n- Improvement Applied: Lowered confidence and reinforced gate-based launch policy for top risks.\n- Revised: verdict research-first, confidence 47%\n\nInvestment Perspective ($10k)\n- Verdict: do-not-invest-yet\n- Differentiation and economics are too uncertain for immediate capital deployment.\n- Risk profile suggests validating assumptions before increasing spend.\n- Self-critique indicates unresolved risk concentration before investment.\n\nMVP vs Scale Plan\n- MVP: Deliver one wedge workflow end-to-end with usage tracking\n- MVP: Ship essential reliability safeguards and fallback behavior\n- MVP: Launch with explicit cost and latency thresholds\n- Scale: Introduce queue workers and route-level cost policies\n- Scale: Harden compliance, incident response, and observability depth\n- Scale: Expand horizontally only after wedge metrics are stable\n\nBlocking issues before build\n- Uniqueness score is weak; define a tighter wedge before scaling.\n- Top risk \"Data-governance and compliance exposure\" has RPN 80, which is above launch threshold.\n- 2 assumptions are low-confidence and require validation.\n\n- Differentiate one core workflow before broad feature expansion.\n- Use launch gates for reliability and unit economics, not only velocity.\n- Review weakest assumptions weekly during the first month after launch.\n- Self-critique: Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.\n- Self-critique: Risk concentration is high; release should be blocked until highest RPN risks have explicit owners and gates.\n- Enrichment: Define pricing hypothesis early to protect unit economics assumptions.\n\nMode Reminder: Beginner Startup priorities should drive execution discipline."
+        }
+      }
+    },
+    {
+      "analysisId": "analysis_9f75ef99aace",
+      "projectId": "demo-compare",
+      "requestId": "req_681210873a21",
+      "requestHash": "79c84a098ac8c9a6306be736d277ac6eada481b6066ef5b7053698f5c96bffde",
+      "status": "completed",
+      "createdAt": "2026-04-10T10:54:37.310Z",
+      "updatedAt": "2026-04-10T10:54:37.438Z",
+      "cached": false,
+      "fallbackUsed": false,
+      "uncertaintyFlags": [
+        "Pricing strategy is not explicit in PRD and may impact confidence."
+      ],
+      "blockingIssues": [
+        "Uniqueness score is weak; define a tighter wedge before scaling.",
+        "Top risk \"Data-governance and compliance exposure\" has RPN 80, which is above launch threshold.",
+        "2 assumptions are low-confidence and require validation."
+      ],
+      "timings": {
+        "totalMs": 125,
+        "deterministicMs": 0,
+        "enrichmentMs": 125,
+        "critiqueMs": 240
+      },
+      "generatedFiles": [],
+      "generationWarning": null,
+      "request": {
+        "prd": "Build an AI translator for enterprise support with strict compliance and low latency",
+        "mode": "enterprise",
+        "honestyMode": "brutal",
+        "projectId": "demo-compare",
+        "requestId": "req_681210873a21",
+        "executionMode": "sync",
+        "engine": "hybrid",
+        "enableLlmEnrichment": true,
+        "maxLatencyMs": 2500,
+        "writeFiles": false,
+        "requestHash": "79c84a098ac8c9a6306be736d277ac6eada481b6066ef5b7053698f5c96bffde"
+      },
+      "startedAt": "2026-04-10T10:54:37.311Z",
+      "completedAt": "2026-04-10T10:54:37.438Z",
+      "result": {
+        "productName": "Build an AI translator for enterprise support with strict complianc...",
+        "mode": "enterprise",
+        "honestyMode": "brutal",
+        "modeGuide": {
+          "modeLabel": "Enterprise",
+          "priorities": [
+            "Reliability, governance, and compliance before growth",
+            "Clear service boundaries and ownership",
+            "Auditability across data and model usage paths"
+          ],
+          "guardrails": [
+            "No launch without security review and incident runbook",
+            "Define and enforce retention/classification policy",
+            "Track SLO and compliance drift from day one"
+          ]
+        },
+        "skillChain": [
+          "PRD",
+          "Analysis",
+          "Architecture",
+          "Roadmap",
+          "Risks",
+          "Cost"
+        ],
+        "executiveSummary": "This PRD can ship, but success depends on enforced decision discipline, failure simulation, and mode-aware execution.",
+        "architecture": {
+          "overview": "The system uses a modular product surface, policy-driven APIs, and observable execution paths designed to force explicit tradeoff decisions before scale. Analysis assumptions tracked: 3.",
+          "frontend": "Next.js web-first app with responsive UX and product APIs in a unified deployable surface",
+          "backend": "Service-layer API with policy enforcement, async workers, and audit-friendly domain boundaries",
+          "data": "PostgreSQL with Redis acceleration and governance-ready retention/audit controls",
+          "integrations": [
+            "Primary inference provider with fallback routing",
+            "Quality and cost telemetry pipeline",
+            "Notification and monitoring services"
+          ]
+        },
+        "techStack": {
+          "frontend": [
+            "Next.js 16 + TypeScript",
+            "Tailwind CSS v4",
+            "Accessible component patterns"
+          ],
+          "backend": [
+            "Typed route handlers",
+            "Service-layer architecture",
+            "Queue-backed background processing"
+          ],
+          "dataInfra": [
+            "PostgreSQL/Supabase",
+            "Redis",
+            "Object storage",
+            "Managed queue"
+          ],
+          "observability": [
+            "Structured logs",
+            "P95 latency dashboard",
+            "Cost anomaly alerts"
+          ]
+        },
+        "evidence": [
+          {
+            "id": "E1",
+            "category": "constraint",
+            "text": "Compliance-sensitive language detected in PRD.",
+            "confidence": 0.8
+          },
+          {
+            "id": "E2",
+            "category": "risk",
+            "text": "Differentiation risk inferred from broad problem framing.",
+            "confidence": 0.86
+          },
+          {
+            "id": "E3",
+            "category": "assumption",
+            "text": "A cross-functional team can deliver first release scope.",
+            "confidence": 0.66
+          },
+          {
+            "id": "E4",
+            "category": "assumption",
+            "text": "Managed services are acceptable for initial launch speed.",
+            "confidence": 0.66
+          },
+          {
+            "id": "E5",
+            "category": "assumption",
+            "text": "Operational metrics will be reviewed weekly from day one.",
+            "confidence": 0.66
+          }
+        ],
+        "assumptionTracker": [
+          {
+            "id": "A1",
+            "statement": "A cross-functional team can deliver first release scope.",
+            "confidence": 0.63,
+            "owner": "Product Lead",
+            "validationTask": "Validate assumption 1 with an experiment or stakeholder interview",
+            "dueDate": "2026-04-17",
+            "status": "pending"
+          },
+          {
+            "id": "A2",
+            "statement": "Managed services are acceptable for initial launch speed.",
+            "confidence": 0.58,
+            "owner": "Engineering Lead",
+            "validationTask": "Validate assumption 2 with an experiment or stakeholder interview",
+            "dueDate": "2026-04-18",
+            "status": "pending"
+          },
+          {
+            "id": "A3",
+            "statement": "Operational metrics will be reviewed weekly from day one.",
+            "confidence": 0.53,
+            "owner": "Founder/PM",
+            "validationTask": "Validate assumption 3 with an experiment or stakeholder interview",
+            "dueDate": "2026-04-19",
+            "status": "pending"
+          }
+        ],
+        "folderStructure": [
+          "src/app/(marketing)",
+          "src/app/(product)",
+          "src/app/api/analyze",
+          "src/components",
+          "src/lib/analysis",
+          "src/lib/domain",
+          "src/lib/infra",
+          "src/lib/validation",
+          "docs/architecture.md",
+          "docs/roadmap.md",
+          "docs/risks.md",
+          "docs/generated/report.md"
+        ],
+        "roadmap": [
+          {
+            "phase": "Phase 1 - PRD Decomposition and Wedge",
+            "timeline": "Week 1, Day 1-2",
+            "objective": "Extract requirements, assumptions, and defensible market wedge",
+            "deliverables": [
+              "Feature map with must-have vs optional scope",
+              "Decision card for product wedge",
+              "Mode bias: Gate releases with security, governance, and reliability checks."
+            ]
+          },
+          {
+            "phase": "Phase 2 - Architecture and Contracts",
+            "timeline": "Week 1, Day 3-5",
+            "objective": "Define architecture, APIs, and operational contracts",
+            "deliverables": [
+              "Architecture posture: Favor control, auditability, and policy enforcement.",
+              "API and data contracts with ownership boundaries",
+              "Telemetry baseline and quality gates",
+              "Compliance and security design review"
+            ]
+          },
+          {
+            "phase": "Phase 3 - Core Build",
+            "timeline": "Week 2, Day 1-2",
+            "objective": "Implement core value flow end-to-end",
+            "deliverables": [
+              "Primary user journey implementation",
+              "Backend orchestration and persistence",
+              "Frontend path: Next.js web-first app with responsive UX and product APIs in a unified deployable surface",
+              "Prompt quality evaluations and fallback behavior"
+            ]
+          },
+          {
+            "phase": "Phase 4 - Risk Hardening",
+            "timeline": "Week 2, Day 3-4",
+            "objective": "Reduce top failure risks before launch pressure",
+            "deliverables": [
+              "Failure simulation pass with mitigation owners",
+              "Performance and reliability hardening",
+              "Cost guardrails and anomaly alerts",
+              "Token budget thresholds and routing strategy"
+            ]
+          },
+          {
+            "phase": "Phase 5 - Launch Decision",
+            "timeline": "Week 2, Day 5",
+            "objective": "Execute go/no-go with explicit release checks",
+            "deliverables": [
+              "Go/no-go checklist with exit criteria",
+              "Rollback and incident response playbook",
+              "Post-launch metric review plan",
+              "Policy and audit sign-off"
+            ]
+          }
+        ],
+        "risks": [
+          {
+            "category": "product",
+            "title": "Weak differentiation against incumbents",
+            "mitigationOwner": "Product Lead",
+            "likelihood": 5,
+            "impact": 5,
+            "detectability": 3,
+            "rpn": 75,
+            "warningSignals": [
+              "Prospects compare the product to free alternatives",
+              "Activation and retention flatten after initial onboarding"
+            ],
+            "mitigation": [
+              "Narrow to one high-pain workflow and own it deeply",
+              "Gate launch on measurable value proof in target segment"
+            ]
+          },
+          {
+            "category": "scaling",
+            "title": "Latency and reliability degrade with growth spikes",
+            "mitigationOwner": "Engineering Lead",
+            "likelihood": 4,
+            "impact": 4,
+            "detectability": 3,
+            "rpn": 48,
+            "warningSignals": [
+              "P95 latency breaches SLO",
+              "Queue depth grows faster than drain rate"
+            ],
+            "mitigation": [
+              "Split synchronous and asynchronous execution paths",
+              "Cache repeat-heavy flows and add backpressure controls"
+            ]
+          },
+          {
+            "category": "financial",
+            "title": "Unit economics worsen as usage grows",
+            "mitigationOwner": "Founder/PM",
+            "likelihood": 4,
+            "impact": 5,
+            "detectability": 2,
+            "rpn": 40,
+            "warningSignals": [
+              "Cost per active user rises for two consecutive weeks",
+              "Variable cost scales faster than revenue or conversion"
+            ],
+            "mitigation": [
+              "Introduce pricing tiers and usage-aware feature limits",
+              "Route low-value traffic to lower-cost execution paths"
+            ]
+          },
+          {
+            "category": "technical",
+            "title": "Model dependency and quality drift",
+            "mitigationOwner": "ML Platform Lead",
+            "likelihood": 5,
+            "impact": 4,
+            "detectability": 3,
+            "rpn": 60,
+            "warningSignals": [
+              "Quality score regressions",
+              "Provider throttling or outage spikes"
+            ],
+            "mitigation": [
+              "Maintain fallback model routes with health checks",
+              "Track quality-cost-latency metrics per request class"
+            ]
+          },
+          {
+            "category": "compliance",
+            "title": "Data-governance and compliance exposure",
+            "mitigationOwner": "Security Lead",
+            "likelihood": 4,
+            "impact": 5,
+            "detectability": 4,
+            "rpn": 80,
+            "warningSignals": [
+              "No retention or deletion controls for sensitive data",
+              "Missing data classification and access audit trails"
+            ],
+            "mitigation": [
+              "Implement classification, retention, and deletion policy",
+              "Add audit logging and privacy/compliance review gates"
+            ]
+          }
+        ],
+        "failureSimulation": {
+          "narrative": "Brutal honesty mode: assume this fails unless wedge, reliability, and margins are solved before growth. Scaling before proving wedge quality and controlling reliability/cost will produce churn and margin erosion in parallel. Planned phases in scope: 5. Self-critique pass tightened this plan before final output.",
+          "primaryFailureReason": "No defensible wedge leads to commodity competition before retention is established. Self-critique added: Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.",
+          "likelyFailurePoints": [
+            "Acquisition spend scales faster than retention quality",
+            "Cost per active user rises above monetization capacity",
+            "Incident rate increases as complexity grows without gates"
+          ],
+          "weakestAssumptions": [
+            "Users will switch without a clear, measurable ROI wedge",
+            "Infrastructure and model costs will scale linearly",
+            "Reliability can be fixed post-launch without trust damage"
+          ],
+          "pivots": [
+            "Focus on one vertical workflow and prove ROI before broad rollout",
+            "Shift from generic feature breadth to automation around one recurring pain",
+            "Monetize premium outcomes rather than raw usage volume"
+          ],
+          "preBuildChanges": [
+            "Define one non-negotiable differentiator and release metric",
+            "Set explicit cost-per-active-user and reliability thresholds",
+            "Add fallback, caching, and gate checks before scaling traffic"
+          ]
+        },
+        "costs": [
+          {
+            "tier": "prototype",
+            "usersPerMonth": "1,000-5,000",
+            "monthlyRangeUsd": "$196-$1,190",
+            "topCostDriver": "Inference/API usage",
+            "notes": [
+              "Accept higher base cost for compliance-grade guarantees.",
+              "Define spend alerts before opening public access"
+            ]
+          },
+          {
+            "tier": "early-traction",
+            "usersPerMonth": "10,000-50,000",
+            "monthlyRangeUsd": "$2,100-$10,640",
+            "topCostDriver": "Model traffic + egress",
+            "notes": [
+              "Introduce request-level caching and quota policy",
+              "Review cost per active user weekly"
+            ]
+          },
+          {
+            "tier": "growth",
+            "usersPerMonth": "100,000+",
+            "monthlyRangeUsd": "$16,800-$81,200",
+            "topCostDriver": "Inference throughput",
+            "notes": [
+              "Re-evaluate provider mix and reserved capacity strategy",
+              "Offload non-critical flows to asynchronous pipelines"
+            ]
+          }
+        ],
+        "alternatives": [
+          {
+            "name": "Fast Validation Stack",
+            "bestFor": "Teams optimizing for earliest market signal",
+            "tradeoffs": [
+              "Shortest path to launch",
+              "Higher managed-service lock-in risk",
+              "Migration complexity if growth arrives quickly"
+            ]
+          },
+          {
+            "name": "Balanced Scale Stack",
+            "bestFor": "Teams expecting growth in 1-2 quarters",
+            "tradeoffs": [
+              "Slightly slower setup",
+              "Better portability and observability",
+              "Improved long-term cost control"
+            ]
+          },
+          {
+            "name": "Compliance-First Platform",
+            "bestFor": "Regulated environments with strict audit requirements",
+            "tradeoffs": [
+              "Highest setup and governance overhead",
+              "Best auditability and policy enforcement",
+              "Higher baseline cost with lower compliance risk"
+            ]
+          }
+        ],
+        "decisions": [
+          {
+            "stage": "analysis",
+            "title": "Market Wedge Decision",
+            "context": "Positioning and launch focus",
+            "evidenceIds": [
+              "E1",
+              "E2",
+              "E3"
+            ],
+            "chosen": "Narrow to one vertical workflow before broad launch",
+            "why": [
+              "A broad launch without wedge is likely to become commodity quickly",
+              "Vertical focus creates clearer ROI narrative and stronger adoption"
+            ],
+            "alternatives": [
+              {
+                "option": "Horizontal launch for multiple segments",
+                "pros": [
+                  "Bigger top-of-funnel opportunity",
+                  "More potential use cases quickly"
+                ],
+                "cons": [
+                  "Weak differentiation",
+                  "Higher roadmap complexity and messaging dilution"
+                ]
+              },
+              {
+                "option": "Vertical wedge-first launch",
+                "pros": [
+                  "Clear value proposition",
+                  "Faster feedback loops on one segment"
+                ],
+                "cons": [
+                  "Smaller initial TAM",
+                  "Requires strong segment-specific insight"
+                ]
+              }
+            ],
+            "comparisonSummary": "Wedge-first has lower market breadth but much higher odds of early product-market fit."
+          },
+          {
+            "stage": "architecture",
+            "title": "Frontend Platform Decision",
+            "context": "Delivery channel and user experience",
+            "evidenceIds": [
+              "E1",
+              "E2"
+            ],
+            "chosen": "Next.js",
+            "why": [
+              "Web-first rollout improves discovery and launch speed",
+              "Unified full-stack model reduces operational overhead"
+            ],
+            "alternatives": [
+              {
+                "option": "Next.js",
+                "pros": [
+                  "Fast web deployment and SEO",
+                  "Unified frontend/backend workflow"
+                ],
+                "cons": [
+                  "Less native mobile depth",
+                  "Advanced device interactions need extra work"
+                ]
+              },
+              {
+                "option": "Flutter",
+                "pros": [
+                  "Strong cross-platform mobile UX",
+                  "Better control for device features"
+                ],
+                "cons": [
+                  "Web SEO is weaker",
+                  "Backend and web integration overhead"
+                ]
+              }
+            ],
+            "comparisonSummary": "Choose Flutter only when native mobile UX is the primary differentiator; otherwise Next.js is faster to market."
+          },
+          {
+            "stage": "architecture",
+            "title": "Data Platform Decision",
+            "context": "Speed vs control for backend data layer",
+            "evidenceIds": [
+              "E2",
+              "E3",
+              "E4"
+            ],
+            "chosen": "Supabase",
+            "why": [
+              "Postgres compatibility improves long-term query flexibility",
+              "Better migration path and tooling for scale"
+            ],
+            "alternatives": [
+              {
+                "option": "Firebase",
+                "pros": [
+                  "Fast setup",
+                  "Managed auth and realtime primitives"
+                ],
+                "cons": [
+                  "Relational query constraints",
+                  "Potential lock-in at growth stage"
+                ]
+              },
+              {
+                "option": "Supabase",
+                "pros": [
+                  "Postgres-native model",
+                  "Stronger portability and SQL ecosystem"
+                ],
+                "cons": [
+                  "Needs schema discipline",
+                  "Realtime tuning required at high scale"
+                ]
+              }
+            ],
+            "comparisonSummary": "Firebase wins for immediate velocity; Supabase wins for scale portability and data control."
+          },
+          {
+            "stage": "architecture",
+            "title": "AI Provider Strategy Decision",
+            "context": "Model reliability and vendor risk posture",
+            "evidenceIds": [
+              "E1",
+              "E2",
+              "E3"
+            ],
+            "chosen": "Hybrid provider strategy",
+            "why": [
+              "Protects against single-vendor outages and abrupt pricing shifts",
+              "Enables quality-latency-cost routing policies by request class"
+            ],
+            "alternatives": [
+              {
+                "option": "Single API provider",
+                "pros": [
+                  "Fastest initial integration",
+                  "Lowest ops complexity"
+                ],
+                "cons": [
+                  "High lock-in and outage exposure",
+                  "Lower pricing leverage"
+                ]
+              },
+              {
+                "option": "Self-hosted open model stack",
+                "pros": [
+                  "Potential long-run savings",
+                  "More data control"
+                ],
+                "cons": [
+                  "High ops burden",
+                  "Model maintenance complexity"
+                ]
+              }
+            ],
+            "comparisonSummary": "Hybrid routing balances speed, resilience, and economics better than single-path strategies."
+          },
+          {
+            "stage": "roadmap",
+            "title": "Execution Sequencing Decision",
+            "context": "Roadmap order and critical path",
+            "evidenceIds": [
+              "E1",
+              "E2",
+              "E3"
+            ],
+            "chosen": "Security/compliance gate before broad beta",
+            "why": [
+              "Enterprise deals fail fast when governance is an afterthought",
+              "Front-loading policy controls reduces late rework"
+            ],
+            "alternatives": [
+              {
+                "option": "Feature-first then hardening",
+                "pros": [
+                  "Fast demo velocity",
+                  "Early user-visible progress"
+                ],
+                "cons": [
+                  "Reliability debt accumulates quickly",
+                  "Higher rework risk under growth pressure"
+                ]
+              },
+              {
+                "option": "Value path then targeted hardening",
+                "pros": [
+                  "Balanced speed and resilience",
+                  "Lower risk of late-stage architecture churn"
+                ],
+                "cons": [
+                  "Requires disciplined scope control",
+                  "Needs clear go/no-go gates"
+                ]
+              }
+            ],
+            "comparisonSummary": "Value-path-first with planned hardening is the most robust sequence for startup execution."
+          },
+          {
+            "stage": "risk-mitigation",
+            "title": "Primary Risk Mitigation Decision",
+            "context": "Preventing predictable launch failure",
+            "evidenceIds": [
+              "E2",
+              "E3",
+              "E4"
+            ],
+            "chosen": "Fix differentiation before adding feature breadth",
+            "why": [
+              "Without wedge, feature velocity increases cost but not defensibility",
+              "Focused positioning raises retention and pricing power"
+            ],
+            "alternatives": [
+              {
+                "option": "Scale acquisition now and fix later",
+                "pros": [
+                  "Faster top-line growth in the short term",
+                  "More user data sooner"
+                ],
+                "cons": [
+                  "Magnifies churn and cost leaks",
+                  "Can create unsustainable burn"
+                ]
+              },
+              {
+                "option": "De-risk before growth push",
+                "pros": [
+                  "Protects unit economics",
+                  "Improves retention and trust quality"
+                ],
+                "cons": [
+                  "Slower visible growth early",
+                  "Requires hard prioritization discipline"
+                ]
+              }
+            ],
+            "comparisonSummary": "De-risking before growth lowers probability of expensive failure loops."
+          },
+          {
+            "stage": "risk-mitigation",
+            "title": "Release Gate Decision",
+            "context": "Deciding what blocks launch",
+            "evidenceIds": [
+              "E1",
+              "E5",
+              "E6"
+            ],
+            "chosen": "Compliance and audit controls are mandatory launch gates",
+            "why": [
+              "Governance failures can kill enterprise adoption immediately",
+              "Retroactive compliance fixes are expensive and risky"
+            ],
+            "alternatives": [
+              {
+                "option": "Launch first, remediate after incidents",
+                "pros": [
+                  "Faster initial release",
+                  "Less pre-launch overhead"
+                ],
+                "cons": [
+                  "Higher reputational risk",
+                  "Greater rollback and fire-fighting risk"
+                ]
+              },
+              {
+                "option": "Block launch until defined gates pass",
+                "pros": [
+                  "Lower operational and reputational risk",
+                  "Creates accountability and quality discipline"
+                ],
+                "cons": [
+                  "Longer pre-launch cycle",
+                  "Requires stronger cross-team alignment"
+                ]
+              }
+            ],
+            "comparisonSummary": "Gate-based launches reduce existential downside and should be default for high-risk systems."
+          },
+          {
+            "stage": "cost",
+            "title": "Cost Control Strategy Decision",
+            "context": "Protecting margins as usage scales",
+            "evidenceIds": [
+              "E3",
+              "E4",
+              "E7"
+            ],
+            "chosen": "Dynamic model routing by request value",
+            "why": [
+              "Premium quality remains available where it matters most",
+              "Low-value requests stop draining gross margin"
+            ],
+            "alternatives": [
+              {
+                "option": "Single premium model for all traffic",
+                "pros": [
+                  "Simpler operations",
+                  "Lower initial engineering effort"
+                ],
+                "cons": [
+                  "Costs grow linearly with usage",
+                  "Margin and reliability risk under spikes"
+                ]
+              },
+              {
+                "option": "Tiered routing across model providers",
+                "pros": [
+                  "Better marginal cost control",
+                  "Improved resilience under load"
+                ],
+                "cons": [
+                  "More policy and observability complexity",
+                  "Requires ongoing tuning"
+                ]
+              }
+            ],
+            "comparisonSummary": "Routing and queue strategies add complexity, but materially improve survivability at growth scale."
+          }
+        ],
+        "ideaScore": {
+          "feasibility": 58,
+          "scalability": 82,
+          "uniqueness": 46,
+          "summary": "Execution can be strong, but uniqueness is fragile until a sharper wedge is chosen."
+        },
+        "techComparator": [
+          {
+            "dimension": "Frontend Platform",
+            "optionA": "Next.js",
+            "optionB": "Flutter",
+            "verdict": "Next.js",
+            "rationale": "Web-first launch speed, SEO, and unified full-stack delivery favor Next.js."
+          },
+          {
+            "dimension": "Backend Platform",
+            "optionA": "Firebase",
+            "optionB": "Supabase",
+            "verdict": "Supabase",
+            "rationale": "For scale-readiness and SQL portability, Supabase offers better flexibility."
+          }
+        ],
+        "costOptimizer": [
+          {
+            "area": "Database and cache",
+            "currentRisk": "Read-heavy paths drive DB and compute costs upward under traffic spikes.",
+            "alternativeA": "Scale primary database and add replicas",
+            "alternativeB": "Add Redis with explicit cache invalidation policy",
+            "comparison": "Replica scaling is simpler short term, but Redis usually reduces both latency and marginal read cost.",
+            "recommended": "Add Redis with explicit cache invalidation policy",
+            "why": "Delivers faster latency gains and better unit economics before major database scaling spend."
+          },
+          {
+            "area": "Background processing",
+            "currentRisk": "Synchronous heavy tasks inflate response time and server cost.",
+            "alternativeA": "Keep synchronous path and autoscale app instances",
+            "alternativeB": "Queue heavy tasks to dedicated workers",
+            "comparison": "Autoscaling alone is easy but expensive; worker queues reduce user-facing latency at lower cost.",
+            "recommended": "Queue heavy tasks to dedicated workers",
+            "why": "Improves UX and allows finer-grained scaling for compute-intensive workloads."
+          },
+          {
+            "area": "Inference spend",
+            "currentRisk": "Provider usage spikes can erase margins during growth.",
+            "alternativeA": "Single premium model for all requests",
+            "alternativeB": "Dynamic routing across premium and low-cost models",
+            "comparison": "Single-model usage is operationally simple but expensive; routing adds complexity but protects margins.",
+            "recommended": "Dynamic routing across premium and low-cost models",
+            "why": "Keeps quality on high-value paths while containing spend for low-value traffic."
+          },
+          {
+            "area": "Compliance operations",
+            "currentRisk": "Manual governance operations increase audit costs and incident risk.",
+            "alternativeA": "Manual policy checks and ad-hoc reporting",
+            "alternativeB": "Automated policy checks with audit pipelines",
+            "comparison": "Manual checks can work at low scale, but automation is cheaper and safer for repeated audits.",
+            "recommended": "Automated policy checks with audit pipelines",
+            "why": "Reduces recurring compliance labor and lowers the chance of high-cost control failures."
+          }
+        ],
+        "executionPlan": {
+          "mvp": [
+            "Deliver one wedge workflow end-to-end with usage tracking",
+            "Ship essential reliability safeguards and fallback behavior",
+            "Launch with explicit cost and latency thresholds"
+          ],
+          "scale": [
+            "Introduce queue workers and route-level cost policies",
+            "Harden compliance, incident response, and observability depth",
+            "Expand horizontally only after wedge metrics are stable"
+          ]
+        },
+        "investmentPerspective": {
+          "budgetUsd": 10000,
+          "verdict": "do-not-invest-yet",
+          "rationale": [
+            "Differentiation and economics are too uncertain for immediate capital deployment.",
+            "Risk profile suggests validating assumptions before increasing spend.",
+            "Self-critique indicates unresolved risk concentration before investment."
+          ]
+        },
+        "selfCritique": {
+          "initial": {
+            "verdict": "research-first",
+            "confidence": 55,
+            "primaryFailureReason": "No defensible wedge leads to commodity competition before retention is established.",
+            "topRisks": [
+              "Data-governance and compliance exposure",
+              "Weak differentiation against incumbents",
+              "Model dependency and quality drift"
+            ],
+            "topDecisions": [
+              "Market Wedge Decision",
+              "Frontend Platform Decision",
+              "Data Platform Decision"
+            ]
+          },
+          "critiquePoints": [
+            "Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.",
+            "Risk concentration is high; release should be blocked until highest RPN risks have explicit owners and gates."
+          ],
+          "improvementsApplied": [
+            "Moved recommendation toward pivot-first execution and tightened wedge requirement.",
+            "Lowered confidence and reinforced gate-based launch policy for top risks."
+          ],
+          "revised": {
+            "verdict": "research-first",
+            "confidence": 44,
+            "primaryFailureReason": "No defensible wedge leads to commodity competition before retention is established. Self-critique added: Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.",
+            "topRisks": [
+              "Data-governance and compliance exposure",
+              "Weak differentiation against incumbents",
+              "Model dependency and quality drift"
+            ],
+            "topDecisions": [
+              "Market Wedge Decision",
+              "Frontend Platform Decision",
+              "Data Platform Decision"
+            ]
+          }
+        },
+        "readinessScore": {
+          "score": 25,
+          "verdict": "no-go",
+          "gates": [
+            {
+              "name": "Differentiation gate",
+              "passed": false,
+              "reason": "Uniqueness score is weak; define a tighter wedge before scaling."
+            },
+            {
+              "name": "Risk concentration gate",
+              "passed": false,
+              "reason": "Top risk \"Data-governance and compliance exposure\" has RPN 80, which is above launch threshold."
+            },
+            {
+              "name": "Mitigation ownership gate",
+              "passed": true,
+              "reason": "High-priority risks include mitigation ownership."
+            },
+            {
+              "name": "Assumption confidence gate",
+              "passed": false,
+              "reason": "2 assumptions are low-confidence and require validation."
+            }
+          ]
+        },
+        "uncertaintyFlags": [
+          "Pricing strategy is not explicit in PRD and may impact confidence."
+        ],
+        "blockingIssues": [
+          "Uniqueness score is weak; define a tighter wedge before scaling.",
+          "Top risk \"Data-governance and compliance exposure\" has RPN 80, which is above launch threshold.",
+          "2 assumptions are low-confidence and require validation."
+        ],
+        "fallbackUsed": false,
+        "challengeSummary": [
+          "Current plan is one pricing change away from margin pain if routing controls are weak.",
+          "Without a hard wedge, this risks becoming a commodity feature race.",
+          "If reliability gates are optional, users will churn before roadmap gains land.",
+          "Self-critique: Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.",
+          "Self-critique: Risk concentration is high; release should be blocked until highest RPN risks have explicit owners and gates.",
+          "Enrichment: Define pricing hypothesis early to protect unit economics assumptions."
+        ],
+        "recommendation": {
+          "verdict": "research-first",
+          "confidence": 44,
+          "rationale": [
+            "Use decision framework outputs in each stage to avoid one-path bias.",
+            "Treat failure simulation findings as build blockers, not optional notes.",
+            "Execute with Enterprise priorities and guardrails to control downside.",
+            "Self-critique pass forced additional realism before final recommendation."
+          ]
+        },
+        "assumptions": [
+          "A cross-functional team can deliver first release scope.",
+          "Managed services are acceptable for initial launch speed.",
+          "Operational metrics will be reviewed weekly from day one."
+        ],
+        "outputSections": {
+          "architecture": "# 🏗️ Architecture\nThe system uses a modular product surface, policy-driven APIs, and observable execution paths designed to force explicit tradeoff decisions before scale. Analysis assumptions tracked: 3.\n- Mode: Enterprise\n- Mode Priorities: Reliability, governance, and compliance before growth; Clear service boundaries and ownership; Auditability across data and model usage paths\n- Mode Guardrails: No launch without security review and incident runbook; Define and enforce retention/classification policy; Track SLO and compliance drift from day one\n- Frontend: Next.js web-first app with responsive UX and product APIs in a unified deployable surface\n- Backend: Service-layer API with policy enforcement, async workers, and audit-friendly domain boundaries\n- Data: PostgreSQL with Redis acceleration and governance-ready retention/audit controls\n- Integrations: Primary inference provider with fallback routing; Quality and cost telemetry pipeline; Notification and monitoring services\n\nEvidence Layer\n- E1 [constraint] Compliance-sensitive language detected in PRD. (confidence 0.8)\n- E2 [risk] Differentiation risk inferred from broad problem framing. (confidence 0.86)\n- E3 [assumption] A cross-functional team can deliver first release scope. (confidence 0.66)\n- E4 [assumption] Managed services are acceptable for initial launch speed. (confidence 0.66)\n- E5 [assumption] Operational metrics will be reviewed weekly from day one. (confidence 0.66)\n\nDecision Framework (Analysis -> Architecture)\n- [analysis] Market Wedge Decision\n  Context: Positioning and launch focus\n  Evidence: E1, E2, E3\n  Option 1: Horizontal launch for multiple segments | Pros: Bigger top-of-funnel opportunity; More potential use cases quickly | Cons: Weak differentiation; Higher roadmap complexity and messaging dilution\n  Option 2: Vertical wedge-first launch | Pros: Clear value proposition; Faster feedback loops on one segment | Cons: Smaller initial TAM; Requires strong segment-specific insight\n  Comparison: Wedge-first has lower market breadth but much higher odds of early product-market fit.\n  Chosen: Narrow to one vertical workflow before broad launch\n  Why: A broad launch without wedge is likely to become commodity quickly; Vertical focus creates clearer ROI narrative and stronger adoption\n- [architecture] Frontend Platform Decision\n  Context: Delivery channel and user experience\n  Evidence: E1, E2\n  Option 1: Next.js | Pros: Fast web deployment and SEO; Unified frontend/backend workflow | Cons: Less native mobile depth; Advanced device interactions need extra work\n  Option 2: Flutter | Pros: Strong cross-platform mobile UX; Better control for device features | Cons: Web SEO is weaker; Backend and web integration overhead\n  Comparison: Choose Flutter only when native mobile UX is the primary differentiator; otherwise Next.js is faster to market.\n  Chosen: Next.js\n  Why: Web-first rollout improves discovery and launch speed; Unified full-stack model reduces operational overhead\n- [architecture] Data Platform Decision\n  Context: Speed vs control for backend data layer\n  Evidence: E2, E3, E4\n  Option 1: Firebase | Pros: Fast setup; Managed auth and realtime primitives | Cons: Relational query constraints; Potential lock-in at growth stage\n  Option 2: Supabase | Pros: Postgres-native model; Stronger portability and SQL ecosystem | Cons: Needs schema discipline; Realtime tuning required at high scale\n  Comparison: Firebase wins for immediate velocity; Supabase wins for scale portability and data control.\n  Chosen: Supabase\n  Why: Postgres compatibility improves long-term query flexibility; Better migration path and tooling for scale\n- [architecture] AI Provider Strategy Decision\n  Context: Model reliability and vendor risk posture\n  Evidence: E1, E2, E3\n  Option 1: Single API provider | Pros: Fastest initial integration; Lowest ops complexity | Cons: High lock-in and outage exposure; Lower pricing leverage\n  Option 2: Self-hosted open model stack | Pros: Potential long-run savings; More data control | Cons: High ops burden; Model maintenance complexity\n  Comparison: Hybrid routing balances speed, resilience, and economics better than single-path strategies.\n  Chosen: Hybrid provider strategy\n  Why: Protects against single-vendor outages and abrupt pricing shifts; Enables quality-latency-cost routing policies by request class\n\nSkill Chain: PRD -> Analysis -> Architecture -> Roadmap -> Risks -> Cost",
+          "folderStructure": "# 📁 Folder Structure\n- src/app/(marketing)\n- src/app/(product)\n- src/app/api/analyze\n- src/components\n- src/lib/analysis\n- src/lib/domain\n- src/lib/infra\n- src/lib/validation\n- docs/architecture.md\n- docs/roadmap.md\n- docs/risks.md\n- docs/generated/report.md",
+          "roadmap": "# 🗺️ Roadmap\n- Week 1, Day 1-2 | Phase 1 - PRD Decomposition and Wedge: Extract requirements, assumptions, and defensible market wedge (Feature map with must-have vs optional scope; Decision card for product wedge; Mode bias: Gate releases with security, governance, and reliability checks.)\n- Week 1, Day 3-5 | Phase 2 - Architecture and Contracts: Define architecture, APIs, and operational contracts (Architecture posture: Favor control, auditability, and policy enforcement.; API and data contracts with ownership boundaries; Telemetry baseline and quality gates; Compliance and security design review)\n- Week 2, Day 1-2 | Phase 3 - Core Build: Implement core value flow end-to-end (Primary user journey implementation; Backend orchestration and persistence; Frontend path: Next.js web-first app with responsive UX and product APIs in a unified deployable surface; Prompt quality evaluations and fallback behavior)\n- Week 2, Day 3-4 | Phase 4 - Risk Hardening: Reduce top failure risks before launch pressure (Failure simulation pass with mitigation owners; Performance and reliability hardening; Cost guardrails and anomaly alerts; Token budget thresholds and routing strategy)\n- Week 2, Day 5 | Phase 5 - Launch Decision: Execute go/no-go with explicit release checks (Go/no-go checklist with exit criteria; Rollback and incident response playbook; Post-launch metric review plan; Policy and audit sign-off)\n\nDecision Framework (Roadmap)\n- [roadmap] Execution Sequencing Decision\n  Context: Roadmap order and critical path\n  Evidence: E1, E2, E3\n  Option 1: Feature-first then hardening | Pros: Fast demo velocity; Early user-visible progress | Cons: Reliability debt accumulates quickly; Higher rework risk under growth pressure\n  Option 2: Value path then targeted hardening | Pros: Balanced speed and resilience; Lower risk of late-stage architecture churn | Cons: Requires disciplined scope control; Needs clear go/no-go gates\n  Comparison: Value-path-first with planned hardening is the most robust sequence for startup execution.\n  Chosen: Security/compliance gate before broad beta\n  Why: Enterprise deals fail fast when governance is an afterthought; Front-loading policy controls reduces late rework",
+          "risks": "# ⚠️ Risks\n- Weak differentiation against incumbents [product] RPN 75. Owner: Product Lead. Signals: Prospects compare the product to free alternatives; Activation and retention flatten after initial onboarding. Mitigation: Narrow to one high-pain workflow and own it deeply; Gate launch on measurable value proof in target segment\n- Latency and reliability degrade with growth spikes [scaling] RPN 48. Owner: Engineering Lead. Signals: P95 latency breaches SLO; Queue depth grows faster than drain rate. Mitigation: Split synchronous and asynchronous execution paths; Cache repeat-heavy flows and add backpressure controls\n- Unit economics worsen as usage grows [financial] RPN 40. Owner: Founder/PM. Signals: Cost per active user rises for two consecutive weeks; Variable cost scales faster than revenue or conversion. Mitigation: Introduce pricing tiers and usage-aware feature limits; Route low-value traffic to lower-cost execution paths\n- Model dependency and quality drift [technical] RPN 60. Owner: ML Platform Lead. Signals: Quality score regressions; Provider throttling or outage spikes. Mitigation: Maintain fallback model routes with health checks; Track quality-cost-latency metrics per request class\n- Data-governance and compliance exposure [compliance] RPN 80. Owner: Security Lead. Signals: No retention or deletion controls for sensitive data; Missing data classification and access audit trails. Mitigation: Implement classification, retention, and deletion policy; Add audit logging and privacy/compliance review gates\n\nDecision Framework (Risk Mitigation)\n- [risk-mitigation] Primary Risk Mitigation Decision\n  Context: Preventing predictable launch failure\n  Evidence: E2, E3, E4\n  Option 1: Scale acquisition now and fix later | Pros: Faster top-line growth in the short term; More user data sooner | Cons: Magnifies churn and cost leaks; Can create unsustainable burn\n  Option 2: De-risk before growth push | Pros: Protects unit economics; Improves retention and trust quality | Cons: Slower visible growth early; Requires hard prioritization discipline\n  Comparison: De-risking before growth lowers probability of expensive failure loops.\n  Chosen: Fix differentiation before adding feature breadth\n  Why: Without wedge, feature velocity increases cost but not defensibility; Focused positioning raises retention and pricing power\n- [risk-mitigation] Release Gate Decision\n  Context: Deciding what blocks launch\n  Evidence: E1, E5, E6\n  Option 1: Launch first, remediate after incidents | Pros: Faster initial release; Less pre-launch overhead | Cons: Higher reputational risk; Greater rollback and fire-fighting risk\n  Option 2: Block launch until defined gates pass | Pros: Lower operational and reputational risk; Creates accountability and quality discipline | Cons: Longer pre-launch cycle; Requires stronger cross-team alignment\n  Comparison: Gate-based launches reduce existential downside and should be default for high-risk systems.\n  Chosen: Compliance and audit controls are mandatory launch gates\n  Why: Governance failures can kill enterprise adoption immediately; Retroactive compliance fixes are expensive and risky",
+          "failurePrediction": "# 💀 Failure Prediction\nPrimary failure reason: No defensible wedge leads to commodity competition before retention is established. Self-critique added: Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.\nBrutal honesty mode: assume this fails unless wedge, reliability, and margins are solved before growth. Scaling before proving wedge quality and controlling reliability/cost will produce churn and margin erosion in parallel. Planned phases in scope: 5. Self-critique pass tightened this plan before final output.\nLikely failure points:\n- Acquisition spend scales faster than retention quality\n- Cost per active user rises above monetization capacity\n- Incident rate increases as complexity grows without gates\nWeakest assumptions:\n- Users will switch without a clear, measurable ROI wedge\n- Infrastructure and model costs will scale linearly\n- Reliability can be fixed post-launch without trust damage\nPivot options:\n- Focus on one vertical workflow and prove ROI before broad rollout\n- Shift from generic feature breadth to automation around one recurring pain\n- Monetize premium outcomes rather than raw usage volume\nUncertainty flags:\n- Pricing strategy is not explicit in PRD and may impact confidence.",
+          "improvements": "# 💡 Improvements\n- Final Verdict: research-first\n- Confidence: 44%\n- Readiness Score: 25/100 (no-go)\n- Fallback used: no\n- Use decision framework outputs in each stage to avoid one-path bias.\n- Treat failure simulation findings as build blockers, not optional notes.\n- Execute with Enterprise priorities and guardrails to control downside.\n- Self-critique pass forced additional realism before final recommendation.\n\nDecision Framework (Cost)\n- [cost] Cost Control Strategy Decision\n  Context: Protecting margins as usage scales\n  Evidence: E3, E4, E7\n  Option 1: Single premium model for all traffic | Pros: Simpler operations; Lower initial engineering effort | Cons: Costs grow linearly with usage; Margin and reliability risk under spikes\n  Option 2: Tiered routing across model providers | Pros: Better marginal cost control; Improved resilience under load | Cons: More policy and observability complexity; Requires ongoing tuning\n  Comparison: Routing and queue strategies add complexity, but materially improve survivability at growth scale.\n  Chosen: Dynamic model routing by request value\n  Why: Premium quality remains available where it matters most; Low-value requests stop draining gross margin\n\nCost Optimizer\n- Database and cache: A) Scale primary database and add replicas B) Add Redis with explicit cache invalidation policy. Comparison: Replica scaling is simpler short term, but Redis usually reduces both latency and marginal read cost.. Chosen: Add Redis with explicit cache invalidation policy. Why: Delivers faster latency gains and better unit economics before major database scaling spend.\n- Background processing: A) Keep synchronous path and autoscale app instances B) Queue heavy tasks to dedicated workers. Comparison: Autoscaling alone is easy but expensive; worker queues reduce user-facing latency at lower cost.. Chosen: Queue heavy tasks to dedicated workers. Why: Improves UX and allows finer-grained scaling for compute-intensive workloads.\n- Inference spend: A) Single premium model for all requests B) Dynamic routing across premium and low-cost models. Comparison: Single-model usage is operationally simple but expensive; routing adds complexity but protects margins.. Chosen: Dynamic routing across premium and low-cost models. Why: Keeps quality on high-value paths while containing spend for low-value traffic.\n- Compliance operations: A) Manual policy checks and ad-hoc reporting B) Automated policy checks with audit pipelines. Comparison: Manual checks can work at low scale, but automation is cheaper and safer for repeated audits.. Chosen: Automated policy checks with audit pipelines. Why: Reduces recurring compliance labor and lowers the chance of high-cost control failures.\n\nTech Stack Comparator\n- Frontend Platform: Next.js vs Flutter. Verdict: Next.js. Why: Web-first launch speed, SEO, and unified full-stack delivery favor Next.js.\n- Backend Platform: Firebase vs Supabase. Verdict: Supabase. Why: For scale-readiness and SQL portability, Supabase offers better flexibility.\n\nIdea Score: Feasibility 58/100 | Scalability 82/100 | Uniqueness 46/100\nIdea Score Summary: Execution can be strong, but uniqueness is fragile until a sharper wedge is chosen.\n\nAssumption Tracker\n- A1: A cross-functional team can deliver first release scope. | confidence 0.63 | owner Product Lead | task Validate assumption 1 with an experiment or stakeholder interview | due 2026-04-17 | status pending\n- A2: Managed services are acceptable for initial launch speed. | confidence 0.58 | owner Engineering Lead | task Validate assumption 2 with an experiment or stakeholder interview | due 2026-04-18 | status pending\n- A3: Operational metrics will be reviewed weekly from day one. | confidence 0.53 | owner Founder/PM | task Validate assumption 3 with an experiment or stakeholder interview | due 2026-04-19 | status pending\n\nSelf-Critique Loop (Initial -> Critique -> Revised)\n- Initial: verdict research-first, confidence 55%\n- Critique: Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.\n- Critique: Risk concentration is high; release should be blocked until highest RPN risks have explicit owners and gates.\n- Improvement Applied: Moved recommendation toward pivot-first execution and tightened wedge requirement.\n- Improvement Applied: Lowered confidence and reinforced gate-based launch policy for top risks.\n- Revised: verdict research-first, confidence 44%\n\nInvestment Perspective ($10k)\n- Verdict: do-not-invest-yet\n- Differentiation and economics are too uncertain for immediate capital deployment.\n- Risk profile suggests validating assumptions before increasing spend.\n- Self-critique indicates unresolved risk concentration before investment.\n\nMVP vs Scale Plan\n- MVP: Deliver one wedge workflow end-to-end with usage tracking\n- MVP: Ship essential reliability safeguards and fallback behavior\n- MVP: Launch with explicit cost and latency thresholds\n- Scale: Introduce queue workers and route-level cost policies\n- Scale: Harden compliance, incident response, and observability depth\n- Scale: Expand horizontally only after wedge metrics are stable\n\nBlocking issues before build\n- Uniqueness score is weak; define a tighter wedge before scaling.\n- Top risk \"Data-governance and compliance exposure\" has RPN 80, which is above launch threshold.\n- 2 assumptions are low-confidence and require validation.\n\n- Current plan is one pricing change away from margin pain if routing controls are weak.\n- Without a hard wedge, this risks becoming a commodity feature race.\n- If reliability gates are optional, users will churn before roadmap gains land.\n- Self-critique: Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.\n- Self-critique: Risk concentration is high; release should be blocked until highest RPN risks have explicit owners and gates.\n- Enrichment: Define pricing hypothesis early to protect unit economics assumptions.\n\nMode Reminder: Enterprise priorities should drive execution discipline."
+        }
+      }
+    }
+  ]
+}

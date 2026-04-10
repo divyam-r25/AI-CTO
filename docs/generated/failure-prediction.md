@@ -1,5 +1,5 @@
 # 💀 Failure Prediction
-Primary failure reason: No defensible wedge leads to commodity competition before retention is established. Self-critique added: Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.
+Primary failure reason: Margins and reliability collapse during growth because controls were added too late. Self-critique added: Overconfidence guard triggered: confidence is high despite multiple weak assumptions.
 Failure simulation: growth pressure exposes weak assumptions on differentiation, reliability, and cost. Scaling before proving wedge quality and controlling reliability/cost will produce churn and margin erosion in parallel. Planned phases in scope: 5. Self-critique pass tightened this plan before final output.
 Likely failure points:
 - Acquisition spend scales faster than retention quality
@@ -13,3 +13,5 @@ Pivot options:
 - Focus on one vertical workflow and prove ROI before broad rollout
 - Shift from generic feature breadth to automation around one recurring pain
 - Monetize premium outcomes rather than raw usage volume
+Uncertainty flags:
+- none
