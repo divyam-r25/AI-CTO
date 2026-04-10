@@ -1,0 +1,22 @@
+spec_version: "0.1.0"
+
+name: ai-cto-agent
+version: 1.0.0
+description: "AI CTO agent that converts PRDs into architecture, roadmap, risks, and cost-aware execution plans"
+
+model:
+  preferred: gpt-5.3-codex
+
+skills:
+  - prd-analysis
+  - system-design
+  - roadmap-generator
+  - risk-simulation
+  - cost-estimation
+
+tags:
+  - hackathon
+  - product-planning
+  - system-design
+  - risk-analysis
+  - repo-native
