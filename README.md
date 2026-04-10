@@ -8,6 +8,10 @@ AI CTO Agent is a production-grade planning system that transforms a PRD into:
 - Risk simulation with failure scenarios
 - Cost forecasts across growth tiers
 - Build recommendation with confidence
+- Explicit decision cards with alternatives and chosen direction
+- Brutal failure simulation with weakest assumptions and pivots
+- Mode-aware strategy profiles (Beginner Startup, Scalable Startup, Enterprise)
+- Generated markdown artifacts in docs/generated
 
 ## Why It Is Different
 
@@ -52,7 +56,9 @@ Request body:
 ```json
 {
 	"prd": "string, minimum 30 chars",
-	"mode": "conservative | balanced | aggressive"
+	"mode": "beginner-startup | scalable-startup | enterprise",
+	"honestyMode": "standard | brutal",
+	"writeFiles": true
 }
 ```
 
@@ -80,7 +86,10 @@ Response:
 - RULES.md: Hard constraints for response quality
 - skills/: Capability modules for PRD analysis, architecture, roadmap, risk, and cost
 - src/lib/analysis-engine.ts: Core planning and simulation logic
+- src/lib/report-writer.ts: Writes architecture, roadmap, risks, and full report files
 - src/app/api/analyze/route.ts: Typed analysis API
+- .github/workflows/prd-agent.yml: Runs planner automatically on PR and uploads artifacts
+- scripts/run-agent.ts: CLI entrypoint for automation and CI
 - docs/: Architecture, roadmap, risk, cost, and demo script docs
 - examples/sample-prd.md: Demo-ready PRD input
 
@@ -93,6 +102,42 @@ Response:
 5. Close with cost forecast and recommendation verdict
 
 Detailed script: docs/demo-script.md.
+
+## Real Git Workflow
+
+Every analysis run can write repository artifacts:
+
+- docs/generated/architecture.md
+- docs/generated/roadmap.md
+- docs/generated/risks.md
+- docs/generated/failure-prediction.md
+- docs/generated/improvements.md
+- docs/generated/report.md
+- docs/architecture.md
+- docs/roadmap.md
+- docs/risks.md
+
+Run from CLI:
+
+```bash
+npm run agent:run -- --prd examples/sample-prd.md --mode scalable-startup --honesty brutal
+```
+
+## GitHub PR Integration
+
+Workflow file: .github/workflows/prd-agent.yml
+
+Triggers:
+
+- pull requests touching PRD/skills/source files
+- manual workflow dispatch
+
+Behavior:
+
+- auto-detects changed PRD markdown in PRs and runs planner on that file
+- falls back to sample PRD when no PRD file change is detected
+- generates markdown plans
+- uploads docs/generated artifacts for review
 
 ## Deployment
 

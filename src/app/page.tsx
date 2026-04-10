@@ -1,7 +1,7 @@
 "use client";
 
 import { ResultPanel } from "@/components/ResultPanel";
-import type { AnalysisResult, PlanningMode } from "@/lib/types";
+import type { AnalysisResult, HonestyMode, PlanningMode } from "@/lib/types";
 import { FormEvent, useMemo, useState } from "react";
 
 const DEMO_PRD = `# Language Translator for Emerging Markets
@@ -19,9 +19,11 @@ Requirements:
 
 export default function Home() {
   const [prd, setPrd] = useState(DEMO_PRD);
-  const [mode, setMode] = useState<PlanningMode>("balanced");
+  const [mode, setMode] = useState<PlanningMode>("scalable-startup");
+  const [honestyMode, setHonestyMode] = useState<HonestyMode>("standard");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [generatedFiles, setGeneratedFiles] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const wordCount = useMemo(() => {
@@ -39,13 +41,14 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prd, mode }),
+        body: JSON.stringify({ prd, mode, honestyMode, writeFiles: true }),
       });
 
       const data = (await response.json()) as {
         success: boolean;
         error?: string;
         result?: AnalysisResult;
+        generatedFiles?: string[];
       };
 
       if (!data.success || !data.result) {
@@ -53,6 +56,7 @@ export default function Home() {
       }
 
       setResult(data.result);
+      setGeneratedFiles(data.generatedFiles ?? []);
     } catch (requestError) {
       const message =
         requestError instanceof Error
@@ -60,6 +64,7 @@ export default function Home() {
           : "Something went wrong while generating the report.";
       setError(message);
       setResult(null);
+      setGeneratedFiles([]);
     } finally {
       setLoading(false);
     }
@@ -101,9 +106,21 @@ export default function Home() {
                 value={mode}
                 onChange={(event) => setMode(event.target.value as PlanningMode)}
               >
-                <option value="conservative">Conservative (strict risk posture)</option>
-                <option value="balanced">Balanced (recommended)</option>
-                <option value="aggressive">Aggressive (speed-first posture)</option>
+                <option value="beginner-startup">Beginner Startup</option>
+                <option value="scalable-startup">Scalable Startup</option>
+                <option value="enterprise">Enterprise</option>
+              </select>
+            </div>
+
+            <div className="field-group">
+              <label htmlFor="honestyMode">Challenge Mode</label>
+              <select
+                id="honestyMode"
+                value={honestyMode}
+                onChange={(event) => setHonestyMode(event.target.value as HonestyMode)}
+              >
+                <option value="standard">Standard</option>
+                <option value="brutal">Brutal Honesty</option>
               </select>
             </div>
 
@@ -116,7 +133,7 @@ export default function Home() {
         </form>
       </section>
 
-      {result ? <ResultPanel result={result} /> : null}
+      {result ? <ResultPanel result={result} generatedFiles={generatedFiles} /> : null}
     </main>
   );
 }

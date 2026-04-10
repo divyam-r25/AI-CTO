@@ -1,4 +1,4 @@
----
+﻿---
 name: system-design
 description: "Use when generating architecture, stack recommendations, and component diagrams with tradeoff reasoning and scalability posture."
 allowed-tools: Read, Write
@@ -6,21 +6,46 @@ allowed-tools: Read, Write
 
 # System Design Workflow
 
-## Objectives
-- Recommend architecture for MVP and near-term scale
-- Select frontend, backend, data, and integration stack
-- Explain build-vs-buy and vendor lock-in tradeoffs
-- Include reliability and observability baseline
+## Modes
+- Beginner startup: managed defaults, minimal operational overhead
+- Scalable startup: modular architecture with clear upgrade path
+- Enterprise: policy-driven architecture with auditability and reliability gates
 
-## Required Output
-1. Architecture overview
-2. Component responsibilities
-3. Stack decisions with rationale
-4. Scalability strategy
-5. Security and reliability baseline
-6. Alternative architecture options
+## Input
+- Structured analysis package from prd-analysis
 
-## Validation Checks
-- Every stack choice has at least two justifications
-- At least one lower-cost alternative is provided
-- Bottlenecks and mitigation are identified
+## Output
+- Architecture package consumed by roadmap-generator
+- Must include stack decisions, folder structure, and architecture decision cards
+
+## Decision Framework (Hard Constraint)
+For each architecture suggestion:
+- Provide two alternatives
+- Compare them on speed, risk, cost, and lock-in
+- Select one best option
+- Explain why it wins in the selected mode
+
+## Required Design Fields
+1. Architecture overview and component boundaries
+2. Frontend/backend/data/integration strategy
+3. Folder structure plan
+4. Decision cards for stack choices
+5. Reliability and security baseline
+
+## Failure-Aware Design Check
+- Assume architecture can fail under growth pressure
+- Identify likely bottlenecks and brittle assumptions
+- Add mitigation hooks before roadmap handoff
+
+## Structured Output Format (Hard Constraint)
+# 🏗️ Architecture
+# 📁 Folder Structure
+# 🗺️ Roadmap
+# ⚠️ Risks
+# 💀 Failure Prediction
+# 💡 Improvements
+
+## Skill Chain
+PRD -> Analysis -> Architecture -> Roadmap -> Risks -> Cost
+
+Output must preserve fields required by roadmap-generator.

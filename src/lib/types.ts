@@ -1,4 +1,6 @@
-export type PlanningMode = "conservative" | "balanced" | "aggressive";
+export type PlanningMode = "beginner-startup" | "scalable-startup" | "enterprise";
+
+export type HonestyMode = "standard" | "brutal";
 
 export interface RoadmapPhase {
   phase: string;
@@ -32,8 +34,70 @@ export interface AlternativeApproach {
   tradeoffs: string[];
 }
 
+export interface DecisionAlternative {
+  option: string;
+  pros: string[];
+  cons: string[];
+}
+
+export type DecisionStage = "analysis" | "architecture" | "roadmap" | "risk-mitigation" | "cost";
+
+export interface DecisionCard {
+  stage: DecisionStage;
+  title: string;
+  context: string;
+  chosen: string;
+  why: string[];
+  alternatives: [DecisionAlternative, DecisionAlternative];
+  comparisonSummary: string;
+}
+
+export interface ModeGuide {
+  modeLabel: string;
+  priorities: string[];
+  guardrails: string[];
+}
+
+export interface IdeaScore {
+  feasibility: number;
+  scalability: number;
+  uniqueness: number;
+  summary: string;
+}
+
+export interface TechStackComparator {
+  dimension: string;
+  optionA: string;
+  optionB: string;
+  verdict: string;
+  rationale: string;
+}
+
+export interface CostOptimizerItem {
+  area: string;
+  currentRisk: string;
+  alternativeA: string;
+  alternativeB: string;
+  comparison: string;
+  recommended: string;
+  why: string;
+}
+
+export interface StructuredSections {
+  architecture: string;
+  folderStructure: string;
+  roadmap: string;
+  risks: string;
+  failurePrediction: string;
+  improvements: string;
+}
+
 export interface AnalysisResult {
   productName: string;
+  mode: PlanningMode;
+  honestyMode: HonestyMode;
+  modeGuide: ModeGuide;
+  skillChain: string[];
   executiveSummary: string;
   architecture: {
     overview: string;
@@ -53,20 +117,31 @@ export interface AnalysisResult {
   risks: RiskItem[];
   failureSimulation: {
     narrative: string;
+    primaryFailureReason: string;
     likelyFailurePoints: string[];
+    weakestAssumptions: string[];
+    pivots: string[];
     preBuildChanges: string[];
   };
   costs: CostTier[];
   alternatives: AlternativeApproach[];
+  decisions: DecisionCard[];
+  ideaScore: IdeaScore;
+  techComparator: TechStackComparator[];
+  costOptimizer: CostOptimizerItem[];
+  challengeSummary: string[];
   recommendation: {
     verdict: "build-now" | "build-with-pivot" | "research-first";
     confidence: number;
     rationale: string[];
   };
   assumptions: string[];
+  outputSections: StructuredSections;
 }
 
 export interface AnalyzeRequest {
   prd: string;
   mode: PlanningMode;
+  honestyMode: HonestyMode;
+  writeFiles?: boolean;
 }

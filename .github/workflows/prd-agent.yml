@@ -1,0 +1,93 @@
+﻿name: PRD Agent Planner
+
+on:
+  pull_request:
+    paths:
+      - "examples/**/*.md"
+      - "prd/**/*.md"
+      - "src/lib/**"
+      - "skills/**"
+      - "scripts/run-agent.ts"
+      - ".github/workflows/prd-agent.yml"
+  workflow_dispatch:
+    inputs:
+      prd_path:
+        description: "PRD markdown path"
+        required: false
+        default: "examples/sample-prd.md"
+      mode:
+        description: "Planning mode"
+        required: false
+        default: "scalable-startup"
+      honesty:
+        description: "Challenge mode"
+        required: false
+        default: "brutal"
+
+jobs:
+  generate-plan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Resolve Planner Inputs
+        id: resolve
+        shell: bash
+        run: |
+          PRD_PATH="examples/sample-prd.md"
+          MODE="scalable-startup"
+          HONESTY="brutal"
+
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            if [[ -n "${{ inputs.prd_path }}" ]]; then
+              PRD_PATH="${{ inputs.prd_path }}"
+            fi
+            if [[ -n "${{ inputs.mode }}" ]]; then
+              MODE="${{ inputs.mode }}"
+            fi
+            if [[ -n "${{ inputs.honesty }}" ]]; then
+              HONESTY="${{ inputs.honesty }}"
+            fi
+          else
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            HEAD_SHA="${{ github.sha }}"
+            CHANGED_PRD="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" | grep -E '^(examples|prd)/.*\.md$' | head -n 1 || true)"
+
+            if [[ -n "$CHANGED_PRD" ]]; then
+              PRD_PATH="$CHANGED_PRD"
+            fi
+          fi
+
+          echo "Using PRD path: $PRD_PATH"
+          echo "Using mode: $MODE"
+          echo "Using honesty mode: $HONESTY"
+
+          echo "prd_path=$PRD_PATH" >> "$GITHUB_OUTPUT"
+          echo "mode=$MODE" >> "$GITHUB_OUTPUT"
+          echo "honesty=$HONESTY" >> "$GITHUB_OUTPUT"
+
+      - name: Run AI CTO planner
+        run: npm run agent:run -- --prd "${{ steps.resolve.outputs.prd_path }}" --mode "${{ steps.resolve.outputs.mode }}" --honesty "${{ steps.resolve.outputs.honesty }}"
+
+      - name: Upload generated plan artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-cto-generated-plan
+          path: |
+            docs/generated/*.md
+            docs/architecture.md
+            docs/roadmap.md
+            docs/risks.md
