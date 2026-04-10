@@ -22,6 +22,7 @@ export interface AnalysisHistoryQuery {
 export interface NormalizedAnalyzeRequest {
   prd: string;
   mode: PlanningMode;
+  domain?: import("@/lib/types").ProjectDomain;
   honestyMode: HonestyMode;
   projectId: string;
   requestId: string;
@@ -188,6 +189,7 @@ function genId(prefix: string): string {
 export function createRequestHash(input: {
   prd: string;
   mode: PlanningMode;
+  domain: string;
   honestyMode: HonestyMode;
   engine: EngineType;
   enableLlmEnrichment: boolean;

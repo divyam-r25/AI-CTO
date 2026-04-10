@@ -1,4 +1,4 @@
-import type { ModeGuide, PlanningMode } from "@/lib/types";
+import type { DomainGuide, ModeGuide, PlanningMode, ProjectDomain } from "@/lib/types";
 import type { SignalFlags, SkillRuntimeContext } from "@/lib/skills/contracts";
 
 const MODEL_INTEGRATION_KEYWORDS = [
@@ -84,6 +84,84 @@ export function modeProfile(mode: PlanningMode): {
   }
 }
 
+export function inferDomain(normalized: string): ProjectDomain {
+  if (hasAny(normalized, ["fintech", "payments", "billing", "bank", "ledger", "kyc", "aml"])) {
+    return "fintech";
+  }
+
+  if (hasAny(normalized, ["marketplace", "buyers", "sellers", "listing", "inventory", "order"])) {
+    return "marketplace";
+  }
+
+  if (hasAny(normalized, ["internal tool", "ops", "workflow automation", "admin dashboard"])) {
+    return "internal-tools";
+  }
+
+  if (hasAny(normalized, ["compliance", "regulated", "hipaa", "soc2", "gdpr", "audit"])) {
+    return "regulated";
+  }
+
+  if (hasAny(normalized, ["saas", "subscription", "workspace", "dashboard", "b2b"])) {
+    return "saas";
+  }
+
+  return "ai-tool";
+}
+
+export function buildDomainGuide(domain: ProjectDomain): DomainGuide {
+  switch (domain) {
+    case "fintech":
+      return {
+        domain,
+        domainLabel: "FinTech",
+        priorities: ["Risk controls first", "Auditable transaction paths", "Compliance-aware release gates"],
+        guardrails: ["Never ship without audit logging", "Treat fraud and policy review as launch blockers"],
+      };
+    case "marketplace":
+      return {
+        domain,
+        domainLabel: "Marketplace",
+        priorities: ["Liquidity in one core loop", "Trust and safety", "Supply/demand balance"],
+        guardrails: ["Measure match rate and conversion", "Avoid broadening segments too early"],
+      };
+    case "internal-tools":
+      return {
+        domain,
+        domainLabel: "Internal Tools",
+        priorities: ["Adoption by the operating team", "Workflow reliability", "Fast iteration"],
+        guardrails: ["Optimize for time saved", "Avoid premature platform abstraction"],
+      };
+    case "regulated":
+      return {
+        domain,
+        domainLabel: "Regulated / Compliance Heavy",
+        priorities: ["Policy enforcement", "Auditability", "Access control and retention"],
+        guardrails: ["Security review before launch", "Document every data flow"],
+      };
+    case "saas":
+      return {
+        domain,
+        domainLabel: "SaaS",
+        priorities: ["Activation and retention", "Subscription unit economics", "Repeatable onboarding"],
+        guardrails: ["Measure time-to-value", "Keep support load low"],
+      };
+    default:
+      return {
+        domain,
+        domainLabel: "AI Tool",
+        priorities: ["Model quality", "Latency and cost controls", "Fallback behavior"],
+        guardrails: ["Track prompt/model drift", "Route by request value"],
+      };
+  }
+}
+
+export function parsePrdLines(prd: string): Array<{ line: number; text: string }> {
+  return prd
+    .split("\n")
+    .map((line, index) => ({ line: index + 1, text: line.trim() }))
+    .filter((item) => item.text.length > 0);
+}
+
 export function buildModeGuide(mode: PlanningMode): ModeGuide {
   switch (mode) {
     case "beginner-startup":
@@ -153,18 +231,23 @@ export function extractFlags(normalized: string): SignalFlags {
 export function createSkillRuntimeContext(params: {
   prd: string;
   mode: PlanningMode;
+  domain?: ProjectDomain;
   honestyMode: "standard" | "brutal";
 }): SkillRuntimeContext {
   const normalized = normalize(params.prd);
   const modeGuide = buildModeGuide(params.mode);
+  const domain = params.domain ?? inferDomain(normalized);
+  const domainGuide = buildDomainGuide(domain);
 
   return {
     prd: params.prd,
     normalized,
     mode: params.mode,
+    domain,
     honestyMode: params.honestyMode,
     productName: deriveProductName(params.prd),
     flags: extractFlags(normalized),
     modeGuide,
+    domainGuide,
   };
 }

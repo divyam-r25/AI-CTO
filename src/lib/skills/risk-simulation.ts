@@ -127,6 +127,10 @@ function riskDecisions(context: SkillRuntimeContext): DecisionCard[] {
       title: "Primary Risk Mitigation Decision",
       context: "Preventing predictable launch failure",
       evidenceIds: ["E2", "E3", "E4"],
+      evidenceSummary:
+        context.domain === "fintech" || context.domain === "regulated"
+          ? "Compliance-sensitive PRD language and audit expectations require mitigation before scale."
+          : "The PRD's broadness and cost/reliability cues indicate mitigation must protect the wedge and unit economics.",
       chosen: context.flags.hasDifferentiationSignals
         ? "Set reliability and margin gates before acquisition scale"
         : "Fix differentiation before adding feature breadth",
@@ -193,6 +197,34 @@ function riskDecisions(context: SkillRuntimeContext): DecisionCard[] {
     });
   }
 
+  if (context.domain === "fintech") {
+    cards.push({
+      stage: "risk-mitigation",
+      title: "FinTech Control Decision",
+      context: "Fraud, ledger safety, and regulatory posture",
+      evidenceIds: ["E1", "E4", "E6"],
+      evidenceSummary: "FinTech products require explicit audit trails and controls before customer-facing growth.",
+      chosen: "Make auditability and policy enforcement launch blockers",
+      why: [
+        "Financial workflows fail catastrophically when controls are weak",
+        "Retrofit compliance is usually more expensive than doing it correctly upfront",
+      ],
+      alternatives: [
+        {
+          option: "Move fast and add compliance later",
+          pros: ["Faster early demo cycle", "Less upfront process overhead"],
+          cons: ["High regulatory and trust risk", "Hard to reverse after data is live"],
+        },
+        {
+          option: "Front-load policy and audit controls",
+          pros: ["Lower existential risk", "More credible enterprise/compliance story"],
+          cons: ["Slower initial build", "More coordination cost"],
+        },
+      ],
+      comparisonSummary: "FinTech workloads should prefer control-first execution because trust failures are expensive and hard to recover from.",
+    });
+  }
+
   return cards;
 }
 
@@ -204,6 +236,13 @@ export function runRiskSimulationSkill(
   const primaryFailureReason = context.flags.hasDifferentiationSignals
     ? "Margins and reliability collapse during growth because controls were added too late."
     : "No defensible wedge leads to commodity competition before retention is established.";
+
+  const domainFailureReason =
+    context.domain === "fintech"
+      ? "Regulatory and audit controls were not proven before user funds or sensitive transactions were exposed."
+      : context.domain === "regulated"
+        ? "Compliance posture was treated as a follow-up instead of a launch requirement."
+        : primaryFailureReason;
 
   const narrativePrefix =
     context.honestyMode === "brutal"
@@ -226,27 +265,45 @@ export function runRiskSimulationSkill(
   return {
     risks,
     failureSimulation: {
-      narrative: `${narrativePrefix} Scaling before proving wedge quality and controlling reliability/cost will produce churn and margin erosion in parallel. Planned phases in scope: ${roadmap.roadmap.length}.`,
-      primaryFailureReason,
+      narrative: `${narrativePrefix} Scaling before proving wedge quality and controlling reliability/cost will produce churn and margin erosion in parallel. Planned phases in scope: ${roadmap.roadmap.length}. Domain risk focus: ${context.domainGuide.domainLabel}.`,
+      primaryFailureReason: domainFailureReason,
       likelyFailurePoints: [
         "Acquisition spend scales faster than retention quality",
         "Cost per active user rises above monetization capacity",
         "Incident rate increases as complexity grows without gates",
+        ...(context.domain === "fintech"
+          ? ["Audit or fraud controls fail under transaction pressure"]
+          : context.domain === "regulated"
+            ? ["Retention or access policies are insufficient for compliance review"]
+            : []),
       ],
       weakestAssumptions: [
         "Users will switch without a clear, measurable ROI wedge",
         "Infrastructure and model costs will scale linearly",
         "Reliability can be fixed post-launch without trust damage",
+        ...(context.domain === "fintech"
+          ? ["Policy enforcement can be retrofitted after launch"]
+          : context.domain === "regulated"
+            ? ["Operational compliance can be verified late in the cycle"]
+            : []),
       ],
       pivots: [
         "Focus on one vertical workflow and prove ROI before broad rollout",
         "Shift from generic feature breadth to automation around one recurring pain",
         "Monetize premium outcomes rather than raw usage volume",
+        ...(context.domain === "fintech"
+          ? ["Narrow to read-only or advisory mode until controls are proven"]
+          : context.domain === "regulated"
+            ? ["Reduce scope to compliance-safe workflows and add audit gates"]
+            : []),
       ],
       preBuildChanges: [
         "Define one non-negotiable differentiator and release metric",
         "Set explicit cost-per-active-user and reliability thresholds",
         "Add fallback, caching, and gate checks before scaling traffic",
+        ...(context.domain === "fintech" || context.domain === "regulated"
+          ? ["Add audit logging, policy review, and data retention gates before launch"]
+          : []),
       ],
     },
     riskDecisions: riskDecisions(context),

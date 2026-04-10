@@ -6,11 +6,13 @@ import type {
   AnalysisRecordSummary,
   AnalyzeCompareResponse,
   AnalyzeHistoryResponse,
-  AnalysisResult,
   AnalyzeResponse,
+  AnalysisResult,
   AnalysisStatus,
+  ExecutionMode,
   HonestyMode,
   PlanningMode,
+  ProjectDomain,
 } from "@/lib/types";
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 
@@ -40,6 +42,8 @@ async function parseApiJson<T>(response: Response): Promise<T> {
 export default function Home() {
   const [prd, setPrd] = useState(DEMO_PRD);
   const [mode, setMode] = useState<PlanningMode>("scalable-startup");
+  const [domain, setDomain] = useState<ProjectDomain>("ai-tool");
+  const [executionMode, setExecutionMode] = useState<ExecutionMode>("sync");
   const [honestyMode, setHonestyMode] = useState<HonestyMode>("standard");
   const [projectId, setProjectId] = useState("default-project");
   const [loading, setLoading] = useState(false);
@@ -60,10 +64,39 @@ export default function Home() {
   const [comparisonLoading, setComparisonLoading] = useState(false);
   const [comparisonError, setComparisonError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [runStatus, setRunStatus] = useState<AnalysisStatus | null>(null);
 
-  const wordCount = useMemo(() => {
-    return prd.trim().split(/\s+/).filter(Boolean).length;
-  }, [prd]);
+  const pollAnalysisUntilDone = useCallback(async (analysisId: string) => {
+    for (let attempt = 0; attempt < 40; attempt += 1) {
+      const response = await fetch(`/api/analyze?analysisId=${encodeURIComponent(analysisId)}`);
+      const data = await parseApiJson<AnalyzeResponse>(response);
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error ?? "Unable to poll analysis status.");
+      }
+
+      setRunStatus(data.status);
+
+      if (data.status === "completed") {
+        if (data.result) {
+          setResult(data.result);
+        }
+        setGeneratedFiles(data.generatedFiles ?? []);
+        setActiveAnalysisId(data.analysisId);
+        return;
+      }
+
+      if (data.status === "failed") {
+        throw new Error(data.error ?? "Async analysis failed.");
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+    }
+
+    throw new Error("Analysis is still running. Please reload from history in a moment.");
+  }, []);
+
+  const wordCount = useMemo(() => prd.trim().split(/\s+/).filter(Boolean).length, [prd]);
 
   function formatTimestamp(value: string): string {
     const date = new Date(value);
@@ -73,49 +106,52 @@ export default function Home() {
     return date.toLocaleString();
   }
 
-  const loadHistory = useCallback(async (params: { currentProjectId: string; offset?: number; append?: boolean }) => {
-    const { currentProjectId, offset = 0, append = false } = params;
-    if (!currentProjectId.trim()) {
-      setHistory([]);
-      return;
-    }
-
-    setHistoryLoading(true);
-    setHistoryError(null);
-    try {
-      const search = new URLSearchParams({
-        projectId: currentProjectId,
-        limit: String(historyLimit),
-        offset: String(offset),
-      });
-
-      if (historyStatusFilter !== "all") {
-        search.set("status", historyStatusFilter);
+  const loadHistory = useCallback(
+    async (params: { currentProjectId: string; offset?: number; append?: boolean }) => {
+      const { currentProjectId, offset = 0, append = false } = params;
+      if (!currentProjectId.trim()) {
+        setHistory([]);
+        return;
       }
 
-      const response = await fetch(`/api/analyze/history?${search.toString()}`);
-      const data = await parseApiJson<AnalyzeHistoryResponse>(response);
+      setHistoryLoading(true);
+      setHistoryError(null);
+      try {
+        const search = new URLSearchParams({
+          projectId: currentProjectId,
+          limit: String(historyLimit),
+          offset: String(offset),
+        });
 
-      if (!response.ok || !data.success) {
-        throw new Error(data.error ?? "Unable to load analysis history.");
+        if (historyStatusFilter !== "all") {
+          search.set("status", historyStatusFilter);
+        }
+
+        const response = await fetch(`/api/analyze/history?${search.toString()}`);
+        const data = await parseApiJson<AnalyzeHistoryResponse>(response);
+
+        if (!response.ok || !data.success) {
+          throw new Error(data.error ?? "Unable to load analysis history.");
+        }
+
+        setHistory((prev) => (append ? [...prev, ...(data.history ?? [])] : data.history ?? []));
+        setHistoryOffset(data.offset + (data.history?.length ?? 0));
+        setHistoryHasMore(data.hasMore);
+      } catch (historyLoadError) {
+        const message =
+          historyLoadError instanceof Error
+            ? historyLoadError.message
+            : "Something went wrong while loading history.";
+        setHistoryError(message);
+        setHistory([]);
+        setHistoryHasMore(false);
+        setHistoryOffset(0);
+      } finally {
+        setHistoryLoading(false);
       }
-
-      setHistory((prev) => (append ? [...prev, ...(data.history ?? [])] : data.history ?? []));
-      setHistoryOffset(data.offset + (data.history?.length ?? 0));
-      setHistoryHasMore(data.hasMore);
-    } catch (historyLoadError) {
-      const message =
-        historyLoadError instanceof Error
-          ? historyLoadError.message
-          : "Something went wrong while loading history.";
-      setHistoryError(message);
-      setHistory([]);
-      setHistoryHasMore(false);
-      setHistoryOffset(0);
-    } finally {
-      setHistoryLoading(false);
-    }
-  }, [historyLimit, historyStatusFilter]);
+    },
+    [historyLimit, historyStatusFilter],
+  );
 
   const loadAnalysis = useCallback(async (analysisId: string) => {
     setLoadingAnalysisId(analysisId);
@@ -155,21 +191,36 @@ export default function Home() {
     try {
       const response = await fetch("/api/analyze", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ prd, mode, honestyMode, projectId, writeFiles: true }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prd,
+          mode,
+          domain,
+          honestyMode,
+          executionMode,
+          projectId,
+          writeFiles: true,
+        }),
       });
 
       const data = await parseApiJson<AnalyzeResponse>(response);
 
-      if (!response.ok || !data.success || !data.result) {
+      if (!response.ok || !data.success) {
         throw new Error(data.error ?? "Analysis failed.");
       }
 
-      setResult(data.result);
-      setGeneratedFiles(data.generatedFiles ?? []);
-      setActiveAnalysisId(data.analysisId);
+      setRunStatus(data.status);
+
+      if (executionMode === "async") {
+        await pollAnalysisUntilDone(data.analysisId);
+      } else {
+        if (!data.result) {
+          throw new Error("Sync analysis completed without a result payload.");
+        }
+        setResult(data.result);
+        setGeneratedFiles(data.generatedFiles ?? []);
+        setActiveAnalysisId(data.analysisId);
+      }
       await loadHistory({ currentProjectId: projectId, offset: 0, append: false });
     } catch (requestError) {
       const message =
@@ -181,6 +232,7 @@ export default function Home() {
       setGeneratedFiles([]);
     } finally {
       setLoading(false);
+      setRunStatus(null);
     }
   }
 
@@ -202,7 +254,7 @@ export default function Home() {
         baseAnalysisId: compareBaseId,
         headAnalysisId: compareHeadId,
       });
-      const response = await fetch(`/api/analyze/compare?${query.toString()}`);
+      const response = await fetch(`/api/compare?${query.toString()}`);
       const data = await parseApiJson<AnalyzeCompareResponse>(response);
 
       if (!response.ok || !data.success || !data.comparison) {
@@ -234,17 +286,31 @@ export default function Home() {
 
       <section className="panel animate-fade-up delay-1">
         <form className="space-y-5" onSubmit={handleAnalyze}>
-          <div className="field-group">
-            <label htmlFor="projectId">Project ID</label>
-            <input
-              id="projectId"
-              type="text"
-              value={projectId}
-              onChange={(event) => setProjectId(event.target.value)}
-              placeholder="default-project"
-              minLength={1}
-              required
-            />
+          <div className="field-row">
+            <div className="field-group">
+              <label htmlFor="projectId">Project ID</label>
+              <input
+                id="projectId"
+                type="text"
+                value={projectId}
+                onChange={(event) => setProjectId(event.target.value)}
+                placeholder="default-project"
+                minLength={1}
+                required
+              />
+            </div>
+
+            <div className="field-group">
+              <label htmlFor="domain">Project Domain</label>
+              <select id="domain" value={domain} onChange={(event) => setDomain(event.target.value as ProjectDomain)}>
+                <option value="ai-tool">AI Tool</option>
+                <option value="saas">SaaS</option>
+                <option value="marketplace">Marketplace</option>
+                <option value="internal-tools">Internal Tools</option>
+                <option value="fintech">FinTech</option>
+                <option value="regulated">Regulated / Compliance Heavy</option>
+              </select>
+            </div>
           </div>
 
           <div className="field-group">
@@ -263,11 +329,7 @@ export default function Home() {
           <div className="field-row">
             <div className="field-group">
               <label htmlFor="mode">Simulation Mode</label>
-              <select
-                id="mode"
-                value={mode}
-                onChange={(event) => setMode(event.target.value as PlanningMode)}
-              >
+              <select id="mode" value={mode} onChange={(event) => setMode(event.target.value as PlanningMode)}>
                 <option value="beginner-startup">Beginner Startup</option>
                 <option value="scalable-startup">Scalable Startup</option>
                 <option value="enterprise">Enterprise</option>
@@ -286,10 +348,28 @@ export default function Home() {
               </select>
             </div>
 
+            <div className="field-group">
+              <label htmlFor="executionMode">Execution Mode</label>
+              <select
+                id="executionMode"
+                value={executionMode}
+                onChange={(event) => setExecutionMode(event.target.value as ExecutionMode)}
+              >
+                <option value="sync">Sync (wait for full result)</option>
+                <option value="async">Async (show progress for longer runs)</option>
+              </select>
+            </div>
+
             <button disabled={loading} type="submit" className="cta-btn">
               {loading ? "Simulating..." : "Generate CTO Plan"}
             </button>
           </div>
+
+          {loading && runStatus ? (
+            <p className="helper">
+              Run status: <strong>{runStatus}</strong>
+            </p>
+          ) : null}
 
           {error ? <p className="error-text">{error}</p> : null}
         </form>
@@ -406,17 +486,26 @@ export default function Home() {
 
         {comparison ? (
           <div className="compare-box mt-3">
-            <p>
-              Verdict changed: <strong>{comparison.verdictChanged ? "Yes" : "No"}</strong>
-            </p>
-            <p>
-              Confidence delta: <strong>{comparison.confidenceDelta}%</strong>
-            </p>
+            <div className="compare-metrics">
+              <div className={`compare-pill ${comparison.verdictChanged ? "compare-pill-warn" : "compare-pill-neutral"}`}>
+                Verdict {comparison.verdictChanged ? "changed" : "unchanged"}
+              </div>
+              <div className={`compare-pill ${comparison.confidenceDelta >= 0 ? "compare-pill-up" : "compare-pill-down"}`}>
+                Confidence {comparison.confidenceDelta >= 0 ? "+" : ""}{comparison.confidenceDelta}%
+              </div>
+              <div className={`compare-pill ${comparison.differences.scoreDiff >= 0 ? "compare-pill-up" : "compare-pill-down"}`}>
+                Readiness {comparison.differences.scoreDiff >= 0 ? "+" : ""}{comparison.differences.scoreDiff}
+              </div>
+            </div>
 
             <p className="risk-subtitle">Risk Changes</p>
             <ul>
               {comparison.topRiskChanges.length > 0 ? (
-                comparison.topRiskChanges.map((item) => <li key={item}>{item}</li>)
+                comparison.topRiskChanges.map((item) => (
+                  <li key={item} className={item.startsWith("Added") ? "compare-added" : "compare-removed"}>
+                    {item}
+                  </li>
+                ))
               ) : (
                 <li>No top-risk changes detected.</li>
               )}
@@ -425,7 +514,11 @@ export default function Home() {
             <p className="risk-subtitle">Decision Changes</p>
             <ul>
               {comparison.decisionChanges.length > 0 ? (
-                comparison.decisionChanges.map((item) => <li key={item}>{item}</li>)
+                comparison.decisionChanges.map((item) => (
+                  <li key={item} className={item.startsWith("Changed") ? "compare-updated" : "compare-muted"}>
+                    {item}
+                  </li>
+                ))
               ) : (
                 <li>No decision changes detected.</li>
               )}
@@ -434,9 +527,40 @@ export default function Home() {
             <p className="risk-subtitle">Blocking Issue Changes</p>
             <ul>
               {comparison.blockingIssueChanges.length > 0 ? (
-                comparison.blockingIssueChanges.map((item) => <li key={item}>{item}</li>)
+                comparison.blockingIssueChanges.map((item) => (
+                  <li key={item} className={item.startsWith("New") ? "compare-added" : "compare-removed"}>
+                    {item}
+                  </li>
+                ))
               ) : (
                 <li>No blocking issue changes detected.</li>
+              )}
+            </ul>
+
+            <p className="risk-subtitle">Changed Risks</p>
+            <ul>
+              {comparison.differences.risksChanged.length > 0 ? (
+                comparison.differences.risksChanged.map((item) => <li key={item}>{item}</li>)
+              ) : (
+                <li>No structured risk differences detected.</li>
+              )}
+            </ul>
+
+            <p className="risk-subtitle">Changed Decisions</p>
+            <ul>
+              {comparison.differences.decisionsChanged.length > 0 ? (
+                comparison.differences.decisionsChanged.map((item) => <li key={item}>{item}</li>)
+              ) : (
+                <li>No structured decision differences detected.</li>
+              )}
+            </ul>
+
+            <p className="risk-subtitle">Changed Blocking Issues</p>
+            <ul>
+              {comparison.differences.blockingIssuesChanged.length > 0 ? (
+                comparison.differences.blockingIssuesChanged.map((item) => <li key={item}>{item}</li>)
+              ) : (
+                <li>No structured blocking issue differences detected.</li>
               )}
             </ul>
           </div>

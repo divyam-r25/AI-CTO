@@ -18,6 +18,12 @@ function architectureDecisions(
     title: "Frontend Platform Decision",
     context: "Delivery channel and user experience",
     evidenceIds: evidenceIds.slice(0, 2),
+    evidenceSummary:
+      context.domain === "marketplace"
+        ? "Marketplace discovery and trust flows need a fast web surface with SEO and iteration speed."
+        : context.domain === "internal-tools"
+          ? "Internal tools benefit from the fastest path to operational workflows and admin surfaces."
+          : "The PRD favors rapid delivery and a reusable front-end surface for the primary workflow.",
     chosen: context.flags.isMobileHeavy && context.mode === "beginner-startup" ? "Flutter" : "Next.js",
     why:
       context.flags.isMobileHeavy && context.mode === "beginner-startup"
@@ -50,6 +56,10 @@ function architectureDecisions(
     title: "Data Platform Decision",
     context: "Speed vs control for backend data layer",
     evidenceIds: evidenceIds.slice(1, 4),
+    evidenceSummary:
+      context.domain === "fintech" || context.domain === "regulated"
+        ? "Regulated and financial products need Postgres-style control and audit-ready data posture."
+        : "The product needs a data layer that can be managed quickly and migrated cleanly later.",
     chosen: context.mode === "beginner-startup" ? "Firebase" : "Supabase",
     why:
       context.mode === "beginner-startup"
@@ -85,6 +95,7 @@ function architectureDecisions(
       title: "AI Provider Strategy Decision",
       context: "Model reliability and vendor risk posture",
       evidenceIds: evidenceIds.slice(0, 3),
+      evidenceSummary: "PRD references AI behavior directly, so provider routing and fallback quality are strategic decisions.",
       chosen: "Hybrid provider strategy",
       why: [
         "Protects against single-vendor outages and abrupt pricing shifts",
@@ -178,11 +189,19 @@ export function runSystemDesignSkill(
 ): SystemDesignOutput {
   const frontendIsFlutter = context.flags.isMobileHeavy && context.mode === "beginner-startup";
   const dataIsFirebase = context.mode === "beginner-startup";
+  const domainAdjustments = {
+    saas: "subscription analytics and onboarding funnels",
+    marketplace: "listing search, trust, and supply-demand balance",
+    "internal-tools": "admin workflows and operational efficiency",
+    fintech: "ledger safety and policy enforcement",
+    regulated: "auditability and access control",
+    "ai-tool": "model routing and latency cost controls",
+  }[context.domain];
 
   return {
     architecture: {
       overview:
-        `The system uses a modular product surface, policy-driven APIs, and observable execution paths designed to force explicit tradeoff decisions before scale. Analysis assumptions tracked: ${analysis.assumptions.length}.`,
+        `The system uses a modular product surface, policy-driven APIs, and observable execution paths designed to force explicit tradeoff decisions before scale. Domain focus: ${context.domainGuide.domainLabel} (${domainAdjustments}). Analysis assumptions tracked: ${analysis.assumptions.length}.`,
       frontend: frontendIsFlutter
         ? "Flutter mobile app for core experience with a lightweight web shell for acquisition and onboarding"
         : "Next.js web-first app with responsive UX and product APIs in a unified deployable surface",

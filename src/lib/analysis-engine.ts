@@ -209,6 +209,27 @@ function buildStructuredSections(result: Omit<AnalysisResult, "outputSections">)
       "",
       `Mode Reminder: ${result.modeGuide.modeLabel} priorities should drive execution discipline.`,
     ].join("\n"),
+    executionReadyTasks: [
+      "# 🧩 Execution-Ready Tasks",
+      ...result.executionPlan.tasks.map(
+        (task) =>
+          `- ${task.priority} | ${task.task} | Owner: ${task.owner} | ${task.estimatedTime} | Depends on: ${task.dependencies.join(
+            "; ",
+          ) || "none"} | Acceptance: ${task.acceptanceCriteria.join("; ")}`,
+      ),
+      "",
+      "Next Steps",
+      ...result.executionPlan.nextSteps.map((step) => `- ${step}`),
+    ].join("\n"),
+    evidenceTrail: [
+      "# 🧷 Evidence Trail",
+      ...result.evidence.map(
+        (item) =>
+          `- ${item.id} | line ${item.sourceLine ?? "n/a"} | ${item.category} | ${item.text}${
+            item.sourceExcerpt ? ` | source: ${item.sourceExcerpt}` : ""
+          }`,
+      ),
+    ].join("\n"),
   };
 }
 
@@ -310,8 +331,10 @@ export function analyzePrd({ prd, mode, honestyMode }: AnalyzeRequest): Analysis
   const baseDraft: Omit<AnalysisResult, "outputSections"> = {
     productName: context.productName,
     mode,
+    domain: context.domain,
     honestyMode,
     modeGuide: context.modeGuide,
+    domainGuide: context.domainGuide,
     skillChain: ["PRD", "Analysis", "Architecture", "Roadmap", "Risks", "Cost"],
     executiveSummary:
       "This PRD can ship, but success depends on enforced decision discipline, failure simulation, and mode-aware execution.",

@@ -8,11 +8,13 @@ import type {
   ExecutionPlan,
   HonestyMode,
   IdeaScore,
+  DomainGuide,
   InvestmentPerspective,
   ModeGuide,
   PlanningMode,
   RiskItem,
   RoadmapPhase,
+  ProjectDomain,
   TechStackComparator,
 } from "@/lib/types";
 
@@ -29,10 +31,12 @@ export interface SkillRuntimeContext {
   prd: string;
   normalized: string;
   mode: PlanningMode;
+  domain: ProjectDomain;
   honestyMode: HonestyMode;
   productName: string;
   flags: SignalFlags;
   modeGuide: ModeGuide;
+  domainGuide: DomainGuide;
 }
 
 export interface PrdAnalysisOutput {

@@ -1,22 +1,22 @@
 import type { AssumptionItem, DecisionCard, EvidenceItem } from "@/lib/types";
 import type { PrdAnalysisOutput, SkillRuntimeContext } from "@/lib/skills/contracts";
+import { parsePrdLines } from "@/lib/skills/shared";
 
 function extractEvidence(context: SkillRuntimeContext, assumptions: string[]): EvidenceItem[] {
   const evidence: EvidenceItem[] = [];
-  const lines = context.prd
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => line.length > 0);
+  const lines = parsePrdLines(context.prd);
 
   let index = 1;
 
   for (const line of lines) {
-    if (line.startsWith("-") || line.toLowerCase().startsWith("requirements")) {
+    if (line.text.startsWith("-") || line.text.toLowerCase().startsWith("requirements")) {
       evidence.push({
         id: `E${index}`,
         category: "requirement",
-        text: line.replace(/^-+\s*/, ""),
+        text: line.text.replace(/^-+\s*/, ""),
         confidence: 0.84,
+        sourceLine: line.line,
+        sourceExcerpt: line.text,
       });
       index += 1;
     }
@@ -28,6 +28,8 @@ function extractEvidence(context: SkillRuntimeContext, assumptions: string[]): E
       category: "constraint",
       text: "Compliance-sensitive language detected in PRD.",
       confidence: 0.8,
+      sourceLine: lines.find((item) => /compliance|security|privacy|audit/i.test(item.text))?.line,
+      sourceExcerpt: lines.find((item) => /compliance|security|privacy|audit/i.test(item.text))?.text,
     });
     index += 1;
   }
@@ -37,15 +39,20 @@ function extractEvidence(context: SkillRuntimeContext, assumptions: string[]): E
     category: "risk",
     text: "Differentiation risk inferred from broad problem framing.",
     confidence: context.flags.hasDifferentiationSignals ? 0.62 : 0.86,
+    sourceLine: lines.find((item) => /cost|latency|scale|differentiation|unique/i.test(item.text))?.line,
+    sourceExcerpt: lines.find((item) => /cost|latency|scale|differentiation|unique/i.test(item.text))?.text,
   });
   index += 1;
 
   assumptions.forEach((assumption) => {
+    const supportingLine = lines.find((item) => /team|budget|launch|users|metric/i.test(item.text));
     evidence.push({
       id: `E${index}`,
       category: "assumption",
       text: assumption,
       confidence: 0.66,
+      sourceLine: supportingLine?.line,
+      sourceExcerpt: supportingLine?.text,
     });
     index += 1;
   });
@@ -77,6 +84,9 @@ function buildAnalysisDecision(context: SkillRuntimeContext, evidenceIds: string
     title: "Market Wedge Decision",
     context: "Positioning and launch focus",
     evidenceIds,
+    evidenceSummary: context.flags.hasDifferentiationSignals
+      ? "PRD contains a usable niche or workflow signal that can support a focused wedge."
+      : "PRD is broad, so the safest interpretation is to narrow the launch wedge before scaling.",
     chosen: context.flags.hasDifferentiationSignals
       ? "Double down on the existing niche wedge"
       : "Narrow to one vertical workflow before broad launch",

@@ -1,5 +1,7 @@
 export type PlanningMode = "beginner-startup" | "scalable-startup" | "enterprise";
 
+export type ProjectDomain = "saas" | "marketplace" | "internal-tools" | "fintech" | "regulated" | "ai-tool";
+
 export type HonestyMode = "standard" | "brutal";
 
 export type ExecutionMode = "sync" | "async";
@@ -13,6 +15,16 @@ export interface RoadmapPhase {
   timeline: string;
   objective: string;
   deliverables: string[];
+}
+
+export interface ExecutionTask {
+  task: string;
+  description: string;
+  owner: string;
+  priority: "High" | "Medium" | "Low";
+  estimatedTime: string;
+  dependencies: string[];
+  acceptanceCriteria: string[];
 }
 
 export interface RiskItem {
@@ -54,6 +66,7 @@ export interface DecisionCard {
   title: string;
   context: string;
   evidenceIds: string[];
+  evidenceSummary?: string;
   chosen: string;
   why: string[];
   alternatives: [DecisionAlternative, DecisionAlternative];
@@ -62,6 +75,13 @@ export interface DecisionCard {
 
 export interface ModeGuide {
   modeLabel: string;
+  priorities: string[];
+  guardrails: string[];
+}
+
+export interface DomainGuide {
+  domain: ProjectDomain;
+  domainLabel: string;
   priorities: string[];
   guardrails: string[];
 }
@@ -78,6 +98,8 @@ export interface EvidenceItem {
   category: "requirement" | "constraint" | "assumption" | "risk" | "persona";
   text: string;
   confidence: number;
+  sourceLine?: number;
+  sourceExcerpt?: string;
 }
 
 export interface AssumptionItem {
@@ -126,6 +148,8 @@ export interface InvestmentPerspective {
 export interface ExecutionPlan {
   mvp: string[];
   scale: string[];
+  tasks: ExecutionTask[];
+  nextSteps: string[];
 }
 
 export interface TechStackComparator {
@@ -153,6 +177,8 @@ export interface StructuredSections {
   risks: string;
   failurePrediction: string;
   improvements: string;
+  executionReadyTasks: string;
+  evidenceTrail: string;
 }
 
 export interface AnalysisTimings {
@@ -165,8 +191,10 @@ export interface AnalysisTimings {
 export interface AnalysisResult {
   productName: string;
   mode: PlanningMode;
+  domain: ProjectDomain;
   honestyMode: HonestyMode;
   modeGuide: ModeGuide;
+  domainGuide: DomainGuide;
   skillChain: string[];
   executiveSummary: string;
   architecture: {
@@ -221,6 +249,7 @@ export interface AnalysisResult {
 export interface AnalyzeRequest {
   prd: string;
   mode: PlanningMode;
+  domain?: ProjectDomain;
   honestyMode: HonestyMode;
   projectId?: string;
   requestId?: string;
@@ -270,6 +299,12 @@ export interface AnalysisComparison {
   topRiskChanges: string[];
   decisionChanges: string[];
   blockingIssueChanges: string[];
+  differences: {
+    scoreDiff: number;
+    risksChanged: string[];
+    decisionsChanged: string[];
+    blockingIssuesChanged: string[];
+  };
 }
 
 export interface AnalyzeHistoryResponse {

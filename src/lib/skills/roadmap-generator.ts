@@ -85,12 +85,83 @@ function buildRoadmap(
   return phases;
 }
 
+function buildExecutionTasks(context: SkillRuntimeContext) {
+  const tasks = [
+    {
+      task: "Initialize product shell",
+      description: "Set up the repository structure, app shell, and shared UI primitives.",
+      owner: "Frontend Lead",
+      priority: "High" as const,
+      estimatedTime: "4-6 hours",
+      dependencies: [],
+      acceptanceCriteria: ["App boots locally", "Primary pages render", "Styling system is in place"],
+    },
+    {
+      task: "Implement PRD analysis flow",
+      description: "Parse the PRD, extract evidence, and produce decision cards and assumptions.",
+      owner: "AI Engineer",
+      priority: "High" as const,
+      estimatedTime: "4 hours",
+      dependencies: ["Initialize product shell"],
+      acceptanceCriteria: ["Evidence trail appears in output", "Decision cards include alternatives and why"],
+    },
+    {
+      task: "Wire execution-ready roadmap",
+      description: "Convert roadmap phases into ticket-sized work with effort, owners, and acceptance criteria.",
+      owner: "Tech Lead",
+      priority: "High" as const,
+      estimatedTime: "3-5 hours",
+      dependencies: ["Implement PRD analysis flow"],
+      acceptanceCriteria: ["Task list includes dependencies", "Each item has effort and acceptance criteria"],
+    },
+    {
+      task: "Add compare and history workflow",
+      description: "Enable run history filtering and decision diffing for iterative planning.",
+      owner: "Platform Engineer",
+      priority: "Medium" as const,
+      estimatedTime: "4-5 hours",
+      dependencies: ["Implement PRD analysis flow"],
+      acceptanceCriteria: ["History loads by project", "Two analyses can be compared side by side"],
+    },
+  ];
+
+  if (context.flags.hasAI) {
+    tasks.push({
+      task: "Add AI routing controls",
+      description: "Implement provider fallback and cost-aware routing for AI traffic.",
+      owner: "ML Platform Engineer",
+      priority: "Medium" as const,
+      estimatedTime: "3-4 hours",
+      dependencies: ["Implement PRD analysis flow"],
+      acceptanceCriteria: ["Fallback route exists", "Cost-sensitive execution rules are visible"],
+    });
+  }
+
+  if (context.domain === "fintech" || context.domain === "regulated") {
+    tasks.push({
+      task: "Add compliance launch gate",
+      description: "Insert audit, retention, and policy review checks before launch approval.",
+      owner: "Security/Compliance Lead",
+      priority: "High" as const,
+      estimatedTime: "3 hours",
+      dependencies: ["Wire execution-ready roadmap"],
+      acceptanceCriteria: ["Compliance gate is documented", "Launch blocked until gate passes"],
+    });
+  }
+
+  return tasks;
+}
+
 function roadmapDecision(context: SkillRuntimeContext): DecisionCard {
   return {
     stage: "roadmap",
     title: "Execution Sequencing Decision",
     context: "Roadmap order and critical path",
     evidenceIds: ["E1", "E2", "E3"],
+    evidenceSummary:
+      context.domain === "fintech" || context.domain === "regulated"
+        ? "Domain profile requires front-loading policy/compliance checks before broad rollout."
+        : "Roadmap should prioritize the user-facing wedge before infrastructure expansion.",
     chosen:
       context.mode === "enterprise"
         ? "Security/compliance gate before broad beta"
@@ -139,6 +210,12 @@ export function runRoadmapGeneratorSkill(
         "Introduce queue workers and route-level cost policies",
         "Harden compliance, incident response, and observability depth",
         "Expand horizontally only after wedge metrics are stable",
+      ],
+      tasks: buildExecutionTasks(context),
+      nextSteps: [
+        "Convert the first three execution tasks into tickets",
+        "Assign an owner and acceptance criteria to every ticket",
+        "Block launch until the highest-risk task dependencies are cleared",
       ],
     },
   };

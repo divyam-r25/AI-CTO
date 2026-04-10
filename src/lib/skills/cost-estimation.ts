@@ -61,6 +61,12 @@ function buildCosts(context: SkillRuntimeContext) {
     });
   }
 
+  if (context.domain === "fintech" || context.domain === "regulated") {
+    tiers.forEach((tier) => {
+      tier.notes.push("Include compliance, audit, and retention overhead in forecast");
+    });
+  }
+
   return tiers;
 }
 
@@ -123,6 +129,12 @@ function costDecision(context: SkillRuntimeContext): DecisionCard {
     title: "Cost Control Strategy Decision",
     context: "Protecting margins as usage scales",
     evidenceIds: ["E3", "E4", "E7"],
+    evidenceSummary:
+      context.domain === "fintech" || context.domain === "regulated"
+        ? "Domain risk profile requires treating compliance and audit overhead as part of unit economics."
+        : context.flags.hasAI
+          ? "AI usage can dominate unit economics unless model routing and caching are explicit."
+          : "Compute and traffic growth require cost controls before scale.",
     chosen: context.flags.hasAI
       ? "Dynamic model routing by request value"
       : "Queue heavy workloads and cache read-heavy paths",

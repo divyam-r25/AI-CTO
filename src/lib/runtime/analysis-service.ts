@@ -19,12 +19,14 @@ import {
 import type {
   AnalyzeRequest,
   AnalyzeResponse,
+  AnalysisComparison,
   AnalysisRecordSummary,
   AnalysisResult,
   EngineType,
   ExecutionMode,
   HonestyMode,
   PlanningMode,
+  ProjectDomain,
 } from "@/lib/types";
 
 const MAX_PAYLOAD_BYTES = 60_000;
@@ -33,6 +35,7 @@ const RATE_LIMIT_MAX_REQUESTS = 30;
 
 const ALLOWED_MODES: PlanningMode[] = ["beginner-startup", "scalable-startup", "enterprise"];
 const ALLOWED_HONESTY: HonestyMode[] = ["standard", "brutal"];
+const ALLOWED_DOMAINS: ProjectDomain[] = ["saas", "marketplace", "internal-tools", "fintech", "regulated", "ai-tool"];
 
 function sanitizeRequestId(input?: string): string {
   if (input && input.trim().length > 0) {
@@ -61,10 +64,12 @@ function normalizeAnalyzeRequest(input: AnalyzeRequest): NormalizedAnalyzeReques
   const projectId = input.projectId?.trim() || "default-project";
   const requestId = sanitizeRequestId(input.requestId);
   const writeFiles = input.writeFiles ?? true;
+  const domain = input.domain && ALLOWED_DOMAINS.includes(input.domain) ? input.domain : undefined;
 
   const requestHash = createRequestHash({
     prd: input.prd.trim(),
     mode: input.mode,
+    domain: domain ?? "ai-tool",
     honestyMode: input.honestyMode,
     engine,
     enableLlmEnrichment,
@@ -74,6 +79,7 @@ function normalizeAnalyzeRequest(input: AnalyzeRequest): NormalizedAnalyzeReques
   return {
     prd: input.prd.trim(),
     mode: input.mode,
+    domain,
     honestyMode: input.honestyMode,
     projectId,
     requestId,
@@ -122,6 +128,7 @@ async function runAnalysisPipeline(analysisId: string): Promise<void> {
     const result = analyzePrd({
       prd: record.request.prd,
       mode: record.request.mode,
+      domain: record.request.domain,
       honestyMode: record.request.honestyMode,
       writeFiles: false,
     });
@@ -369,15 +376,7 @@ export async function retryAnalysis(params: {
 export function compareAnalyses(params: {
   baseAnalysisId: string;
   headAnalysisId: string;
-}): {
-  baseAnalysisId: string;
-  headAnalysisId: string;
-  verdictChanged: boolean;
-  confidenceDelta: number;
-  topRiskChanges: string[];
-  decisionChanges: string[];
-  blockingIssueChanges: string[];
-} {
+}): AnalysisComparison {
   const base = getAnalysisById(params.baseAnalysisId);
   const head = getAnalysisById(params.headAnalysisId);
 
@@ -411,6 +410,21 @@ export function compareAnalyses(params: {
         .filter((item) => !head.result?.blockingIssues.includes(item))
         .map((item) => `Resolved blocking issue: ${item}`),
     ],
+    differences: {
+      risksChanged: [
+        ...head.result.risks.map((item) => item.title).filter((item) => !base.result!.risks.map((risk) => risk.title).includes(item)),
+        ...base.result.risks.map((item) => item.title).filter((item) => !head.result!.risks.map((risk) => risk.title).includes(item)),
+      ],
+      decisionsChanged: [
+        ...head.result.decisions.map((item) => `${item.stage}:${item.title}`).filter((item) => !base.result!.decisions.map((decision) => `${decision.stage}:${decision.title}`).includes(item)),
+        ...base.result.decisions.map((item) => `${item.stage}:${item.title}`).filter((item) => !head.result!.decisions.map((decision) => `${decision.stage}:${decision.title}`).includes(item)),
+      ],
+      blockingIssuesChanged: [
+        ...head.result.blockingIssues.filter((item) => !base.result!.blockingIssues.includes(item)).map((item) => `New: ${item}`),
+        ...base.result.blockingIssues.filter((item) => !head.result!.blockingIssues.includes(item)).map((item) => `Resolved: ${item}`),
+      ],
+      scoreDiff: head.result.readinessScore.score - base.result.readinessScore.score,
+    },
   };
 }
 
