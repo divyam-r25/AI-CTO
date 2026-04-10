@@ -1,6 +1,6 @@
 # 💀 Failure Prediction
-Primary failure reason: No defensible wedge leads to commodity competition before retention is established.
-Failure simulation: growth pressure exposes weak assumptions on differentiation, reliability, and cost. Scaling before proving wedge quality and controlling reliability/cost will produce churn and margin erosion in parallel.
+Primary failure reason: No defensible wedge leads to commodity competition before retention is established. Self-critique added: Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.
+Failure simulation: growth pressure exposes weak assumptions on differentiation, reliability, and cost. Scaling before proving wedge quality and controlling reliability/cost will produce churn and margin erosion in parallel. Planned phases in scope: 5. Self-critique pass tightened this plan before final output.
 Likely failure points:
 - Acquisition spend scales faster than retention quality
 - Cost per active user rises above monetization capacity

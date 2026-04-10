@@ -272,6 +272,65 @@ export function ResultPanel({ result, generatedFiles }: ResultPanelProps) {
       </article>
 
       <article className="panel">
+        <h2>Self-Critique Loop</h2>
+        <p className="risk-subtitle">Initial Plan</p>
+        <ul>
+          <li>
+            Verdict: {result.selfCritique.initial.verdict} ({result.selfCritique.initial.confidence}%)
+          </li>
+          <li>Primary failure reason: {result.selfCritique.initial.primaryFailureReason}</li>
+        </ul>
+        <p className="risk-subtitle">Critique</p>
+        <ul>
+          {result.selfCritique.critiquePoints.map((point) => (
+            <li key={point}>{point}</li>
+          ))}
+        </ul>
+        <p className="risk-subtitle">Improvements Applied</p>
+        <ul>
+          {result.selfCritique.improvementsApplied.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+        <p className="risk-subtitle">Revised Plan</p>
+        <ul>
+          <li>
+            Verdict: {result.selfCritique.revised.verdict} ({result.selfCritique.revised.confidence}%)
+          </li>
+          <li>Primary failure reason: {result.selfCritique.revised.primaryFailureReason}</li>
+        </ul>
+      </article>
+
+      <article className="panel">
+        <h2>Investment Perspective</h2>
+        <p className="risk-subtitle">If I were investing ${result.investmentPerspective.budgetUsd.toLocaleString()}</p>
+        <p>
+          <strong>Verdict:</strong> {result.investmentPerspective.verdict}
+        </p>
+        <ul>
+          {result.investmentPerspective.rationale.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </article>
+
+      <article className="panel">
+        <h2>MVP vs Scale Plan</h2>
+        <p className="risk-subtitle">MVP Plan</p>
+        <ul>
+          {result.executionPlan.mvp.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+        <p className="risk-subtitle">Scale Plan</p>
+        <ul>
+          {result.executionPlan.scale.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </article>
+
+      <article className="panel">
         <h2>Tech Stack Comparator</h2>
         <div className="overflow-auto mt-3">
           <table className="w-full text-left">

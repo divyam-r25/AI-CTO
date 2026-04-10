@@ -11,6 +11,8 @@ AI CTO Agent is a production-grade planning system that transforms a PRD into:
 - Explicit decision cards with alternatives and chosen direction
 - Brutal failure simulation with weakest assumptions and pivots
 - Mode-aware strategy profiles (Beginner Startup, Scalable Startup, Enterprise)
+- Multi-pass self-critique loop (initial plan -> critique -> revised plan)
+- Investment perspective and MVP vs Scale execution split
 - Generated markdown artifacts in docs/generated
 
 ## Why It Is Different
@@ -39,6 +41,7 @@ Open http://localhost:3000.
 
 ```bash
 npm run lint
+npm run test:contracts
 npm run build
 npm run start
 ```
@@ -136,6 +139,8 @@ Behavior:
 
 - auto-detects changed PRD markdown in PRs and runs planner on that file
 - falls back to sample PRD when no PRD file change is detected
+- runs contract checks for decision/format guarantees
+- posts/upserts PR comment with verdict, top risks, and failure reason
 - generates markdown plans
 - uploads docs/generated artifacts for review
 

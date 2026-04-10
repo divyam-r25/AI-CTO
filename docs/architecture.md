@@ -1,11 +1,11 @@
 # 🏗️ Architecture
-The system uses a modular product surface, policy-driven APIs, and observable execution paths designed to force explicit tradeoff decisions before scale.
-- Mode: Beginner Startup
-- Mode Priorities: Ship fast to validate a narrow value proposition; Use defaults and managed services to reduce setup time; Avoid architecture complexity before product pull is proven
-- Mode Guardrails: Set hard monthly spend caps; Delay custom infrastructure until repeat usage is proven; Treat differentiation as a release gate
-- Frontend: Flutter mobile app for core experience with a lightweight web shell for acquisition and onboarding
-- Backend: Typed Node APIs with queue-backed workers and realtime delivery channel safeguards
-- Data: Firebase-managed data primitives for MVP speed, with migration checkpoints defined early
+The system uses a modular product surface, policy-driven APIs, and observable execution paths designed to force explicit tradeoff decisions before scale. Analysis assumptions tracked: 3.
+- Mode: Scalable Startup
+- Mode Priorities: Balance velocity with architecture discipline; Design for near-term growth and controllable complexity; Build observability and cost controls alongside features
+- Mode Guardrails: Avoid one-way vendor lock-in for critical paths; Define upgrade paths before scale pressure; Use weekly risk and unit-economics reviews
+- Frontend: Next.js web-first app with responsive UX and product APIs in a unified deployable surface
+- Backend: Typed Node APIs with queue-backed workers and realtime delivery safeguards
+- Data: PostgreSQL with Redis acceleration and governance-ready retention/audit controls
 - Integrations: Primary inference provider with fallback routing; Quality and cost telemetry pipeline; Notification and monitoring services
 
 Decision Framework (Analysis -> Architecture)
@@ -18,24 +18,24 @@ Decision Framework (Analysis -> Architecture)
   Why: A broad launch without wedge is likely to become commodity quickly; Vertical focus creates clearer ROI narrative and stronger adoption
 - [architecture] Frontend Platform Decision
   Context: Delivery channel and user experience
-  Option 1: Next.js | Pros: Fast web deployment and SEO; Unified frontend/backend workflow | Cons: Less native mobile depth; Advanced mobile interactions need more effort
-  Option 2: Flutter | Pros: Strong cross-platform mobile UX; Better control for device features | Cons: Web SEO is weaker; Backend integration and web support add overhead
-  Comparison: Choose Flutter only when mobile-native UX is core; otherwise choose Next.js for speed and web reach.
-  Chosen: Flutter
-  Why: Mobile-heavy requirement benefits from native-like UX and offline control; Single codebase accelerates iOS and Android parity for MVP
+  Option 1: Next.js | Pros: Fast web deployment and SEO; Unified frontend/backend workflow | Cons: Less native mobile depth; Advanced device interactions need extra work
+  Option 2: Flutter | Pros: Strong cross-platform mobile UX; Better control for device features | Cons: Web SEO is weaker; Backend and web integration overhead
+  Comparison: Choose Flutter only when native mobile UX is the primary differentiator; otherwise Next.js is faster to market.
+  Chosen: Next.js
+  Why: Web-first rollout improves discovery and launch speed; Unified full-stack model reduces operational overhead
 - [architecture] Data Platform Decision
   Context: Speed vs control for backend data layer
-  Option 1: Firebase | Pros: Fastest setup path; Managed auth and realtime building blocks | Cons: Relational query constraints; Potential lock-in at growth stage
-  Option 2: Supabase | Pros: Postgres-native model; Better portability and SQL ecosystem | Cons: Needs stronger schema discipline; Realtime tuning required at high scale
-  Comparison: Firebase wins for extreme speed; Supabase wins for scale portability and data control.
-  Chosen: Firebase
-  Why: Managed primitives can cut setup time for early MVP; Minimal operational burden for tiny teams
+  Option 1: Firebase | Pros: Fast setup; Managed auth and realtime primitives | Cons: Relational query constraints; Potential lock-in at growth stage
+  Option 2: Supabase | Pros: Postgres-native model; Stronger portability and SQL ecosystem | Cons: Needs schema discipline; Realtime tuning required at high scale
+  Comparison: Firebase wins for immediate velocity; Supabase wins for scale portability and data control.
+  Chosen: Supabase
+  Why: Postgres compatibility improves long-term query flexibility; Better migration path and tooling for scale
 - [architecture] AI Provider Strategy Decision
   Context: Model reliability and vendor risk posture
-  Option 1: Single API provider | Pros: Fastest initial integration; Lowest operational complexity | Cons: High lock-in and outage exposure; Less leverage on pricing
-  Option 2: Self-hosted open model stack | Pros: Potential long-run cost savings; More control over data | Cons: High ops burden; Model maintenance and reliability complexity
+  Option 1: Single API provider | Pros: Fastest initial integration; Lowest ops complexity | Cons: High lock-in and outage exposure; Lower pricing leverage
+  Option 2: Self-hosted open model stack | Pros: Potential long-run savings; More data control | Cons: High ops burden; Model maintenance complexity
   Comparison: Hybrid routing balances speed, resilience, and economics better than single-path strategies.
   Chosen: Hybrid provider strategy
-  Why: Protects against single-vendor outages and abrupt pricing shifts; Enables quality-latency-cost policy routing per request type
+  Why: Protects against single-vendor outages and abrupt pricing shifts; Enables quality-latency-cost routing policies by request class
 
 Skill Chain: PRD -> Analysis -> Architecture -> Roadmap -> Risks -> Cost

@@ -1,10 +1,10 @@
 # ⚠️ Risks
-- Weak differentiation against incumbents [product] RPN 75. Signals: Prospects compare the product to free alternatives; Activation and retention flatten after initial onboarding. Mitigation: Narrow to one high-pain workflow and own it deeply; Gate launch on measurable value proof in target segment
-- Latency and reliability degrade with growth spikes [scaling] RPN 48. Signals: P95 latency breaches SLO; Queue depth grows faster than drain rate. Mitigation: Split synchronous and asynchronous execution paths; Cache repeat-heavy flows and add backpressure controls
+- Weak differentiation against incumbents [product] RPN 60. Signals: Prospects compare the product to free alternatives; Activation and retention flatten after initial onboarding. Mitigation: Narrow to one high-pain workflow and own it deeply; Gate launch on measurable value proof in target segment
+- Latency and reliability degrade with growth spikes [scaling] RPN 36. Signals: P95 latency breaches SLO; Queue depth grows faster than drain rate. Mitigation: Split synchronous and asynchronous execution paths; Cache repeat-heavy flows and add backpressure controls
 - Unit economics worsen as usage grows [financial] RPN 40. Signals: Cost per active user rises for two consecutive weeks; Variable cost scales faster than revenue or conversion. Mitigation: Introduce pricing tiers and usage-aware feature limits; Route low-value traffic to lower-cost execution paths
-- Model dependency and quality drift [technical] RPN 60. Signals: Quality score regressions; Provider throttling or outage spikes. Mitigation: Maintain fallback model routes with health checks; Track quality-cost-latency metrics per request class
-- Realtime channel instability [technical] RPN 48. Signals: Reconnect spikes; Dropped acknowledgements in event stream. Mitigation: Use idempotent event replay and consumer offsets; Add transport health monitoring with fallback mode
-- Data-governance and compliance exposure [compliance] RPN 80. Signals: No retention or deletion controls for sensitive data; Missing data classification and access audit trails. Mitigation: Implement classification, retention, and deletion policy; Add audit logging and privacy/compliance review gates
+- Model dependency and quality drift [technical] RPN 48. Signals: Quality score regressions; Provider throttling or outage spikes. Mitigation: Maintain fallback model routes with health checks; Track quality-cost-latency metrics per request class
+- Realtime channel instability [technical] RPN 36. Signals: Reconnect spikes; Dropped acknowledgements in event stream. Mitigation: Use idempotent event replay and consumer offsets; Add transport health monitoring with fallback mode
+- Data-governance and compliance exposure [compliance] RPN 60. Signals: No retention or deletion controls for sensitive data; Missing data classification and access audit trails. Mitigation: Implement classification, retention, and deletion policy; Add audit logging and privacy/compliance review gates
 
 Decision Framework (Risk Mitigation)
 - [risk-mitigation] Primary Risk Mitigation Decision

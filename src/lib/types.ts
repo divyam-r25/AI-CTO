@@ -65,6 +65,32 @@ export interface IdeaScore {
   summary: string;
 }
 
+export interface PlanSnapshot {
+  verdict: "build-now" | "build-with-pivot" | "research-first";
+  confidence: number;
+  primaryFailureReason: string;
+  topRisks: string[];
+  topDecisions: string[];
+}
+
+export interface SelfCritique {
+  initial: PlanSnapshot;
+  critiquePoints: string[];
+  improvementsApplied: string[];
+  revised: PlanSnapshot;
+}
+
+export interface InvestmentPerspective {
+  budgetUsd: number;
+  verdict: "invest-now" | "invest-with-conditions" | "do-not-invest-yet";
+  rationale: string[];
+}
+
+export interface ExecutionPlan {
+  mvp: string[];
+  scale: string[];
+}
+
 export interface TechStackComparator {
   dimension: string;
   optionA: string;
@@ -129,6 +155,9 @@ export interface AnalysisResult {
   ideaScore: IdeaScore;
   techComparator: TechStackComparator[];
   costOptimizer: CostOptimizerItem[];
+  executionPlan: ExecutionPlan;
+  investmentPerspective: InvestmentPerspective;
+  selfCritique: SelfCritique;
   challengeSummary: string[];
   recommendation: {
     verdict: "build-now" | "build-with-pivot" | "research-first";

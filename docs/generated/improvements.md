@@ -1,16 +1,17 @@
 # 💡 Improvements
-- Final Verdict: research-first
-- Confidence: 58%
-- Use the decision framework in each stage to avoid one-path bias.
+- Final Verdict: build-with-pivot
+- Confidence: 67%
+- Use decision framework outputs in each stage to avoid one-path bias.
 - Treat failure simulation findings as build blockers, not optional notes.
-- Execute with Beginner Startup priorities and guardrails to keep risk under control.
+- Execute with Scalable Startup priorities and guardrails to control downside.
+- Self-critique pass forced additional realism before final recommendation.
 
 Decision Framework (Cost)
 - [cost] Cost Control Strategy Decision
   Context: Protecting margins as usage scales
   Option 1: Single premium model for all traffic | Pros: Simpler operations; Lower initial engineering effort | Cons: Costs grow linearly with usage; Margin and reliability risk under spikes
   Option 2: Tiered routing across model providers | Pros: Better marginal cost control; Improved resilience under load | Cons: More policy and observability complexity; Requires ongoing tuning
-  Comparison: Routing/queue strategies add complexity, but materially improve survivability at growth scale.
+  Comparison: Routing and queue strategies add complexity, but materially improve survivability at growth scale.
   Chosen: Dynamic model routing by request value
   Why: Premium quality remains available where it matters most; Low-value requests stop draining gross margin
 
@@ -20,13 +21,35 @@ Cost Optimizer
 - Inference spend: A) Single premium model for all requests B) Dynamic routing across premium and low-cost models. Comparison: Single-model usage is operationally simple but expensive; routing adds complexity but protects margins.. Chosen: Dynamic routing across premium and low-cost models. Why: Keeps quality on high-value paths while containing spend for low-value traffic.
 
 Tech Stack Comparator
-- Frontend Platform: Next.js vs Flutter. Verdict: Flutter. Why: Mobile-native UX is central, so Flutter has stronger cross-platform control.
-- Backend Platform: Firebase vs Supabase. Verdict: Firebase. Why: For early MVP speed with minimal ops overhead, Firebase is faster to stand up.
+- Frontend Platform: Next.js vs Flutter. Verdict: Next.js. Why: Web-first launch speed, SEO, and unified full-stack delivery favor Next.js.
+- Backend Platform: Firebase vs Supabase. Verdict: Supabase. Why: For scale-readiness and SQL portability, Supabase offers better flexibility.
 
-Idea Score: Feasibility 63/100 | Scalability 66/100 | Uniqueness 46/100
+Idea Score: Feasibility 65/100 | Scalability 74/100 | Uniqueness 46/100
 Idea Score Summary: Execution can be strong, but uniqueness is fragile until a sharper wedge is chosen.
+
+Self-Critique Loop (Initial -> Critique -> Revised)
+- Initial: verdict build-with-pivot, confidence 73%
+- Critique: Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.
+- Improvement Applied: Moved recommendation toward pivot-first execution and tightened wedge requirement.
+- Revised: verdict build-with-pivot, confidence 67%
+
+Investment Perspective ($10k)
+- Verdict: invest-with-conditions
+- Fund only if wedge and margin guardrails are locked before launch.
+- Capital should be tied to explicit risk-reduction milestones.
+- Funding is conditional on proving wedge metrics and risk gates.
+
+MVP vs Scale Plan
+- MVP: Deliver one wedge workflow end-to-end with usage tracking
+- MVP: Ship essential reliability safeguards and fallback behavior
+- MVP: Launch with explicit cost and latency thresholds
+- Scale: Introduce queue workers and route-level cost policies
+- Scale: Harden compliance, incident response, and observability depth
+- Scale: Expand horizontally only after wedge metrics are stable
+
 - Differentiate one core workflow before broad feature expansion.
 - Use launch gates for reliability and unit economics, not only velocity.
 - Review weakest assumptions weekly during the first month after launch.
+- Self-critique: Plan still risks commodity positioning; differentiation is not yet strong enough to defend margin.
 
-Mode Reminder: Beginner Startup priorities should drive execution discipline.
+Mode Reminder: Scalable Startup priorities should drive execution discipline.
